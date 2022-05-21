@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   binary_tree.h                                      :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BINARY_TREE_H
-# define BINARY_TREE_H
+#ifndef AST_H
+# define AST_H
 
 # include <stddef.h>
 
-typedef struct s_binary_tree
+typedef struct s_ast
 {
-	struct s_binary_tree	*left;
-	struct s_binary_tree	*right;
-}	t_binary_tree;
+	struct s_ast	*left;
+	struct s_ast	*right;
+	char			*type;
+}	t_ast;
 
+typedef int	t_gl_func();
 
+/*
+** ast_tree_set
+*/
+void			ast_walk(t_ast *root, t_gl_func *func);
+void			ast_set(t_ast *root, t_gl_func *func);
+void			ast_attach(t_ast *root, t_ast *left, t_ast *right);
+void			ast_delete(t_ast *root);
+/*
+** ast_tree_info
+*/
+size_t			ast_size(t_ast *root);
+size_t			ast_depth(t_ast *root);
 
 #endif
