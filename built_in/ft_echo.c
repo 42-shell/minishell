@@ -6,57 +6,57 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/22 22:23:42 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/22 22:44:11 by yongmkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-static size_t	set_point(char ***cmd, size_t pos)
+static size_t	set_point(char ***argv, size_t pos)
 {
-	(*cmd) = &(*cmd)[pos];
+	(*argv) = &(*argv)[pos];
 	return (pos);
 }
 
-static size_t	check_opt(char ***cmd)
+static size_t	check_opt(char ***argv)
 {
 	size_t	idx;
 	size_t	pos;
 
 	pos = 0;
-	while ((*cmd)[pos])
+	while ((*argv)[pos])
 	{
 		idx = 0;
-		if (((*cmd)[pos])[idx] == '-')
+		if (((*argv)[pos])[idx] == '-')
 		{
 			++idx;
-			while (((*cmd)[pos])[idx])
+			while (((*argv)[pos])[idx])
 			{
-				if (((*cmd)[pos])[idx] != 'n')
-					return (set_point(cmd, pos));
+				if (((*argv)[pos])[idx] != 'n')
+					return (set_point(argv, pos));
 				++idx;
 			}
 		}
 		else
-			return (set_point(cmd, pos));
+			return (set_point(argv, pos));
 		++pos;
 	}
 	return (pos);
 }
 
-size_t	ft_echo(char **cmd)
+size_t	ft_echo(char **argv)
 {
 	size_t	opt;
 	size_t	idx;
 
-	if (!cmd || !(*cmd))
+	if (!argv || !(*argv))
 		return (-1);
-	opt = check_opt(&cmd);
+	opt = check_opt(&argv);
 	idx = 0;
-	while (cmd[idx])
+	while (argv[idx])
 	{
-		ft_putstr_fd(cmd, 1);
-		if (cmd[idx + 1])
+		ft_putstr_fd(argv[idx], 1);
+		if (argv[idx + 1])
 			ft_putchar_fd(' ', 1);
 		++idx;
 	}
