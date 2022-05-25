@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/24 20:40:44 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/25 17:27:08 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	main(int argc, char *argv[])
 	while (1)
 	{
 		rl = readline("$ ");
-
+		if (rl == NULL)
+			return (exit_status);
 		free(rl);
 	}
 	return (exit_status);
