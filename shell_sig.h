@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 20:41:14 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/24 20:42:42 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/25 20:25:03 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 # define SHELL_SIG_H
 
 # include <signal.h>
+
+int			ft_sig_set(void);
 
 #endif

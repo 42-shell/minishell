@@ -6,14 +6,15 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/25 17:27:08 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/25 21:08:50 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "shell_sig.h"
 #include <stdlib.h>
 
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	char	*rl;
 	int		exit_status;
@@ -21,7 +22,8 @@ int	main(int argc, char *argv[])
 	(void)&argc;
 	(void)&argv;
 	exit_status = 0;
-	ft_signal();
+	if (ft_sig_set())
+		return (strerror(SIG_ERR));
 	while (1)
 	{
 		rl = readline("$ ");
