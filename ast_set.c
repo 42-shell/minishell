@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 20:26:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/21 21:16:40 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/25 17:02:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ void	ast_attach(t_ast *root, t_ast *left, t_ast *right)
 static void	ast_free(t_ast *node)
 {
 	free(node->type);
+	free(node);
 }
 
 void	ast_delete(t_ast *root)
 {
 	if (root == NULL)
 		return ;
-	ast_free(root);
 	if (root->left)
 		ast_delete(root->left);
 	if (root->right)
 		ast_delete(root->right);
-	free(root);
+	ast_free(root);
 }
