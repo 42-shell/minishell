@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 16:50:49 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/21 18:46:27 by jkong            ###   ########.fr       */
+/*   Updated: 2022/05/21 20:46:57 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ size_t	list_length(t_generic_list *list)
 {
 	size_t	i;
 
+	i = 0;
 	while (list)
 	{
 		i++;

@@ -1,43 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.c                                            :+:      :+:    :+:   */
+/*   parse_lex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/26 18:06:51 by jkong            ###   ########.fr       */
+/*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
+/*   Updated: 2022/05/26 18:14:55 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "util_flag.h"
+#include "string_buffer.h"
 
-#include "libft.h"
+#include <stdio.h>
 
-int	main(int argc, char *argv[])
+void	lex(t_parse_state *pst)
 {
-	t_parse_state	pst;
-	char			*rl;
-	int				exit_status;
+	t_token_kind	token;
 
-	(void)&argc;
-	(void)&argv;
-	exit_status = 0;
-	while (1)
+	token = TK_AGAIN;
+	while (token != TK_EOF)
 	{
-		rl = readline("$ ");
-		if (!rl)
+		if (token != TK_AGAIN)
 		{
-			printf("exit\n");
-			break ;
+			//code
+			if (token != TK_WORD)
+				printf("[DEBUG] Token \'%c\' (%d)\n", token, token);
+			else
+				printf("[DEBUG] WORD [\"%s\"]\n", pst->now_word.str);
 		}
-		ft_memset(&pst, 0, sizeof(pst));
-		pst.str = rl;
-		pst.begin = pst.str;
-		pst.stack_ptr = pst.initial_stack;
-		lex(&pst);
-		add_history(rl);
-		free(rl);
+		token = read_token(pst);
 	}
-	return (exit_status);
 }
