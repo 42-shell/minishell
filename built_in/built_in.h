@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/30 00:51:49 by yongmkim         ###   ########.fr       */
+/*   Created: 2022/05/30 00:50:31 by yongmkim          #+#    #+#             */
+/*   Updated: 2022/05/30 00:51:22 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "built_in.h"
+#ifndef BUILT_IN_H
+# define BUILT_IN_H
 
-size_t	ft_pwd(void)
-{
-	char buf[PATH_MAX];
+# define PATH_MAX 256
 
-	if (getcwd(buf, sizeof(buf)))
-	{
-		ft_putstr_nl(buf, 1);
-		return (0);
-	}
-	else
-		return (-1);
-}
+#endif
