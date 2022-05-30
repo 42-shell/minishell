@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/30 00:51:49 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/30 19:40:27 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,17 @@ size_t	ft_pwd(void)
 	}
 	else
 		return (-1);
+}
+
+char	*get_pwd(void)
+{
+	char *buf;
+
+	buf = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
+	if (!buf)
+		return (NULL);
+	if (getcwd(buf, sizeof(buf)))
+		return (buf);
+	else
+		return (NULL);
 }
