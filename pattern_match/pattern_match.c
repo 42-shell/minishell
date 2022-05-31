@@ -6,60 +6,70 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/31 11:46:35 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/31 16:06:11 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
 #include "built_in.h"
 #include "libft.h"
+#include <dirent.h>
 #include <stdlib.h>
 
-static void	end_check(char *str, t_pattern_match *info)
+static void	end_check(char *str, t_pattern_info *info)
 {
 	if (str[0] == PM_ASTERISK)
-		info->l_type = PM_ASTERISK;
+		info->pm_flag.l_type = PM_ASTERISK;
 	else
-		info->l_type = PM_WORD;
+		info->pm_flag.l_type = PM_WORD;
 	if (str[ft_strlen(str) - 1] == PM_ASTERISK)
-		info->r_type = PM_ASTERISK;
+		info->pm_flag.r_type = PM_ASTERISK;
 	else if (str[ft_strlen(str) - 1] == PM_SLASH)
-		info->r_type = PM_SLASH;
+		info->pm_flag.r_type = PM_SLASH;
 	else
-		info->r_type = PM_WORD;
-	info->pm_idx = 0;
+		info->pm_flag.r_type = PM_WORD;
 }
 
-static int	ft_count_entity(t_pattern_match *info)
-{
-	int	idx;
-
-	idx = 0;
-	while (info->temp[idx])
-		++idx;
-	info->mark_pm = (char *)malloc(sizeof(char) * (idx + 1));
-	if (!(info->mark_pm))
-		return (-1);
-	ft_memset(info->mark_pm, 0, idx);
-	info->mark_pm[idx] = '\0';
-	return (0);
-}
-
-static char **ft_free_pm(t_pattern_match *info, int key)
+static char **ft_free_pm(t_pattern_info *info, int key)
 {
 	int idx;
 
 	idx = 0;
 	if (key & 1)
 	{
-		while (info->temp[idx])
+		while (info->pattern_split[idx])
 		{
-			free(info->temp[idx]);
+			free(info->pattern_split[idx]);
 			++idx;
 		}
-		free(info->temp);
+		free(info->pattern_split);
 	}
 	return (NULL);
+}
+static int inter_pattern(t_pattern_info *info, char *name, int file_type)
+{
+
+}
+
+static int	pm_workhorse(t_pattern_info *info)
+{
+	DIR				*current_dir;
+	struct dirent	*entity_dir;
+	int				cnt;
+	
+	current_dir = opendir(info->pwd);
+	if (!current_dir)
+		return (-1);
+	entity_dir = readdir(current_dir);
+	while (entity_dir)
+	{
+		if (inter_pattern(info, entity_dir->d_name, entity_dir->d_type))
+		{
+			// add to interleaving 
+		}
+		entity_dir = readdir(current_dir);
+	}
+	closedir(currend_dir);
 }
 
 char	**ft_pattern_match(char *pattern)
@@ -72,14 +82,15 @@ char	**ft_pattern_match(char *pattern)
 	if (!info.pwd)
 		return (NULL);
 	end_check(pattern, &info);
-	info.temp = ft_split(pattern, PM_ASTERISK);
-	if (!info.temp)
+	info.pattern_split = ft_split(pattern, PM_ASTERISK);
+	if (!info.pattern_split)
 		return (NULL);
-	if (ft_count_entity(&info))
-		return (ft_free_pm(&info, 1));
-	ft_pm_workhorse(&info, pattern);
+	info.malloc_size = 4;
+	if (pm_workhorse(&info))
+		return (ft_free_pm(&info, 1);
+	
 	// 1. find pm (check pm_idx)
 	// 2. malloc ** interleaving
 	// 3. check mark_pm, ft_strdup target string to interleaving
-	// 4. free temp
+	// 4. free pattern_split
 }

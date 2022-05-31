@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pm_workhore.c                                   :+:      :+:    :+:   */
+/*   pm_util.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/31 11:23:15 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/31 16:06:09 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
 
-void	ft_pm_workhorse(t_pattern_match *info)
+void	pm_strcmp(t_pattern_info *info, int type)
 {
-
 }

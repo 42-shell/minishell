@@ -25,6 +25,7 @@ int main(int argc, char **argv, char **envp)
 			printf("%s - %d\n", dp->d_name, dp->d_type);
 			dp = readdir(dir);
 		}
+		closedir(dir);
 
 	}
 	printf("\n\n");
