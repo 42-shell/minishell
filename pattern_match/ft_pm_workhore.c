@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pattern_match.h                                    :+:      :+:    :+:   */
+/*   ft_pm_workhore.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/31 11:17:37 by yongmkim         ###   ########.fr       */
+/*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
+/*   Updated: 2022/05/31 11:23:15 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATTERN_MATCH_H
-# define PATTERN_MATCH_H
-# include <dirent.h>
+#include "pattern_match.h"
 
-typedef enum e_pattern_match
+void	ft_pm_workhorse(t_pattern_match *info)
 {
-	PM_EOF = -1,
-	PM_WORD = 0,
-	PM_ASTERISK = '*',
-	PM_SLASH = '/',
-}	t_pattern_match;
 
-typedef struct s_patttern_match
-{
-	int			l_type;
-	int			r_type;
-	char		*pwd;
-	char		*mark_pm;
-	char		**temp;
-	char		**interleaving;
-}	t_pattern_match;
-
-#endif
+}
