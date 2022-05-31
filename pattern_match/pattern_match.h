@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/31 15:45:56 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/31 20:33:34 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ typedef enum e_file_type
 {
 	PM_DIRECTORY = 4,
 	PM_FILE = 8,
-}
+};
 
 typedef enum e_pattern_match_flag
 {
@@ -38,6 +38,7 @@ typedef struct s_patttern_info
 	char			*pwd;
 	char			**pattern_split;
 	int				malloc_size;
+	int				pm_cnt;
 	char			**pm_interleaving;
 	t_pattern_flag	pm_flag;
 }	t_pattern_info;

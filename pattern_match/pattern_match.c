@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/31 16:06:11 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:18:02 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,27 @@ static char **ft_free_pm(t_pattern_info *info, int key)
 		}
 		free(info->pattern_split);
 	}
+	if (key & 2)
+	{
+		idx = 0;
+		while (info->pm_interleaving[idx])
+		{
+			free(info->pm_interleaving[idx]);
+			++idx;
+		}
+		free(info->pm_interleaving);
+	}
 	return (NULL);
 }
-static int inter_pattern(t_pattern_info *info, char *name, int file_type)
+static int check_pattern(t_pattern_info *info, char *name, int file_type)
 {
 
 }
 
 static int	pm_workhorse(t_pattern_info *info)
 {
-	DIR				*current_dir;
 	struct dirent	*entity_dir;
+	DIR				*current_dir;
 	int				cnt;
 	
 	current_dir = opendir(info->pwd);
@@ -63,9 +73,10 @@ static int	pm_workhorse(t_pattern_info *info)
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
-		if (inter_pattern(info, entity_dir->d_name, entity_dir->d_type))
+		if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
 		{
-			// add to interleaving 
+			if (create_inter(info, entity_dir->d_name))
+				return (-1); // error case
 		}
 		entity_dir = readdir(current_dir);
 	}
@@ -86,11 +97,10 @@ char	**ft_pattern_match(char *pattern)
 	if (!info.pattern_split)
 		return (NULL);
 	info.malloc_size = 4;
+	info.pm_cnt = 0;
+	info.pm_interleaving = NULL;
 	if (pm_workhorse(&info))
-		return (ft_free_pm(&info, 1);
-	
-	// 1. find pm (check pm_idx)
-	// 2. malloc ** interleaving
-	// 3. check mark_pm, ft_strdup target string to interleaving
-	// 4. free pattern_split
+		return (ft_free_pm(&info, 1 + 2));
+	ft_free_pm(&info, 1);
+	return (info.pm_interleaving);
 }
