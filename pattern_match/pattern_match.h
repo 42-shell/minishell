@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/31 20:33:34 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/01 10:32:49 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ typedef struct s_patttern_info
 	char			**pm_interleaving;
 	t_pattern_flag	pm_flag;
 }	t_pattern_info;
+
+int		create_inter(t_pattern_info *info, char *find);
 
 #endif

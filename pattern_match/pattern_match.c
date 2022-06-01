@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/31 21:18:02 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/01 10:48:41 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ static char **ft_free_pm(t_pattern_info *info, int key)
 }
 static int check_pattern(t_pattern_info *info, char *name, int file_type)
 {
+	if (info->pm_flag.l_type == PM_WORD)
+		// check left_strcmp
+	if (info->pm_flag.r_type == PM_WORD)
+		// check right_strcmp
+	if (info->pm_flag.l_type == PM_ASTERISK)
+		//check strcmp_mov
 
 }
 
@@ -76,7 +82,7 @@ static int	pm_workhorse(t_pattern_info *info)
 		if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
 		{
 			if (create_inter(info, entity_dir->d_name))
-				return (-1); // error case
+				return (-1);
 		}
 		entity_dir = readdir(current_dir);
 	}
@@ -96,7 +102,7 @@ char	**ft_pattern_match(char *pattern)
 	info.pattern_split = ft_split(pattern, PM_ASTERISK);
 	if (!info.pattern_split)
 		return (NULL);
-	info.malloc_size = 4;
+	info.malloc_size = 1;
 	info.pm_cnt = 0;
 	info.pm_interleaving = NULL;
 	if (pm_workhorse(&info))
