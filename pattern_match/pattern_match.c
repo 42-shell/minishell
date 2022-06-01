@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/01 18:16:30 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/01 22:27:37 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ static void	end_check(char *str, t_pattern_info *info)
 	if (str[ft_strlen(str) - 1] == PM_ASTERISK)
 		info->pm_flag.r_type = PM_ASTERISK;
 	else if (str[ft_strlen(str) - 1] == PM_SLASH)
-	{
-		str[ft_strlen(str) - 1] = '\0';
 		info->pm_flag.r_type = PM_SLASH;
-	}
 	else
 		info->pm_flag.r_type = PM_WORD;
 }
@@ -62,17 +59,31 @@ static int	create_inter(t_pattern_info *info, char *find)
 
 static int	check_pattern(t_pattern_info *info, char *name, int file_type)
 {
-	ft_check_set(info);
 	if (info->all & 1)
 		return (1);
-	if (info->pm_flag.l_type == PM_WORD && strcmp_edge(info, name, 0, 1))
+	if (info->pm_flag.r_type == PM_SLASH && file_type != 4)
 		return (0);
-	if (info->pm_flag.r_type == PM_WORD 
-		&& strcmp_edge(info, name, ft_strlen(name), -1))
-		return (0);
-	if (info->pm_flag.r_type == PM_SLASH && file_type == 4)
-		return (1);
-
+	ft_check_set(info, name);
+	if (info->pm_flag.l_type == PM_WORD)
+	{
+		pm_strcmp(info, 1, 0);
+		if (info->pm_flag.r_type == PM_WORD)
+			pm_strcmp(info, -1, 0);
+		if (info->pm_flag.r_type == PM_SLASH)
+			pm_strcmp(info, -1, PM_SLASH);
+		while (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
+			pm_strcmp(info, 1, PM_ASTERISK);
+	}
+	else if (info->pm_flag.l_type == PM_ASTERISK)
+	{
+		if (info->pm_flag.r_type == PM_WORD)
+			pm_strcmp(info, -1, 0);
+		if (info->pm_flag.r_type == PM_SLASH)
+			pm_strcmp(info, -1, PM_SLASH);
+		while (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
+			pm_strcmp(info, 1, PM_ASTERISK);
+	}
+	return (info->pm_check.return_value);
 }
 
 static int	pm_workhorse(t_pattern_info *info)
