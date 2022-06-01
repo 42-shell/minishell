@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/01 10:48:41 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:16:30 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,45 +25,53 @@ static void	end_check(char *str, t_pattern_info *info)
 	if (str[ft_strlen(str) - 1] == PM_ASTERISK)
 		info->pm_flag.r_type = PM_ASTERISK;
 	else if (str[ft_strlen(str) - 1] == PM_SLASH)
+	{
+		str[ft_strlen(str) - 1] = '\0';
 		info->pm_flag.r_type = PM_SLASH;
+	}
 	else
 		info->pm_flag.r_type = PM_WORD;
 }
 
-static char **ft_free_pm(t_pattern_info *info, int key)
+static int	create_inter(t_pattern_info *info, char *find)
 {
-	int idx;
+	char	**temp;
+	int		idx;
 
-	idx = 0;
-	if (key & 1)
+	if (info->malloc_size > info->pm_cnt + 1)
+		info->pm_interleaving[info->pm_cnt + 1] = ft_strdup(find);
+	else
 	{
-		while (info->pattern_split[idx])
-		{
-			free(info->pattern_split[idx]);
-			++idx;
-		}
-		free(info->pattern_split);
+		info->malloc_size *= 2;
+		temp = (char **)malloc(sizeof(char *) * info->malloc_size);
+		if (!temp)
+			return (-1);
+		temp[info->malloc_size - 1] = NULL;
+		idx = -1;
+		while (info->pm_interleaving[++idx])
+			temp[idx] = ft_strdup(info->pm_interleaving[idx]);
+		temp[idx] = ft_strdup(find);
+		temp[idx + 1] = NULL;
+		if (info->pm_interleaving)
+			ft_free_pm(info, 2);
+		info->pm_interleaving = temp;
 	}
-	if (key & 2)
-	{
-		idx = 0;
-		while (info->pm_interleaving[idx])
-		{
-			free(info->pm_interleaving[idx]);
-			++idx;
-		}
-		free(info->pm_interleaving);
-	}
-	return (NULL);
+	info->pm_cnt += 1;
+	return (0);
 }
-static int check_pattern(t_pattern_info *info, char *name, int file_type)
+
+static int	check_pattern(t_pattern_info *info, char *name, int file_type)
 {
-	if (info->pm_flag.l_type == PM_WORD)
-		// check left_strcmp
-	if (info->pm_flag.r_type == PM_WORD)
-		// check right_strcmp
-	if (info->pm_flag.l_type == PM_ASTERISK)
-		//check strcmp_mov
+	ft_check_set(info);
+	if (info->all & 1)
+		return (1);
+	if (info->pm_flag.l_type == PM_WORD && strcmp_edge(info, name, 0, 1))
+		return (0);
+	if (info->pm_flag.r_type == PM_WORD 
+		&& strcmp_edge(info, name, ft_strlen(name), -1))
+		return (0);
+	if (info->pm_flag.r_type == PM_SLASH && file_type == 4)
+		return (1);
 
 }
 
@@ -72,7 +80,7 @@ static int	pm_workhorse(t_pattern_info *info)
 	struct dirent	*entity_dir;
 	DIR				*current_dir;
 	int				cnt;
-	
+
 	current_dir = opendir(info->pwd);
 	if (!current_dir)
 		return (-1);
@@ -86,7 +94,7 @@ static int	pm_workhorse(t_pattern_info *info)
 		}
 		entity_dir = readdir(current_dir);
 	}
-	closedir(currend_dir);
+	closedir(current_dir);
 }
 
 char	**ft_pattern_match(char *pattern)
@@ -102,6 +110,7 @@ char	**ft_pattern_match(char *pattern)
 	info.pattern_split = ft_split(pattern, PM_ASTERISK);
 	if (!info.pattern_split)
 		return (NULL);
+	count_split_size(info);
 	info.malloc_size = 1;
 	info.pm_cnt = 0;
 	info.pm_interleaving = NULL;

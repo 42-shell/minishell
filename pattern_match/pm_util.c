@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/31 21:16:51 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:06:56 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,58 @@
 #include "libft.h"
 #include <stdlib.h>
 
-void	pm_strcmp(t_pattern_info *info, ...)
+void	count_split_size(t_pattern_info *info)
 {
+	int	i;
+
+	i = 0;
+	while (info->pattern_split[i])
+		++i;
+	info->split_size = i;
+	info.all = 0;
+	if (info->split_cnt == 0)
+		info.all = 1;
 }
 
-int	create_inter(t_pattern_info *info, char *find)
+void	ft_check_set(t_pattern_info *info)
 {
-	char	**temp;
-	int		idx;
+	info->pm_check.l_check = 0;
+	info->pm_check.r_check = 0;
+	info->pm_check.g_check = 0;
+	info->pm_check.l_name_pos = 0;
+	info->pm_check.r_name_pos = 0;
+	info->pm_check.l_pm_pos = 0;
+	info->pm_check.r_pm_pos = 0;
+}
 
-	if (info->malloc_size > info->pm_cnt + 1)
-		info->pm_interleaving[info->pm_cnt + 1] = ft_strdup(find);
-	else
+char	**ft_free_pm(t_pattern_info *info, int key)
+{
+	int	idx;
+
+	idx = 0;
+	if (key & 1)
 	{
-		info->malloc_size *= 2;
-		temp = (char **)malloc(sizeof(char *) * info->malloc_size);
-		if (!temp)
-			return (-1);
-		temp[info->malloc_size - 1] = NULL;
+		while (info->pattern_split[idx])
+		{
+			free(info->pattern_split[idx]);
+			++idx;
+		}
+		free(info->pattern_split);
+	}
+	if (key & 2)
+	{
 		idx = 0;
 		while (info->pm_interleaving[idx])
 		{
-			temp[idx] = info->pm_interleaving[idx];
+			free(info->pm_interleaving[idx]);
 			++idx;
 		}
-		temp[idx] = ft_strdup(find);
-		temp[idx + 1] = NULL;
 		free(info->pm_interleaving);
-		info->pm_interleaving = temp;
 	}
-	info->pm_cnt += 1;
-	return (0);
+	return (NULL);
+}
+
+void	pm_strcmp(t_pattern_info *info, ...)
+{
+
 }
