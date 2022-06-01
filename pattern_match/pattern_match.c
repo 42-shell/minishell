@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/01 22:27:37 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 01:28:54 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,26 @@ static int	check_pattern(t_pattern_info *info, char *name, int file_type)
 {
 	if (info->all & 1)
 		return (1);
-	if (info->pm_flag.r_type == PM_SLASH && file_type != 4)
+	if (info->pm_flag.r_type == PM_SLASH && file_type != PM_DIRECTORY)
 		return (0);
 	ft_check_set(info, name);
 	if (info->pm_flag.l_type == PM_WORD)
 	{
-		pm_strcmp(info, 1, 0);
+		pm_strcmp(info, 1, info->pm_check.l_pm_pos, PM_WORD);
 		if (info->pm_flag.r_type == PM_WORD)
-			pm_strcmp(info, -1, 0);
-		if (info->pm_flag.r_type == PM_SLASH)
-			pm_strcmp(info, -1, PM_SLASH);
-		while (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
-			pm_strcmp(info, 1, PM_ASTERISK);
+			pm_strcmp(info, -1, info->pm_check.r_pm_pos - 1, PM_WORD);
+		else if (info->pm_flag.r_type == PM_SLASH)
+			pm_strcmp(info, -1, info->pm_check.r_pm_pos - 1, PM_SLASH);
 	}
 	else if (info->pm_flag.l_type == PM_ASTERISK)
 	{
 		if (info->pm_flag.r_type == PM_WORD)
-			pm_strcmp(info, -1, 0);
-		if (info->pm_flag.r_type == PM_SLASH)
-			pm_strcmp(info, -1, PM_SLASH);
-		while (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
-			pm_strcmp(info, 1, PM_ASTERISK);
+			pm_strcmp(info, -1, info->pm_check.r_pm_pos - 1, PM_WORD);
+		else if (info->pm_flag.r_type == PM_SLASH)
+			pm_strcmp(info, -1, info->pm_check.r_pm_pos - 1, PM_SLASH);
 	}
+	while (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
+		pm_strcmp(info, 1, info->pm_check.l_pm_pos, PM_ASTERISK);
 	return (info->pm_check.return_value);
 }
 
@@ -98,10 +96,14 @@ static int	pm_workhorse(t_pattern_info *info)
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
-		if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
+		// need skip '.' '..'
+		if (ft_strlen(entity_dir->d_name) >= (info->split_text_cnt - 1))
 		{
-			if (create_inter(info, entity_dir->d_name))
-				return (-1);
+			if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
+			{
+				if (create_inter(info, entity_dir->d_name))
+					return (-1);
+			}
 		}
 		entity_dir = readdir(current_dir);
 	}

@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/01 22:05:46 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 01:27:03 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ enum e_pattern_match_flag
 
 typedef struct s_check_done
 {
-	int		l_check;
-	int		r_check;
-	int		g_check;
 	int		l_name_pos;
 	int		r_name_pos;
 	int		l_pm_pos;
@@ -52,6 +49,7 @@ typedef struct s_patttern_info
 	int				all;
 	int				malloc_size;
 	int				split_size;
+	int				split_text_cnt;
 	int				pm_cnt;
 	char			**pm_interleaving;
 	t_pattern_flag	pm_flag;
@@ -62,5 +60,6 @@ char	**ft_pattern_match(char *pattern);
 char	**ft_free_pm(t_pattern_info *info, int key);
 void	ft_check_set(t_pattern_info *info, char *name);
 void	count_split_size(t_pattern_info *info);
+void	pm_strcmp(t_pattern_info *info, int unit, int comp, int type);
 
 #endif
