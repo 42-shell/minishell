@@ -6,15 +6,45 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 18:04:40 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:19:50 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
-#include "built_in.h"
+//#include "built_in.h"
 #include "libft.h"
 #include <dirent.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+
+#include <stdio.h>// need del
+
+char	*ft_get_pwd(void)
+{
+	char *buf;
+
+	buf = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
+	if (!buf)
+		return (NULL);
+	if (getcwd(buf, PATH_MAX))
+		return (buf);
+	else
+		return (NULL);
+}
+
+// need del
+
+
+
+
+
+
+
+
+
+
+
 
 static void	end_check(char *str, t_pattern_info *info)
 {
@@ -96,6 +126,7 @@ static int	pm_workhorse(t_pattern_info *info)
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
+		printf("%s\n", entity_dir->d_name);
 		// need skip '.' '..'
 		if (ft_strlen(entity_dir->d_name) >= (info->split_text_cnt))
 		{
@@ -108,25 +139,27 @@ static int	pm_workhorse(t_pattern_info *info)
 		entity_dir = readdir(current_dir);
 	}
 	closedir(current_dir);
+	return (0);
 }
 
 char	**ft_pattern_match(char *pattern)
 {
-	t_pattern_match	info;
+	t_pattern_info	info;
 
 	if (!pattern || *pattern == '\0')
 		return (NULL);
-	info.pwd = get_pwd();
+	info.pwd = ft_get_pwd();
 	if (!info.pwd)
 		return (NULL);
 	end_check(pattern, &info);
 	info.pattern_split = ft_split(pattern, PM_ASTERISK);
 	if (!info.pattern_split)
 		return (NULL);
-	count_split_size(info);
+	count_split_size(&info);
 	info.malloc_size = 1;
 	info.pm_cnt = 0;
 	info.pm_interleaving = NULL;
+	printf("%s, %d-%d-%d\n", info.pwd, info.split_size, info.all, info.split_text_cnt);
 	if (pm_workhorse(&info))
 		return (ft_free_pm(&info, 1 + 2));
 	ft_free_pm(&info, 1);

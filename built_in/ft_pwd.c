@@ -6,29 +6,31 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/30 19:40:27 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 19:53:14 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "../pattern_match/libft.h"
 #include "built_in.h"
 
-size_t	ft_pwd(void)
+int	ft_pwd(void)
 {
 	char buf[PATH_MAX];
 
 	if (getcwd(buf, sizeof(buf)))
 	{
-		ft_putstr_nl(buf, 1);
+		ft_putstr_fd(buf, 1);
+		ft_putchar_fd('\n', 1);
 		return (0);
 	}
 	else
 		return (-1);
 }
 
-char	*get_pwd(void)
+char	*ft_get_pwd(void)
 {
 	char *buf;
 

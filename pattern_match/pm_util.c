@@ -6,13 +6,15 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 17:49:21 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:18:14 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
 #include "libft.h"
 #include <stdlib.h>
+
+#include <stdio.h> // need del
 
 void	count_split_size(t_pattern_info *info)
 {
@@ -30,9 +32,9 @@ void	count_split_size(t_pattern_info *info)
 	info->split_text_cnt = cnt;
 	if (info->pm_flag.r_type == PM_SLASH && info->split_text_cnt != 1)
 		info->split_text_cnt -= 1;
-	info.all = 0;
+	info->all = 0;
 	if (info->split_size == 0)
-		info.all = 1;
+		info->all = 1;
 }
 
 void	ft_check_set(t_pattern_info *info, char *name)
