@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 20:19:50 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 22:18:11 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ static int	create_inter(t_pattern_info *info, char *find)
 	int		idx;
 
 	if (info->malloc_size > info->pm_cnt + 1)
+	{
 		info->pm_interleaving[info->pm_cnt + 1] = ft_strdup(find);
+		printf("%s %d\n\n", info->pm_interleaving[info->pm_cnt + 1], info->pm_cnt + 1);
+	}
 	else
 	{
 		info->malloc_size *= 2;
@@ -74,10 +77,14 @@ static int	create_inter(t_pattern_info *info, char *find)
 		if (!temp)
 			return (-1);
 		temp[info->malloc_size - 1] = NULL;
-		idx = -1;
-		while (info->pm_interleaving[++idx])
+		idx = 0;
+		while (info->pm_interleaving && info->pm_interleaving[idx])
+		{
 			temp[idx] = ft_strdup(info->pm_interleaving[idx]);
+			idx++;
+		}
 		temp[idx] = ft_strdup(find);
+		printf("%s %d\n\n", temp[idx], idx);
 		temp[idx + 1] = NULL;
 		if (info->pm_interleaving)
 			ft_free_pm(info, 2);
@@ -126,7 +133,6 @@ static int	pm_workhorse(t_pattern_info *info)
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
-		printf("%s\n", entity_dir->d_name);
 		// need skip '.' '..'
 		if (ft_strlen(entity_dir->d_name) >= (info->split_text_cnt))
 		{
@@ -159,7 +165,6 @@ char	**ft_pattern_match(char *pattern)
 	info.malloc_size = 1;
 	info.pm_cnt = 0;
 	info.pm_interleaving = NULL;
-	printf("%s, %d-%d-%d\n", info.pwd, info.split_size, info.all, info.split_text_cnt);
 	if (pm_workhorse(&info))
 		return (ft_free_pm(&info, 1 + 2));
 	ft_free_pm(&info, 1);
