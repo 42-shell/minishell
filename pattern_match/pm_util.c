@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 11:30:33 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:49:21 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,26 +71,35 @@ char	**ft_free_pm(t_pattern_info *info, int key)
 	return (NULL);
 }
 
-void	pm_strcmp_work(t_pattern_info *info, char *name, int size)
+void	pm_cmp(t_pattern_info *info, char *name, int unit, int type)
 {
-}
+	int		idx;
+	char	*temp;
 
-// if not match -> return_value = 0 and set l_pm_pos > r_pm_pos
-void	pm_strcmp(t_pattern_info *info, char *name, int unit, int type)
-{
 	if (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos == 0)
 		info->pm_check.return_value = 1;
 	else
 	{
-		idx = 0;
 		if (unit == 1)
 		{
-			// 증가하면서 strcmp 하고, l_name_pos, l_pm_pos 움직이기
-			// 다르면 l_pm_pos  r_pm_pos보다 크게 셋
-			//	if (name[idx] != info->pattern_split[info->pm_check.l_pm_pos][idx])
+			if (type == PM_WORD)
+				pm_strcmp_left(info, \
+					info->pattern_split[info->pm_check.l_pm_pos], name);
+			else if (type == PM_ASTERISK)
+				pm_strcmp_plus(info, \
+					info->pattern_split[info->pm_check.l_pm_pos], name);
 		}
 		else if (unit == -1)
 		{
+			if (type == PM_SLASH)
+			{
+				idx = info->pm_check.r_pm_pos - 1;
+				temp = info->pattern_split[idx];
+				temp[ft_strlen(temp) - 1] = '\0';
+			}
+			if (type == PM_WORD || type == PM_SLASH)
+				pm_strcmp_minus(info, \
+					info->pattern_split[info->pm_check.r_pm_pos - 1], name);
 		}
 	}
 }

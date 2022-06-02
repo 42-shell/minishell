@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 11:23:17 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 18:04:40 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,21 @@ static int	check_pattern(t_pattern_info *info, char *name, int file_type)
 	ft_check_set(info, name);
 	if (info->pm_flag.l_type == PM_WORD)
 	{
-		pm_strcmp(info, name, 1, PM_WORD);
+		pm_cmp(info, name, 1, PM_WORD);
 		if (info->pm_flag.r_type == PM_WORD)
-			pm_strcmp(info, name, -1, PM_WORD);
+			pm_cmp(info, name, -1, PM_WORD);
 		else if (info->pm_flag.r_type == PM_SLASH)
-			pm_strcmp(info, name, -1, PM_SLASH);
+			pm_cmp(info, name, -1, PM_SLASH);
 	}
 	else if (info->pm_flag.l_type == PM_ASTERISK)
 	{
 		if (info->pm_flag.r_type == PM_WORD)
-			pm_strcmp(info, name, -1, PM_WORD);
+			pm_cmp(info, name, -1, PM_WORD);
 		else if (info->pm_flag.r_type == PM_SLASH)
-			pm_strcmp(info, name, -1, PM_SLASH);
+			pm_cmp(info, name, -1, PM_SLASH);
 	}
 	while (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
-		pm_strcmp(info, name, 1, PM_ASTERISK);
+		pm_cmp(info, name, 1, PM_ASTERISK);
 	return (info->pm_check.return_value);
 }
 

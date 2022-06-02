@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 11:23:10 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/02 18:04:36 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ char	**ft_pattern_match(char *pattern);
 char	**ft_free_pm(t_pattern_info *info, int key);
 void	ft_check_set(t_pattern_info *info, char *name);
 void	count_split_size(t_pattern_info *info);
-void	pm_strcmp(t_pattern_info *info, char *name, int unit, int type);
+void	pm_cmp(t_pattern_info *info, char *name, int unit, int type);
+
+void	pm_strcmp_left(t_pattern_info *info, char *s1, char *s2);
+void	pm_strcmp_plus(t_pattern_info *info, char *s1, char *s2);
+void	pm_strcmp_minus(t_pattern_info *info, char *s1, char *s2);
 
 #endif
