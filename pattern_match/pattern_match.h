@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 19:44:32 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/03 01:36:13 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_patttern_info
 	int				malloc_size;
 	int				split_size;
 	int				split_text_cnt;
-	int				pm_cnt;
+	int				pm_pos;
 	char			**pm_interleaving;
 	t_pattern_flag	pm_flag;
 	t_check_done	pm_check;
@@ -62,8 +62,5 @@ void	ft_check_set(t_pattern_info *info, char *name);
 void	count_split_size(t_pattern_info *info);
 void	pm_cmp(t_pattern_info *info, char *name, int unit, int type);
 
-void	pm_strcmp_left(t_pattern_info *info, char *s1, char *s2);
-void	pm_strcmp_plus(t_pattern_info *info, char *s1, char *s2);
-void	pm_strcmp_minus(t_pattern_info *info, char *s1, char *s2);
 
 #endif

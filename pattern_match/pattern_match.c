@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 22:18:11 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/03 01:36:38 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,9 @@ static int	create_inter(t_pattern_info *info, char *find)
 	char	**temp;
 	int		idx;
 
-	if (info->malloc_size > info->pm_cnt + 1)
+	if (info->malloc_size > info->pm_pos + 1)
 	{
-		info->pm_interleaving[info->pm_cnt + 1] = ft_strdup(find);
-		printf("%s %d\n\n", info->pm_interleaving[info->pm_cnt + 1], info->pm_cnt + 1);
+		info->pm_interleaving[info->pm_pos] = ft_strdup(find);
 	}
 	else
 	{
@@ -84,16 +83,19 @@ static int	create_inter(t_pattern_info *info, char *find)
 			idx++;
 		}
 		temp[idx] = ft_strdup(find);
-		printf("%s %d\n\n", temp[idx], idx);
 		temp[idx + 1] = NULL;
 		if (info->pm_interleaving)
 			ft_free_pm(info, 2);
 		info->pm_interleaving = temp;
 	}
-	info->pm_cnt += 1;
+	info->pm_pos += 1;
 	return (0);
 }
 
+
+
+
+// check pattern... begin here
 static int	check_pattern(t_pattern_info *info, char *name, int file_type)
 {
 	if (info->all & 1)
@@ -138,6 +140,7 @@ static int	pm_workhorse(t_pattern_info *info)
 		{
 			if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
 			{
+				printf("%d: %s\n", entity_dir->d_type, entity_dir->d_name); 
 				if (create_inter(info, entity_dir->d_name))
 					return (-1);
 			}
@@ -163,7 +166,7 @@ char	**ft_pattern_match(char *pattern)
 		return (NULL);
 	count_split_size(&info);
 	info.malloc_size = 1;
-	info.pm_cnt = 0;
+	info.pm_pos = 0;
 	info.pm_interleaving = NULL;
 	if (pm_workhorse(&info))
 		return (ft_free_pm(&info, 1 + 2));
