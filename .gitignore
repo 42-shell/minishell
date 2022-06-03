@@ -15,3 +15,6 @@
 
 # Executable
 /minishell
+
+# Swap Files
+*.swp

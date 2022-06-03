@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/03 01:35:36 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/04 08:10:21 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@
 //
 #include <stdio.h>
 
-void	pm_strcmp(t_pattern_info *info, char *s1, char *s2)
+void	pm_strcmp_left(t_pattern_info *info, char *s1, char *s2)
 {
+}
+
+
+void	pm_strcmp_right(t_pattern_info *info, char *s1, char *s2)
+{
+}
+
+void	pm_strcmp_greedy(t_pattern_info *info, char *s1, char *s2)
+{
+
 }

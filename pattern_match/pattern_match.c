@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/03 01:36:38 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/04 07:56:07 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ static int	pm_workhorse(t_pattern_info *info)
 		{
 			if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
 			{
-				printf("%d: %s\n", entity_dir->d_type, entity_dir->d_name); 
 				if (create_inter(info, entity_dir->d_name))
 					return (-1);
 			}

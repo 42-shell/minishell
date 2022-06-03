@@ -6,15 +6,13 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 22:06:41 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/04 08:08:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
 #include "libft.h"
 #include <stdlib.h>
-
-#include <stdio.h> // need del
 
 void	count_split_size(t_pattern_info *info)
 {
@@ -88,7 +86,7 @@ void	pm_cmp(t_pattern_info *info, char *name, int unit, int type)
 				pm_strcmp_left(info, \
 					info->pattern_split[info->pm_check.l_pm_pos], name);
 			else if (type == PM_ASTERISK)
-				pm_strcmp_plus(info, \
+				pm_strcmp_greedy(info, \
 					info->pattern_split[info->pm_check.l_pm_pos], name);
 		}
 		else if (unit == -1)
@@ -100,7 +98,7 @@ void	pm_cmp(t_pattern_info *info, char *name, int unit, int type)
 				temp[ft_strlen(temp) - 1] = '\0';
 			}
 			if (type == PM_WORD || type == PM_SLASH)
-				pm_strcmp_minus(info, \
+				pm_strcmp_right(info, \
 					info->pattern_split[info->pm_check.r_pm_pos - 1], name);
 		}
 	}
