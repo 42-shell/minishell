@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 19:38:28 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 15:48:46 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/04 17:02:56 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include "pattern_match.h"
 
-
+// gcc main.c pattern_match.c pm_util.c pm_util_cmp.c libft.a -g
 int main(int argc, char **argv)
 {
 	char **temp;
