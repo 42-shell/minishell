@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/03 01:36:13 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/04 11:17:21 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ enum e_pattern_match_flag
 typedef struct s_check_done
 {
 	int		l_name_pos;
-	int		r_name_pos;
 	int		l_pm_pos;
 	int		r_pm_pos;
 	int		return_value;
@@ -60,7 +59,8 @@ char	**ft_pattern_match(char *pattern);
 char	**ft_free_pm(t_pattern_info *info, int key);
 void	ft_check_set(t_pattern_info *info, char *name);
 void	count_split_size(t_pattern_info *info);
-void	pm_cmp(t_pattern_info *info, char *name, int unit, int type);
-
+void	pm_cmp_abs(t_pattern_info *info, char *name, int unit, int type);
+void	pm_cmp_strstr(t_pattern_info *info, char *name, int pm_pos, int na_pos);
+int		check_dot_dot(char *name, int type);
 
 #endif

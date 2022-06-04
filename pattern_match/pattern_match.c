@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 07:56:07 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/04 11:37:42 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-
 #include <stdio.h>// need del
 
 char	*ft_get_pwd(void)
@@ -33,19 +31,6 @@ char	*ft_get_pwd(void)
 		return (NULL);
 }
 
-// need del
-
-
-
-
-
-
-
-
-
-
-
-
 static void	end_check(char *str, t_pattern_info *info)
 {
 	if (str[0] == PM_ASTERISK)
@@ -60,15 +45,12 @@ static void	end_check(char *str, t_pattern_info *info)
 		info->pm_flag.r_type = PM_WORD;
 }
 
-static int	create_inter(t_pattern_info *info, char *find)
+static int	create_inter(t_pattern_info *info, char *find, int idx)
 {
 	char	**temp;
-	int		idx;
 
 	if (info->malloc_size > info->pm_pos + 1)
-	{
 		info->pm_interleaving[info->pm_pos] = ft_strdup(find);
-	}
 	else
 	{
 		info->malloc_size *= 2;
@@ -92,35 +74,28 @@ static int	create_inter(t_pattern_info *info, char *find)
 	return (0);
 }
 
-
-
-
-// check pattern... begin here
 static int	check_pattern(t_pattern_info *info, char *name, int file_type)
 {
+	char	*temp;
+
 	if (info->all & 1)
 		return (1);
 	if (info->pm_flag.r_type == PM_SLASH && file_type != PM_DIRECTORY)
 		return (0);
 	ft_check_set(info, name);
 	if (info->pm_flag.l_type == PM_WORD)
+		pm_cmp_abs(info, name, 1, 0);
+	if (info->pm_flag.r_type == PM_SLASH)
 	{
-		pm_cmp(info, name, 1, PM_WORD);
-		if (info->pm_flag.r_type == PM_WORD)
-			pm_cmp(info, name, -1, PM_WORD);
-		else if (info->pm_flag.r_type == PM_SLASH)
-			pm_cmp(info, name, -1, PM_SLASH);
+		temp = info->pattern_split[info->pm_check.r_pm_pos - 1];
+		temp[ft_strlen(temp) - 1] = '\0';
 	}
-	else if (info->pm_flag.l_type == PM_ASTERISK)
-	{
-		if (info->pm_flag.r_type == PM_WORD)
-			pm_cmp(info, name, -1, PM_WORD);
-		else if (info->pm_flag.r_type == PM_SLASH)
-			pm_cmp(info, name, -1, PM_SLASH);
-	}
+	if ((info->pm_flag.r_type == PM_WORD || info->pm_flag.r_type == PM_SLASH))
+		pm_cmp_abs(info, name, -1, info->pm_check.r_pm_pos - 1);
 	while (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
-		pm_cmp(info, name, 1, PM_ASTERISK);
-	return (info->pm_check.return_value);
+		pm_cmp_strstr(info, name, info->pm_check.l_pm_pos, \
+											info->pm_check.l_name_pos);
+	return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
 }
 
 static int	pm_workhorse(t_pattern_info *info)
@@ -132,19 +107,20 @@ static int	pm_workhorse(t_pattern_info *info)
 	current_dir = opendir(info->pwd);
 	if (!current_dir)
 		return (-1);
-	entity_dir = readdir(current_dir);
+	entity_dir = (struct dirent *)1;
 	while (entity_dir)
 	{
-		// need skip '.' '..'
-		if (ft_strlen(entity_dir->d_name) >= (info->split_text_cnt))
+		entity_dir = readdir(current_dir);
+		if (check_dot_dot(entity_dir->d_name, entity_dir->d_type))
+			continue ;
+		else if (ft_strlen(entity_dir->d_name) >= (info->split_text_cnt))
 		{
-			if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
+			if (!check_pattern(info, entity_dir->d_name, entity_dir->d_type))
 			{
-				if (create_inter(info, entity_dir->d_name))
+				if (create_inter(info, entity_dir->d_name, 0))
 					return (-1);
 			}
 		}
-		entity_dir = readdir(current_dir);
 	}
 	closedir(current_dir);
 	return (0);
