@@ -6,17 +6,17 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/02 19:53:14 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/04 18:38:15 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "../pattern_match/libft.h"
+#include "libft.h"
 #include "built_in.h"
 
-int	ft_pwd(void)
+size_t	ft_pwd(void)
 {
 	char buf[PATH_MAX];
 

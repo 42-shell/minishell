@@ -6,11 +6,12 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/05/22 22:44:11 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/04 18:39:43 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include "built_in.h"
 
 static size_t	set_point(char ***argv, size_t pos)
 {
