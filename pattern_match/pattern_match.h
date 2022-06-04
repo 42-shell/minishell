@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 11:17:21 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/04 15:44:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_check_done
 	int		l_pm_pos;
 	int		r_pm_pos;
 	int		return_value;
+	char	cut_char;
+	int		cut_pos;
 }	t_check_done;
 
 typedef struct s_pattern_flag
@@ -56,11 +58,8 @@ typedef struct s_patttern_info
 }	t_pattern_info;
 
 char	**ft_pattern_match(char *pattern);
-char	**ft_free_pm(t_pattern_info *info, int key);
-void	ft_check_set(t_pattern_info *info, char *name);
+int		check_pattern(t_pattern_info *info, char *name, int file_type);
 void	count_split_size(t_pattern_info *info);
-void	pm_cmp_abs(t_pattern_info *info, char *name, int unit, int type);
-void	pm_cmp_strstr(t_pattern_info *info, char *name, int pm_pos, int na_pos);
 int		check_dot_dot(char *name, int type);
 
 #endif
