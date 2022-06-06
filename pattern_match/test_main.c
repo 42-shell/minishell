@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 19:38:28 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 23:42:23 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/06 16:55:35 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 	{
 		temp = ft_pattern_match(argv[1]);
 		int idx = 0;
-		printf("List--\n");
+		printf("List-- : %s\n", argv[1]);
 		while (temp && temp[idx])
 		{
 			printf("%s\n", temp[idx]);

@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 23:55:22 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/06 17:05:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static char	**ft_free_pm(t_pattern_info *info, int key)
 
 	idx = 0;
 	if (key & 1)
+		free(info->pwd);
+	if (key & 2)
 	{
 		while (info->pattern_split && info->pattern_split[idx])
 		{
@@ -28,7 +30,7 @@ static char	**ft_free_pm(t_pattern_info *info, int key)
 		}
 		free(info->pattern_split);
 	}
-	if (key & 2)
+	if (key & 4)
 	{
 		idx = 0;
 		while (info->pm_interleaving && info->pm_interleaving[idx])
@@ -38,7 +40,6 @@ static char	**ft_free_pm(t_pattern_info *info, int key)
 		}
 		free(info->pm_interleaving);
 	}
-	free(info->pwd);
 	return (NULL);
 }
 
@@ -81,7 +82,7 @@ static int	create_inter(t_pattern_info *info, char *find, int idx)
 		temp[idx] = ft_strdup(find);
 		temp[idx + 1] = NULL;
 		if (info->pm_interleaving)
-			ft_free_pm(info, 2);
+			ft_free_pm(info, 4);
 		info->pm_interleaving = temp;
 	}
 	info->pm_pos += 1;
@@ -101,8 +102,8 @@ static int	pm_workhorse(t_pattern_info *info)
 	while (entity_dir)
 	{
 		if (!check_dot_dot(entity_dir->d_name, entity_dir->d_type) && \
-			ft_strlen(entity_dir->d_name) >= (info->split_text_cnt) && \
-			!check_pattern(info, entity_dir->d_name, entity_dir->d_type))
+	ft_strlen(entity_dir->d_name) >= (info->split_text_cnt) && \
+	(info->all || !check_pattern(info, entity_dir->d_name, entity_dir->d_type)))
 		{
 			if (info->pm_flag.r_type == PM_WORD \
 				|| info->pm_flag.r_type == PM_SLASH)
@@ -128,10 +129,10 @@ char	**ft_pattern_match(char *pattern)
 	end_check(pattern, &info);
 	info.pattern_split = ft_split(pattern, PM_ASTERISK);
 	if (!info.pattern_split)
-		return (ft_free_pm(&info, 0));
+		return (ft_free_pm(&info, 1));
 	count_split_size(&info);
 	if (pm_workhorse(&info))
-		return (ft_free_pm(&info, 1 + 2));
-	ft_free_pm(&info, 1);
+		return (ft_free_pm(&info, 1 + 2 + 4));
+	ft_free_pm(&info, 1 + 2);
 	return (info.pm_interleaving);
 }

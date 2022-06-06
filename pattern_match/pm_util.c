@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 23:51:58 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/06 16:19:36 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*ft_get_pwd(void)
 	buf = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
 	if (!buf)
 		return (NULL);
-	if (getcwd(buf, sizeof(buf)))
+	if (getcwd(buf, PATH_MAX + 1))
 	{
 		return (buf);
 	}

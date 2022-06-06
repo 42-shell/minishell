@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pm_util.c                                          :+:      :+:    :+:   */
+/*   pm_work.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 23:12:08 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/06 17:16:00 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ int	check_pattern(t_pattern_info *info, char *name, int file_type)
 {
 	char	*temp;
 
-	if (info->all & 1)
-		return (0);
 	if (info->pm_flag.r_type == PM_SLASH && file_type != PM_DIRECTORY)
 		return (1);
 	ft_check_set(info, name);
@@ -103,7 +101,7 @@ int	check_pattern(t_pattern_info *info, char *name, int file_type)
 		pm_cmp_abs(info, name, 1, 0);
 	if ((info->pm_flag.r_type == PM_WORD || info->pm_flag.r_type == PM_SLASH))
 		pm_cmp_abs(info, name, -1, info->pm_check.r_pm_pos - 1);
-	while (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
+	while (info->pm_check.r_pm_pos > info->pm_check.l_pm_pos)
 		pm_cmp_strstr(info, name, info->pm_check.l_pm_pos, \
 											info->pm_check.l_name_pos);
 	return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
