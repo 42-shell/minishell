@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/06 18:00:58 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:17:07 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static void	pm_cmp_strstr(t_pattern_info *info, char *name, \
 	}
 }
 
-#include <stdio.h>
 static int	pm_cmp_abs_work(t_pattern_info *info, char *name, \
 														int unit, size_t idx)
 {
@@ -50,16 +49,14 @@ static int	pm_cmp_abs_work(t_pattern_info *info, char *name, \
 
 	temp = info->pattern_split[idx];
 	temp_len = ft_strlen(temp);
-	if (temp_len == 0)
-		temp_len = 1;
 	if (unit == 1)
 	{
-		printf("l - %s , %zu\n", name, ft_strlen(temp));
+		if (temp_len == 0)
+			return (0);
 		return (!ft_strncmp(name, temp, temp_len));
 	}
 	else
 	{
-		printf("r - %s , %zu\n", &name[ft_strlen(name) - temp_len], temp_len);
 		return (!ft_strncmp(&name[ft_strlen(name) - temp_len], temp, temp_len));
 	}
 }
@@ -68,7 +65,7 @@ static void	pm_cmp_abs(t_pattern_info *info, char *name, int unit, size_t idx)
 {
 	size_t	pos;
 
-	if (info->pm_check.r_pm_pos > info->pm_check.l_pm_pos)
+	if (info->pm_check.r_pm_pos >= info->pm_check.l_pm_pos)
 	{
 		if (pm_cmp_abs_work(info, name, unit, idx))
 		{
@@ -79,7 +76,8 @@ static void	pm_cmp_abs(t_pattern_info *info, char *name, int unit, size_t idx)
 			}
 			else
 			{
-				info->pm_check.r_pm_pos--;
+				if (info->pm_check.r_pm_pos != info->pm_check.l_pm_pos)
+					info->pm_check.r_pm_pos--;
 				pos = ft_strlen(name) - ft_strlen(info->pattern_split[idx]);
 				info->pm_check.cut_char = name[pos];
 				info->pm_check.cut_pos = pos;
@@ -105,8 +103,12 @@ int	check_pattern(t_pattern_info *info, char *name, int file_type)
 	}
 	if (info->pm_flag.l_type == PM_WORD)
 		pm_cmp_abs(info, name, 1, 0);
+	if (info->pm_check.r_pm_pos < info->pm_check.l_pm_pos)
+		return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
 	if ((info->pm_flag.r_type == PM_WORD || info->pm_flag.r_type == PM_SLASH))
 		pm_cmp_abs(info, name, -1, info->pm_check.r_pm_pos - 1);
+	if (info->pm_check.r_pm_pos < info->pm_check.l_pm_pos)
+		return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
 	while (info->pm_check.r_pm_pos > info->pm_check.l_pm_pos)
 		pm_cmp_strstr(info, name, info->pm_check.l_pm_pos, \
 											info->pm_check.l_name_pos);
