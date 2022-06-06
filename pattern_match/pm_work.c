@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/06 17:16:00 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/06 18:00:58 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,26 @@ static void	pm_cmp_strstr(t_pattern_info *info, char *name, \
 	}
 }
 
+#include <stdio.h>
 static int	pm_cmp_abs_work(t_pattern_info *info, char *name, \
 														int unit, size_t idx)
 {
 	char	*temp;
+	size_t	temp_len;
 
 	temp = info->pattern_split[idx];
+	temp_len = ft_strlen(temp);
+	if (temp_len == 0)
+		temp_len = 1;
 	if (unit == 1)
 	{
-		return (!ft_strncmp(name, temp, ft_strlen(temp)));
+		printf("l - %s , %zu\n", name, ft_strlen(temp));
+		return (!ft_strncmp(name, temp, temp_len));
 	}
 	else
 	{
-		return (!ft_strncmp(&name[ft_strlen(name) - ft_strlen(temp)], temp, \
-			ft_strlen(temp)));
+		printf("r - %s , %zu\n", &name[ft_strlen(name) - temp_len], temp_len);
+		return (!ft_strncmp(&name[ft_strlen(name) - temp_len], temp, temp_len));
 	}
 }
 
@@ -62,7 +68,7 @@ static void	pm_cmp_abs(t_pattern_info *info, char *name, int unit, size_t idx)
 {
 	size_t	pos;
 
-	if (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos > 0)
+	if (info->pm_check.r_pm_pos > info->pm_check.l_pm_pos)
 	{
 		if (pm_cmp_abs_work(info, name, unit, idx))
 		{
