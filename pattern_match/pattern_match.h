@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/06 15:50:45 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/08 10:23:42 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,6 @@
 # include <stddef.h>
 
 # define PATH_MAX 1024
-
-enum e_file_type
-{
-	PM_DIRECTORY = 4,
-	PM_FILE = 8,
-};
-
-enum e_pattern_match_flag
-{
-	PM_EOF = -1,
-	PM_WORD = 0,
-	PM_ASTERISK = '*',
-	PM_SLASH = '/',
-};
 
 typedef struct s_check_done
 {

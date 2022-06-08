@@ -6,11 +6,12 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/06 20:17:07 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/08 10:24:28 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
+#include "pattern_match_enum.h"
 
 static void	ft_check_set(t_pattern_info *info, char *name)
 {

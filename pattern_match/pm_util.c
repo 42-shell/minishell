@@ -6,11 +6,12 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/06 16:19:36 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/08 10:24:06 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
+#include "pattern_match_enum.h"
 #include <unistd.h>
 #include <stdlib.h>
 

@@ -6,11 +6,12 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/06 17:05:32 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/08 10:22:19 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
+#include "pattern_match_enum.h"
 #include <dirent.h>
 #include <stdlib.h>
 
@@ -19,9 +20,9 @@ static char	**ft_free_pm(t_pattern_info *info, int key)
 	size_t	idx;
 
 	idx = 0;
-	if (key & 1)
+	if (key & RM_PWD)
 		free(info->pwd);
-	if (key & 2)
+	if (key & RM_PM)
 	{
 		while (info->pattern_split && info->pattern_split[idx])
 		{
@@ -30,7 +31,7 @@ static char	**ft_free_pm(t_pattern_info *info, int key)
 		}
 		free(info->pattern_split);
 	}
-	if (key & 4)
+	if (key & RM_PI)
 	{
 		idx = 0;
 		while (info->pm_interleaving && info->pm_interleaving[idx])
@@ -82,7 +83,7 @@ static int	create_inter(t_pattern_info *info, char *find, int idx)
 		temp[idx] = ft_strdup(find);
 		temp[idx + 1] = NULL;
 		if (info->pm_interleaving)
-			ft_free_pm(info, 4);
+			ft_free_pm(info, RM_PI);
 		info->pm_interleaving = temp;
 	}
 	info->pm_pos += 1;
@@ -129,10 +130,10 @@ char	**ft_pattern_match(char *pattern)
 	end_check(pattern, &info);
 	info.pattern_split = ft_split(pattern, PM_ASTERISK);
 	if (!info.pattern_split)
-		return (ft_free_pm(&info, 1));
+		return (ft_free_pm(&info, RM_PWD));
 	count_split_size(&info);
 	if (pm_workhorse(&info))
-		return (ft_free_pm(&info, 1 + 2 + 4));
-	ft_free_pm(&info, 1 + 2);
+		return (ft_free_pm(&info, RM_PWD | RM_PI | RM_PM));
+	ft_free_pm(&info, RM_PWD | RM_PI);
 	return (info.pm_interleaving);
 }
