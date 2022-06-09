@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/26 18:12:18 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/09 14:41:01 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+# include <stddef.h>
 
 enum	e_char_flag_index
 {
@@ -52,11 +53,19 @@ typedef enum e_token_kind
 	TK_ERROR,
 	TK_UNDEFINED,
 	TK_WORD,
-	TK_NUMBER,
 	TK_LESS_LESS,
 	TK_GREATER_GREATER,
 	TK_AND_AND,
 	TK_OR_OR,
+	TK_NT_ACCEPT = 512,
+	TK_NT_SIMPLE_COMMAND_ELEMENT,
+	TK_NT_REDIRECTION,
+	TK_NT_SIMPLE_COMMAND,
+	TK_NT_REDIRECTION_LIST,
+	TK_NT_COMMAND,
+	TK_NT_SUBSHELL,
+	TK_NT_LIST,
+	TK_NT_PIPELINE,
 }	t_token_kind;
 
 enum	e_word_flag_index
@@ -130,8 +139,8 @@ struct s_command_connection
 {
 	t_token_kind		connector;
 	t_command_type		flags;
-	t_command_container	*first;
-	t_command_container	*second;
+	t_command_container	first;
+	t_command_container	second;
 };
 
 struct s_simple_command
@@ -160,28 +169,73 @@ enum	e_parser_flag_index
 	PF_REDIRECT_PUSHED,
 };
 
+# define PARSER_ACCEPT -1000
+# define PARSER_ERROR -1001
+
+typedef int							t_parser_state;
 typedef int							t_parser_flags;
+
+typedef enum e_parser_error
+{
+	PE_SUCCESS,
+	PE_INCOMPLETED_PAIR,
+	PE_SYNTAX_ERROR,
+}	t_parser_error;
 
 typedef struct s_parse_stack
 {
-
+	t_parser_state			state;
+	t_token_kind			kind;
+	t_word					word;
+	t_redirect				redirect;
+	t_command_container		command;
 }	t_parse_stack;
 
-typedef struct s_parse_state
+typedef struct s_parser
 {
 	char					*begin;
 	char					*str;
+	t_word					backup_word;
 	t_parser_flags			flags;
-	t_parse_stack			initial_stack[200];
-	t_parse_stack			*stack_ptr;
-	t_word					now_word;
-	t_redirect				now_redirect;
-	t_command_container		*now_command;
-	t_command_container		*command;
-}	t_parse_state;
+	t_parser_error			error;
+	size_t					stack_capacity;
+	t_parse_stack			*stack_base;
+	t_parse_stack			*now;
+}	t_parser;
+
+typedef struct s_state_info
+{
+	t_token_kind			token;
+	t_parser_state			state;
+}	t_state_info;
+
+typedef t_token_kind				t_parse_func(t_parser *);
 
 t_char_flags	get_char_flags(int c);
-t_token_kind	read_token(t_parse_state *pst);
-void			lex(t_parse_state *pst);
+t_token_kind	read_token(t_parser *pst);
+int				parse(t_parser *pst);
+
+t_parser_state	parser_state(t_parser_state state, t_token_kind token);
+
+t_token_kind	parser_reduce_0(t_parser *pst);
+t_token_kind	parser_reduce_1(t_parser *pst);
+t_token_kind	parser_reduce_2(t_parser *pst);
+t_token_kind	parser_reduce_3(t_parser *pst);
+t_token_kind	parser_reduce_4(t_parser *pst);
+t_token_kind	parser_reduce_5(t_parser *pst);
+t_token_kind	parser_reduce_6(t_parser *pst);
+t_token_kind	parser_reduce_7(t_parser *pst);
+t_token_kind	parser_reduce_8(t_parser *pst);
+t_token_kind	parser_reduce_9(t_parser *pst);
+t_token_kind	parser_reduce_10(t_parser *pst);
+t_token_kind	parser_reduce_11(t_parser *pst);
+t_token_kind	parser_reduce_12(t_parser *pst);
+t_token_kind	parser_reduce_13(t_parser *pst);
+t_token_kind	parser_reduce_14(t_parser *pst);
+t_token_kind	parser_reduce_15(t_parser *pst);
+t_token_kind	parser_reduce_16(t_parser *pst);
+t_token_kind	parser_reduce_17(t_parser *pst);
+t_token_kind	parser_reduce_18(t_parser *pst);
+t_token_kind	parser_reduce_19(t_parser *pst);
 
 #endif

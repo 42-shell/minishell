@@ -19,7 +19,12 @@ RM = rm -f
 OBJECTS_DIR = objs/
 
 HEADER = minishell.h
-SOURCE = shell.c parse_token.c parse_lex.c redir.c command.c syntax.c
+SOURCE = shell.c \
+			syntax.c lexer.c parser.c \
+			parser_state.c parser_utils.c \
+			parser_reduce_0.c parser_reduce_1.c \
+			parser_reduce_2.c parser_reduce_3.c \
+			redir.c command.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 
 HEADER_LIBFT = libft.h

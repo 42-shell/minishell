@@ -55,7 +55,7 @@ t_generic_list	*list_append(t_generic_list *head, t_generic_list *elem)
 {
 	t_generic_list	*t;
 
-	if (head == NULL)
+	if (!head)
 		return (elem);
 	t = head;
 	while (t->next)

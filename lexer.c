@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_token.c                                      :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/26 18:34:26 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/08 03:05:55 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,46 @@
 #include "util_flag.h"
 #include "string_buffer.h"
 
-char	*parse_matched_pair(char *str, char *open_close, size_t *len_ptr)
+static t_word_flags	calc_word_flag(t_str_buf *buf)
 {
-	size_t			len;
-	t_str_buf		*buf;
-	int				was_dollar;
+	t_word_flags	wflags;
+	t_char_flags	cflags;
+	size_t			i;
 
-	len = 0;
-	buf = NULL;
-	if (str[len] == open_close[0])
-		buf = str_append_raw(buf, &str[len++], 1);
-	while (str[len])
+	wflags = 0;
+	i = 0;
+	while (i < buf->length)
 	{
-		was_dollar = has_flag(get_char_flags(str[len]), CF_EXPANSION);
-		buf = str_append_raw(buf, &str[len++], 1);
-		if (str[len - 1] == open_close[1])
+		cflags = get_char_flags(buf->str[i]);
+		if (has_flag(cflags, CF_QUOTE))
+			set_flag(&wflags, WF_WANT_DEQUOTE);
+		if (has_flag(cflags, CF_EXPANSION))
+			set_flag(&wflags, WF_WANT_EXPAND_VAR);
+		i++;
+	}
+	return (wflags);
+}
+
+static size_t	parse_matched_quote(t_parser *pst, size_t len, char delim)
+{
+	char		*str;
+	size_t		idx;
+
+	str = &pst->str[len];
+	idx = 0;
+	if (str[idx] == delim)
+		idx++;
+	while (str[idx])
+	{
+		if (str[idx++] == delim)
 			break ;
 	}
-	if (len <= 1 || str[len - 1] != open_close[1])
-	{
-		//TODO: incompleted pair
-	}
-	*len_ptr = len;
-	return (str_dispose(buf));
+	if (idx <= 1 || str[idx - 1] != delim)
+		pst->error = PE_INCOMPLETED_PAIR;
+	return (idx);
 }
 
-size_t	parse_quoted_word(t_parse_state *pst, size_t len)
-{
-	char	open_close[2];
-	size_t	nest_len;
-	char	*nest_str;
-
-	open_close[0] = pst->str[len];
-	open_close[1] = pst->str[len];
-	nest_str = parse_matched_pair(&pst->str[len], open_close, &nest_len);
-	len += nest_len;
-	free(nest_str);
-	return (len);
-}
-
-t_token_kind	read_token_word(t_parse_state *pst)
+static t_token_kind	read_token_word(t_parser *pst)
 {
 	size_t		len;
 	t_str_buf	*buf;
@@ -64,20 +64,20 @@ t_token_kind	read_token_word(t_parse_state *pst)
 	while (pst->str[len] && !has_flag(get_char_flags(pst->str[len]), CF_BREAK))
 	{
 		if (has_flag(get_char_flags(pst->str[len]), CF_QUOTE))
-			len = parse_quoted_word(pst, len);
+			len += parse_matched_quote(pst, len, pst->str[len]);
 		else
 			len++;
 	}
 	buf = str_append_raw(buf, pst->str, len);
 	pst->str += len;
-	word.flags = 0;
+	word.flags = calc_word_flag(buf);
 	word.str = str_dispose(buf);
-	free(pst->now_word.str);
-	pst->now_word = word;
+	free(pst->backup_word.str);
+	pst->backup_word = word;
 	return (TK_WORD);
 }
 
-t_token_kind	read_token_meta(t_parse_state *pst)
+static t_token_kind	read_token_meta(t_parser *pst)
 {
 	char	tok;
 
@@ -95,18 +95,21 @@ t_token_kind	read_token_meta(t_parse_state *pst)
 	return (tok);
 }
 
-t_token_kind	read_token(t_parse_state *pst)
+t_token_kind	read_token(t_parser *pst)
 {
 	t_token_kind	result;
 
+	pst->error = PE_SUCCESS;
 	result = TK_UNDEFINED;
 	while (has_flag(get_char_flags(*pst->str), CF_BLANK))
 		pst->str++;
-	if (result == TK_UNDEFINED && !*pst->str)
+	if (result == TK_UNDEFINED && *pst->str == '\0')
 		result = TK_EOF;
 	if (result == TK_UNDEFINED && has_flag(get_char_flags(*pst->str), CF_META))
 		result = read_token_meta(pst);
 	if (result == TK_UNDEFINED)
 		result = read_token_word(pst);
+	if (pst->error)
+		result = TK_ERROR;
 	return (result);
 }
