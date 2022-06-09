@@ -6,12 +6,12 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:22:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/08 10:26:10 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:53:53 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATTERN_MATCH_ENUM
-# define PATTERN_MATCH_ENUM
+#ifndef PATTERN_MATCH_ENUM_H
+# define PATTERN_MATCH_ENUM_H
 
 enum e_free_type
 {

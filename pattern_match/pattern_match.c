@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/08 10:22:19 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:43:21 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char	**ft_pattern_match(char *pattern)
 		return (ft_free_pm(&info, RM_PWD));
 	count_split_size(&info);
 	if (pm_workhorse(&info))
-		return (ft_free_pm(&info, RM_PWD | RM_PI | RM_PM));
-	ft_free_pm(&info, RM_PWD | RM_PI);
+		return (ft_free_pm(&info, RM_PWD | RM_PM | RM_PI));
+	ft_free_pm(&info, RM_PWD | RM_PM);
 	return (info.pm_interleaving);
 }
