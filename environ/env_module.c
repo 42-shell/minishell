@@ -1,51 +1,76 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   env_module.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 00:19:01 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 01:23:45 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_set.h"
+#include "env_module.h"
+#include <stddef.h>
 
-t_env_list	env_set(char **env_str)
+
+
+#include <stdio.h> // test
+#include <stdlib.h> // test
+// add find path, oldpwd, home
+// clear env_list
+//
+
+t_env_list	*env_set(char **env)
 {
 	t_env_list	*head;
 	t_env_list	*temp;
-	int			idx;
 	char		*pos;
 
-	idx = 0;
 	head = NULL;
-	while (env_str && env_str[idx])
+	while (env && *env)
 	{
-		pos = ft_strchr(env_str[idx], '=');
-		temp = ft_strndup(env_str[idx], pos - env_str[idx][0]);
-		temp = ft_strdup(pos);
+		pos = ft_strchr(*env, '=');
+		if (pos)
+		{
+			(*env)[pos - *env] = '\0';
+			temp = ft_lstnew(*env, &(*env)[pos - *env + 1], &head);
+			if (!temp)
+			{
+				ft_lstclear(&head);
+				return (NULL);
+			}
+		}
+		else
+			break ;
+		env++;
 	}
 	return (head);
 }
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+
+void check(void)
+{
+	system("leaks a.out");
+}
 
 int main(int argc, char **argv, char **envp)
 {
 	int			i = 0;
 	t_env_list	*head;
-	
-	while (envp[i])
+	t_env_list	*temp;
+	t_env_list	*org;
+
+	atexit(check);
+	head = env_set(envp);
+	org = head;
+	while (head)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		temp = head->next;
+		printf("iD  : %s\n", head->content.id);
+		printf("CTX : %s\n\n", head->content.content);
+		head = temp;
 	}
-	printf("--\n");
-	//head = env_set(envp);
+	ft_lstclear(&org);
 	return (0);
 }
