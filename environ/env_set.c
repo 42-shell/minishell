@@ -6,32 +6,29 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/12 23:52:36 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 00:19:01 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_set.h"
 
-/*
-t_generic_list	env_set(char **env_str)
+t_env_list	env_set(char **env_str)
 {
-	t_generic_list	*head;
-	t_generic_list	*temp;
-	int				idx;
-	char			*pos;
+	t_env_list	*head;
+	t_env_list	*temp;
+	int			idx;
+	char		*pos;
 
 	idx = 0;
 	head = NULL;
 	while (env_str && env_str[idx])
 	{
 		pos = ft_strchr(env_str[idx], '=');
-		temp + sizeof(t_generic_list) = ft_strndup(env_str[idx], pos - env_str[idx][0]);
-		temp + (sizeof(t_generic_list) + sizeof(char *)) = ft_strdup(pos);
+		temp = ft_strndup(env_str[idx], pos - env_str[idx][0]);
+		temp = ft_strdup(pos);
 	}
-	// 
-	//
+	return (head);
 }
-*/
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -49,7 +46,6 @@ int main(int argc, char **argv, char **envp)
 		i++;
 	}
 	printf("--\n");
-	head = NULL;
-	head = env_set(envp);
+	//head = env_set(envp);
 	return (0);
 }

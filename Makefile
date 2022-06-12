@@ -6,7 +6,7 @@
 #    By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/20 18:42:42 by jkong             #+#    #+#              #
-#    Updated: 2022/06/04 23:56:07 by yongmkim         ###   ########.fr        #
+#    Updated: 2022/05/20 18:42:42 by jkong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,25 @@ CC = cc
 RM = rm -f
 
 OBJECTS_DIR = objs/
+
 HEADER = minishell.h
+SOURCE = shell.c \
+			syntax.c lexer.c parser.c \
+			parser_state.c parser_utils.c \
+			parser_reduce_0.c parser_reduce_1.c \
+			parser_reduce_2.c parser_reduce_3.c \
+			redir.c command.c
+OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
+
+HEADER_LIBFT = libft.h
+SOURCE_LIBFT = libft_memory.c libft_string.c
+OBJECT_LIBFT = $(addprefix $(OBJECTS_DIR), $(SOURCE_LIBFT:.c=.o))
+
+SOURCE_GENERAL = util_flag.c safe_mem.c string_buffer.c generic_list.c
+OBJECT_GENERAL = $(addprefix $(OBJECTS_DIR), $(SOURCE_GENERAL:.c=.o))
 
 TARGET = minishell
-SRCS = shell.c parser.c redir.c command.c
-OBJS = $(addprefix $(OBJECTS_DIR), $(SRCS:.c=.o))
+OBJS = $(OBJECT) $(OBJECT_LIBFT) $(OBJECT_GENERAL)
 
 LDFLAGS += -lreadline
 
@@ -43,10 +57,19 @@ re: fclean			;	make all
 $(OBJECTS_DIR):
 	mkdir $(OBJECTS_DIR)
 
-$(OBJS): $(HEADER) | $(OBJECTS_DIR)
+$(OBJS): | $(OBJECTS_DIR)
 
 $(addprefix $(OBJECTS_DIR), %.o): %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $(LDFLAGS) $^
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+$(SOURCE): $(HEADER)
+
+$(SOURCE_LIBFT): $(HEADER_LIBFT)
+
+$(addprefix $(OBJECTS_DIR), util_flag.o): util_flag.h
+$(addprefix $(OBJECTS_DIR), safe_mem.o): safe_mem.h
+$(addprefix $(OBJECTS_DIR), string_buffer.o): string_buffer.h
+$(addprefix $(OBJECTS_DIR), generic_list.o): generic_list.h
