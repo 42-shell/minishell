@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/11 18:14:11 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/12 23:52:36 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,16 @@ t_generic_list	env_set(char **env_str)
 
 int main(int argc, char **argv, char **envp)
 {
-	t_generic_list	*head;
-	char			*temp;
-
-	printf("%lu %lu %lu\n", sizeof(t_generic_list), sizeof(char *), sizeof(char **));
-	head = (t_generic_list *)malloc(sizeof(t_generic_list) + sizeof(char *) + sizeof(char **));
-	printf("%lu %lu\n", sizeof(head), sizeof(temp));
-	head[1] = *(t_generic_list *)strdup("world");
-	temp = strdup("hello");
-	printf("%s\n", temp);
-	temp = (char *)head[1];
-	printf("%s\n", (char *)head[1]);
-	// print list
+	int			i = 0;
+	t_env_list	*head;
+	
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+	printf("--\n");
+	head = NULL;
+	head = env_set(envp);
 	return (0);
 }
