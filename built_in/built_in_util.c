@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 13:30:46 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 13:33:08 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 14:09:40 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ size_t	ft_putstr_fd(char *str, int fd)
 	if (!str || !(*str))
 		return (0);
 	idx = 0;
+	sum = 0;
 	while (str[idx])
 	{
 		sum += ft_putchar_fd(str[idx], fd);
