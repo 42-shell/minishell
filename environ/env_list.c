@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 00:30:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 16:40:51 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 20:12:45 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_env_list	*ft_lstlast(t_env_list *lst)
 	return (lst);
 }
 
-static void	ft_lstadd_back(t_env_list **lst, t_env_list *new)
+void	ft_lstadd_back(t_env_list **lst, t_env_list *new)
 {
 	if (new)
 	{
@@ -58,7 +58,7 @@ static void	ft_lstadd_back(t_env_list **lst, t_env_list *new)
 	}
 }
 
-t_env_list	*ft_lstnew(char *id, char *content, t_env_list **head)
+t_env_list	*ft_lstnew(char *id, char *content, t_env_list **head, int key)
 {
 	t_env_list	*temp;
 
@@ -67,6 +67,7 @@ t_env_list	*ft_lstnew(char *id, char *content, t_env_list **head)
 		return (NULL);
 	temp->content.id = ft_strdup(id);
 	temp->content.content = ft_strdup(content);
+	temp->content.visible = key;
 	temp->next = NULL;
 	ft_lstadd_back(head, temp);
 	return (temp);
