@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 17:03:10 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 12:52:55 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 16:28:45 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ size_t	ft_strcmp(char *s1, char *s2)
 	}
 }
 
-static size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	len;
 

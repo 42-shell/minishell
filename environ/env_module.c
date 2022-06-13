@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 15:46:00 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 16:38:15 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,33 @@
 #include <stdio.h> // test
 #include <stdlib.h> // test
 
-size_t	print_env(t_env_list *head)
+size_t	print_env(t_env_list *head, int key)
 {
 	size_t	sum;
+	int		sq_flag;
 
 	sum = 0;
 	while (head)
 	{
-		sum += ft_putstr_fd(head->content.id, 1) + ft_putchar_fd('=', 1);
-		sum += ft_putstr_fd(head->content.content, 1) + ft_putchar_fd('\n', 1);
+		sq_flag = ft_strlen(head->content.content);
+		if ((!key && sq_flag > 0) || key)
+		{
+			sum += ft_putstr_fd(head->content.id, 1) + \
+					ft_putchar_fd('=', 1);
+			if (!sq_flag)
+				sum += ft_putchar_fd('\'', 1);
+			sum += ft_putstr_fd(head->content.content, 1) + \
+					ft_putchar_fd('\n', 1);
+			if (!sq_flag)
+				sum += ft_putchar_fd('\'', 1);
+		}
 		if (sum)
 			return (-1);
 		head = head->next;
 	}
 	return (sum);
 }
-	
+
 void	clear_env(t_env_list **head)
 {
 	t_env_list	**temp;

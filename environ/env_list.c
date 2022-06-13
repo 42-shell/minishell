@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 00:30:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 15:44:01 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 16:40:51 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 void	ft_lstdel(t_env_list *lst)
 {
-	free(lst->content.id);
-	free(lst->content.content);
+	if (lst->content.id)
+		free(lst->content.id);
+	if (lst->content.content)
+		free(lst->content.content);
 	free(lst);
 	lst = NULL;
 }

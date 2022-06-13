@@ -6,12 +6,12 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 15:55:28 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 16:37:44 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_SET_H
-# define ENV_SET_H
+#ifndef ENV_MODULE_H
+# define ENV_MODULE_H
 
 # include <stddef.h>
 
@@ -40,7 +40,7 @@ typedef struct s_env_list
 */
 t_env_list	*set_env(char **env);
 char		*get_env(t_env_list *head, char *id);
-size_t		print_env(t_env_list *head);
+size_t		print_env(t_env_list *head, int key);
 void		clear_env(t_env_list **head);
 
 /*
@@ -49,6 +49,7 @@ void		clear_env(t_env_list **head);
 char		*ft_strchr(char *s, int c);
 char		*ft_strdup(const char *s1);
 size_t		ft_strcmp(char *s1, char *s2);
+size_t		ft_strlen(const char *s);
 
 /*
 ** list_util
