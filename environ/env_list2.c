@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 17:32:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 19:52:06 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 21:56:44 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,6 @@ static void	ft_lstadd_sort_addon(t_env_list **lst, t_env_list *new)
 		follow->next = new;
 }
 
-static void	ft_lstadd_sort(t_env_list **lst, t_env_list *new)
-{
-	if (*lst)
-		ft_lstadd_sort_addon(lst, new);
-	else
-		*lst = new;
-}
-
 t_env_list	*ft_lstcpy(t_env_list *org, t_env_list **cpy)
 {
 	t_env_list	*temp;
@@ -83,6 +75,9 @@ t_env_list	*ft_lstcpy(t_env_list *org, t_env_list **cpy)
 	temp->content.content = ft_strdup(org->content.content);
 	temp->content.visible = org->content.visible;
 	temp->next = NULL;
-	ft_lstadd_sort(cpy, temp);
+	if (!(*cpy))
+		*cpy = temp;
+	else
+		ft_lstadd_sort_addon(cpy, temp);
 	return (temp);
 }
