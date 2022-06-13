@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 12:56:39 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 15:55:28 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ typedef struct s_env_list
 /*
 ** env
 */
-char		*get_env(t_env_list *head, char *id);
 t_env_list	*set_env(char **env);
+char		*get_env(t_env_list *head, char *id);
+size_t		print_env(t_env_list *head);
+void		clear_env(t_env_list **head);
 
 /*
 ** string_util
@@ -53,5 +55,6 @@ size_t		ft_strcmp(char *s1, char *s2);
 */
 t_env_list	*ft_lstnew(char *id, char *content, t_env_list **head);
 void		ft_lstclear(t_env_list **lst);
+void		ft_lstdel(t_env_list *lst);
 
 #endif

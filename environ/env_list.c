@@ -6,12 +6,20 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 00:30:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 01:21:11 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 15:44:01 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
 #include <stdlib.h>
+
+void	ft_lstdel(t_env_list *lst)
+{
+	free(lst->content.id);
+	free(lst->content.content);
+	free(lst);
+	lst = NULL;
+}
 
 void	ft_lstclear(t_env_list **lst)
 {
@@ -20,9 +28,7 @@ void	ft_lstclear(t_env_list **lst)
 	while (*lst)
 	{
 		temp = (*lst)->next;
-		free((*lst)->content.id);
-		free((*lst)->content.content);
-		free(*lst);
+		ft_lstdel(*lst);
 		*lst = temp;
 	}
 }

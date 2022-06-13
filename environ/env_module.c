@@ -6,22 +6,38 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 12:59:07 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 15:46:00 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
-
-
-
+#include "built_in.h"
 #include <stdio.h> // test
 #include <stdlib.h> // test
-// add find path, oldpwd, home
-// clear env_list
-	
-void	clear_env(t_env_list *head)
+
+size_t	print_env(t_env_list *head)
 {
-	ft_lstclear(&head);
+	size_t	sum;
+
+	sum = 0;
+	while (head)
+	{
+		sum += ft_putstr_fd(head->content.id, 1) + ft_putchar_fd('=', 1);
+		sum += ft_putstr_fd(head->content.content, 1) + ft_putchar_fd('\n', 1);
+		if (sum)
+			return (-1);
+		head = head->next;
+	}
+	return (sum);
+}
+	
+void	clear_env(t_env_list **head)
+{
+	t_env_list	**temp;
+
+	temp = head;
+	ft_lstclear(temp);
+	(*head) = NULL;
 }
 
 char	*get_env(t_env_list *head, char *id)
@@ -62,9 +78,8 @@ t_env_list	*set_env(char **env)
 	return (head);
 }
 
-
-
 //////////////////////////////////////////////////////////////////////
+#include <stdlib.h>
 void check(void)
 {
 	system("leaks a.out");
@@ -77,6 +92,9 @@ int main(int argc, char **argv, char **envp)
 	t_env_list	*temp;
 
 	//atexit(check);
+	printf("%s\n\n\n", getenv("PATH"));
+	printf("%s\n\n\n", getenv("hello"));
+	printf("------------------\n");
 	head = set_env(envp);
 	temp = head;
 	while (temp)
@@ -89,6 +107,6 @@ int main(int argc, char **argv, char **envp)
 	printf("%s\n", get_env(head, "PATH"));
 	printf("%s\n", get_env(head, "PAT"));
 	printf("---\n");
-	clear_env(head);
+	clear_env(&head);
 	return (0);
 }
