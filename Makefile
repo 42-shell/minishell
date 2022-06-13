@@ -6,7 +6,7 @@
 #    By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/20 18:42:42 by jkong             #+#    #+#              #
-#    Updated: 2022/05/20 18:42:42 by jkong            ###   ########.fr        #
+#    Updated: 2022/06/13 21:16:00 by yongmkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SOURCE = shell.c \
 			parser_reduce_0.c parser_reduce_1.c \
 			parser_reduce_2.c parser_reduce_3.c \
 			redir.c command.c
+
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 
 HEADER_LIBFT = libft.h
@@ -36,6 +37,29 @@ OBJECT_GENERAL = $(addprefix $(OBJECTS_DIR), $(SOURCE_GENERAL:.c=.o))
 
 TARGET = minishell
 OBJS = $(OBJECT) $(OBJECT_LIBFT) $(OBJECT_GENERAL)
+
+###############################################################################
+###############################################################################
+BUILTIN_DIR		=	built_in/
+BUILTIN_SRC 	=	ft_cd.c ft_echo.c ft_env.c \
+					ft_export.c ft_pwd.c ft_unset.c \
+					built_in_util.c
+BUILTIN_HEADER	=	$(addprefix $(BUILTIN_DIR), built_in.h)
+BUILTIN			=	$(addprefix $(BUILTIN_DIR), $(BUILTIN_SRC))
+OBJECT_BUILTIN	=	$(addprefix $(OBJECTS_DIR), $(BUILTIN_SRC:.c=.o))
+###############################################################################
+ENVIRON_DIR		=	environ/
+ENVIRON_SRC		=	env_module.c env_util.c \
+					env_list1.c env_list2.c
+ENVIRON_HEADER	=	$(addprefix $(ENVIRON_DIR), env_module.h)
+ENVIRON			=	$(addprefix $(ENVIRON_DIR), $(ENVIRON_SRC))
+OBJECT_ENVIRON	=	$(addprefix $(OBJECTS_DIR), $(ENVIRON_SRC:.c=.o))
+###############################################################################
+HEADER			+=	$(BUILTIN_HEADER) $(ENVIRON_HEADER)
+SOURCE			+=	$(BUILTIN) $(ENVIRON)
+OBJS			+=	$(OBJECT_BUILTIN) $(OBJECT_ENVIRON)
+###############################################################################
+###############################################################################
 
 LDFLAGS += -lreadline
 
@@ -59,10 +83,10 @@ $(OBJECTS_DIR):
 
 $(OBJS): | $(OBJECTS_DIR)
 
-$(addprefix $(OBJECTS_DIR), %.o): %.c
+$(addprefix $(OBJECTS_DIR), %.o): %.c 
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS)	
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 $(SOURCE): $(HEADER)
