@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   built_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 13:22:04 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 21:23:09 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static size_t	ft_getsize_argv(char **argv)
 
 size_t	ft_cd(char **argv)
 {
-	int size;
+	int	size;
 
 	size = ft_getsize_argv(argv);
 	if (size == 0 || size > 2)
@@ -36,16 +36,3 @@ size_t	ft_cd(char **argv)
 		return (-1);
 	return (0);
 }
-
-/*
-#include <stdio.h>
-int main(int argc, char **argv)
-{
-	if (argc == 2)
-		printf("input - %s\n", argv[1]);
-	if (ft_cd(argv))
-		printf("error\n");
-	system("pwd");
-	return 0;
-}
-*/
