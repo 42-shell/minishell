@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   built_in_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 13:22:04 by yongmkim         ###   ########.fr       */
+/*   Created: 2022/06/13 13:30:46 by yongmkim          #+#    #+#             */
+/*   Updated: 2022/06/13 13:33:08 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include <unistd.h>
 
-static size_t	ft_getsize_argv(char **argv)
+size_t	ft_getarr_size(char **argv)
 {
 	int	i;
 
@@ -25,27 +25,27 @@ static size_t	ft_getsize_argv(char **argv)
 	return (i);
 }
 
-size_t	ft_cd(char **argv)
+size_t	ft_putchar_fd(char c, int fd)
 {
-	int size;
-
-	size = ft_getsize_argv(argv);
-	if (size == 0 || size > 2)
-		return (-1);
-	else if (chdir(argv[1]))
+	if (!c)
+		return (0);
+	if (write(fd, &c, 1) == -1)
 		return (-1);
 	return (0);
 }
 
-/*
-#include <stdio.h>
-int main(int argc, char **argv)
+size_t	ft_putstr_fd(char *str, int fd)
 {
-	if (argc == 2)
-		printf("input - %s\n", argv[1]);
-	if (ft_cd(argv))
-		printf("error\n");
-	system("pwd");
-	return 0;
+	size_t	sum;
+	size_t	idx;
+
+	if (!str || !(*str))
+		return (0);
+	idx = 0;
+	while (str[idx])
+	{
+		sum += ft_putchar_fd(str[idx], fd);
+		idx++;
+	}
+	return (sum);
 }
-*/

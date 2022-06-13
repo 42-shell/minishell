@@ -6,11 +6,10 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 18:39:43 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 13:35:30 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "built_in.h"
 
 static size_t	set_point(char ***argv, size_t pos)
@@ -50,18 +49,30 @@ size_t	ft_echo(char **argv)
 	size_t	opt;
 	size_t	idx;
 
-	if (!argv || !(*argv))
+	idx = ft_getarr_size(argv);
+	if (!idx)
 		return (-1);
+	if (idx == 1)
+		return (ft_putchar_fd('\n', 1));
 	opt = check_opt(&argv);
 	idx = 0;
 	while (argv[idx])
 	{
-		ft_putstr_fd(argv[idx], 1);
+		if (ft_putstr_fd(argv[idx], 1))
+			return (-1);
 		if (argv[idx + 1])
-			ft_putchar_fd(' ', 1);
+			if (ft_putchar_fd(' ', 1))
+				return (-1);
 		++idx;
 	}
 	if (!opt)
-		ft_putchar_fd('\n', 1);
+		if (ft_putchar_fd('\n', 1))
+			return (-1);
+	return (0);
+}
+
+int main(int argc, char **argv)
+{
+	ft_echo(argv);
 	return (0);
 }

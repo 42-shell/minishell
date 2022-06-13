@@ -6,13 +6,27 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 17:03:10 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 01:15:45 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 12:52:55 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
 #include <stdlib.h>
-#include <stddef.h>
+
+size_t	ft_strcmp(char *s1, char *s2)
+{
+	if (!s1 || !s2)
+		return (-1);
+	while (1)
+	{
+		if (*s1 - *s2)
+			return (*s1 - *s2);
+		if (*s1 == '\0' && *s2 == '\0')
+			return (0);
+		s1++;
+		s2++;
+	}
+}
 
 static size_t	ft_strlen(const char *s)
 {
