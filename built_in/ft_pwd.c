@@ -6,20 +6,22 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/04 18:38:15 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 14:25:12 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "built_in.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include "libft.h"
-#include "built_in.h"
 
-size_t	ft_pwd(void)
+size_t	ft_pwd(char **argv)
 {
-	char buf[PATH_MAX];
+	char	buf[PATH_MAX];
+	size_t	size;
 
+	size = ft_getarr_size(argv);
+	if (!size || size > 1)
+		return (-1);
 	if (getcwd(buf, sizeof(buf)))
 	{
 		ft_putstr_fd(buf, 1);

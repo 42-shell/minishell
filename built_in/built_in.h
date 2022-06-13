@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:50:31 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 13:34:45 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/13 14:24:10 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stddef.h>
 
 char		*ft_get_pwd(void);
-size_t		ft_pwd(void);
+size_t		ft_pwd(char **argv);
 size_t		ft_echo(char **argv);
 size_t		ft_cd(char **argv);
 
