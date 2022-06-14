@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 01:52:04 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/09 18:18:37 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/14 17:21:40 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static const t_state_info			g_parser_state_5[] = {
 	(t_state_info){TK_AND_AND, -12},
 	(t_state_info){TK_OR, -12},
 	(t_state_info){TK_EOF, -12},
-	(t_state_info){TK_NT_SIMPLE_COMMAND, 19},
+	(t_state_info){TK_NT_REDIRECTION, 19},
 	(t_state_info){TK_NT_REDIRECTION_LIST, 18},
 	(t_state_info){TK_ERROR, PARSER_ERROR}
 };
