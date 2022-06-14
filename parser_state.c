@@ -40,7 +40,6 @@ static const t_state_info			g_parser_state_2[] = {
 	(t_state_info){TK_PAREN_R, -15},
 	(t_state_info){TK_OR_OR, -15},
 	(t_state_info){TK_AND_AND, -15},
-	(t_state_info){TK_OR, 16},
 	(t_state_info){TK_EOF, -15},
 	(t_state_info){TK_ERROR, PARSER_ERROR}
 };
@@ -49,7 +48,7 @@ static const t_state_info			g_parser_state_3[] = {
 	(t_state_info){TK_PAREN_R, -18},
 	(t_state_info){TK_OR_OR, -18},
 	(t_state_info){TK_AND_AND, -18},
-	(t_state_info){TK_OR, -18},
+	(t_state_info){TK_OR, 16},
 	(t_state_info){TK_EOF, -18},
 	(t_state_info){TK_ERROR, PARSER_ERROR}
 };
@@ -206,8 +205,9 @@ static const t_state_info			g_parser_state_16[] = {
 	(t_state_info){TK_NT_SIMPLE_COMMAND_ELEMENT, 6},
 	(t_state_info){TK_NT_REDIRECTION, 9},
 	(t_state_info){TK_NT_SIMPLE_COMMAND, 4},
-	(t_state_info){TK_NT_COMMAND, 27},
+	(t_state_info){TK_NT_COMMAND, 3},
 	(t_state_info){TK_NT_SUBSHELL, 5},
+	(t_state_info){TK_NT_PIPELINE, 27},
 	(t_state_info){TK_ERROR, PARSER_ERROR}
 };
 
@@ -319,7 +319,6 @@ static const t_state_info			g_parser_state_25[] = {
 	(t_state_info){TK_PAREN_R, -16},
 	(t_state_info){TK_OR_OR, -16},
 	(t_state_info){TK_AND_AND, -16},
-	(t_state_info){TK_OR, 16},
 	(t_state_info){TK_EOF, -16},
 	(t_state_info){TK_ERROR, PARSER_ERROR}
 };
@@ -328,7 +327,6 @@ static const t_state_info			g_parser_state_26[] = {
 	(t_state_info){TK_PAREN_R, -17},
 	(t_state_info){TK_OR_OR, -17},
 	(t_state_info){TK_AND_AND, -17},
-	(t_state_info){TK_OR, 16},
 	(t_state_info){TK_EOF, -17},
 	(t_state_info){TK_ERROR, PARSER_ERROR}
 };
@@ -337,7 +335,6 @@ static const t_state_info			g_parser_state_27[] = {
 	(t_state_info){TK_PAREN_R, -19},
 	(t_state_info){TK_OR_OR, -19},
 	(t_state_info){TK_AND_AND, -19},
-	(t_state_info){TK_OR, -19},
 	(t_state_info){TK_EOF, -19},
 	(t_state_info){TK_ERROR, PARSER_ERROR}
 };

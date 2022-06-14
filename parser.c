@@ -35,7 +35,7 @@
 // list -> list '||' pipeline
 // list -> list '&&' pipeline
 // pipeline -> command
-// pipeline -> pipeline '|' command
+// pipeline -> command '|' pipeline
 static t_parse_func *const	g_grammer[] = {
 	parser_reduce_0,
 	parser_reduce_1,

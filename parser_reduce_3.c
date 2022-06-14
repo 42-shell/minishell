@@ -73,7 +73,7 @@ t_token_kind	parser_reduce_18(t_parser *pst)
 	return (TK_NT_PIPELINE);
 }
 
-//pipeline -> pipeline '|' command
+//pipeline -> command '|' pipeline
 t_token_kind	parser_reduce_19(t_parser *pst)
 {
 	t_parser_stack	val;
