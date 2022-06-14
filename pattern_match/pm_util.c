@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pm_util.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/09 17:42:22 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/14 20:09:54 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	count_split_size(t_pattern_info *info)
 
 char	*ft_get_pwd(void)
 {
+	//이거로 대체해도 될듯?
+	// return (getcwd(NULL, 0));
 	char	*buf;
 
 	buf = (char *)malloc(sizeof(char) * (PATH_MAX + 1));

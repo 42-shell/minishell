@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   built_echo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 14:21:32 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:49:44 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ size_t	ft_echo(char **argv)
 		if (ft_putstr_fd(argv[idx], 1))
 			return (-1);
 		if (argv[idx + 1])
-			if (ft_putchar_fd(' ', 1))
+			if (ft_putstr_fd(" ", 1))
 				return (-1);
 		++idx;
 	}
 	if (!opt)
-		if (ft_putchar_fd('\n', 1))
+		if (ft_putstr_fd("\n", 1))
 			return (-1);
 	return (0);
 }

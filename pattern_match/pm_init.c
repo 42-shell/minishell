@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pm_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 16:19:52 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/14 20:07:37 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,10 @@ static int	pm_workhorse(t_pattern_info *info)
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
+		//함수로 분리?
 		if (!check_dot_dot(entity_dir->d_name, entity_dir->d_type) && \
 	ft_strlen(entity_dir->d_name) >= (info->split_text_cnt) && \
+	//info->all 대신 조건으로 자연스러운 흐름 만들기
 	(info->all || !check_pattern(info, entity_dir->d_name, entity_dir->d_type)))
 		{
 			if (info->pm_flag.r_type == PM_WORD \

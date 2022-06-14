@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_pwd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 11:36:32 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/14 20:00:53 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t	ft_pwd(char **argv)
 	if (getcwd(buf, sizeof(buf)))
 	{
 		ft_putstr_fd(buf, 1);
-		ft_putchar_fd('\n', 1);
+		ft_putstr_fd("\n", 1);
 		return (0);
 	}
 	else
