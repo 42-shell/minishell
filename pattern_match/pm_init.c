@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pattern_match.c                                    :+:      :+:    :+:   */
+/*   pm_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/09 17:43:21 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/14 16:19:52 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ static int	pm_workhorse(t_pattern_info *info)
 	return (closedir(current_dir));
 }
 
+// if return -> NULL -> print "pattern"
 char	**ft_pattern_match(char *pattern)
 {
 	t_pattern_info	info;

@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 11:28:23 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/14 16:25:42 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,36 @@
 
 //$? -> exit status
 //$*, $@ -> non systax[letter | _ ][letter | digit | _ ]^*-> error
+//
+//
+//$ -> SQ -> not interpret
+//-> DQ or Out -> interpret
+//
+//$VALUE -> 없으면 문자열 이어 붙이기 : stitch A-B
+//
+
+// DQ, SQ : match -> if null_terminate -> error
+static ft_init_expand_info(t_exp_info *info)
+{
+	info->malloc_size = 1;
+	info->cur_src_pos = 0;
+	info->cur_pos = 0;
+	info->exp_arr = NULL;
+}
 
 char **check_expand(char **argv, t_env_list *head)
 {
+	t_exp_info	info;
+
 	if (!argv || !(*argv) || !head)
 		return (NULL);
+	ft_init_expand_info(&info);
+	while (argv[info.cur_src_pos])
+	{
+		// check expand, syntax
+		// -> expand
+		// -> add to exp_arr;
+		info.cur_src_pos++;
+	}
+	return (info->exp_arr);
 }
