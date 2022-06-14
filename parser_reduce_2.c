@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 01:52:04 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/14 13:56:03 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/14 19:36:29 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_token_kind	parser_reduce_14(t_parser *pst)
 
 	ft_memset(&val, 0, sizeof(val));
 	ft_memset(&command, 0, sizeof(command));
-	swap_command(&command, &pst->now[0].command);
+	swap_command(&command, &pst->now[-1].command);
 	val.command.type = CMD_SUBSHELL;
 	val.command.value.subshell = make_subshell(&command);
 	clear_parser_stack_item(&pst->now[-2]);
