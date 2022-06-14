@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 21:25:54 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/25 21:14:12 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/13 16:50:08 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ void	*malloc_safe(size_t size)
 void	*calloc_safe(size_t count, size_t size)
 {
 	const size_t	final_size = count * size;
-	void			*ptr;
 
-	ptr = malloc_safe(final_size);
-	if (ptr)
-		_fill_zero(ptr, final_size);
-	return (ptr);
+	return (_fill_zero(malloc_safe(final_size), final_size));
 }

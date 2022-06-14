@@ -24,7 +24,7 @@ SOURCE = shell.c \
 			parser_state.c parser_utils.c \
 			parser_reduce_0.c parser_reduce_1.c \
 			parser_reduce_2.c parser_reduce_3.c \
-			redir.c command.c
+			make_command.c dispose_command.c redir.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 
 HEADER_LIBFT = libft.h
