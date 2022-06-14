@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 22:07:12 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/14 11:16:16 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	export_syntax_check(char *str)
 {
 	if (!str || *str == '\0')
 		return (-1);
-	if ((*str >= 'a' && *str <= 'z') \
+	else if ((*str >= 'a' && *str <= 'z') \
 		|| (*str >= 'A' && *str <= 'Z') \
 		|| (*str == '_'))
 		str++;

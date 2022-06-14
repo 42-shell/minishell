@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 21:23:58 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/14 11:36:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t	ft_pwd(char **argv)
 	size_t	size;
 
 	size = ft_getarr_size(argv);
-	if (!size || size > 1)
+	if (!size || size != 1)
 		return (-1);
 	if (getcwd(buf, sizeof(buf)))
 	{
