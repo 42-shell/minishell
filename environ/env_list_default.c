@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list.c                                         :+:      :+:    :+:   */
+/*   env_list1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 00:30:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 20:12:45 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:46:34 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
-#include <stdlib.h>
+#include <stdlib.h> // malloc, free
 
 void	ft_lstdel(t_env_list *lst)
 {

@@ -6,38 +6,13 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 16:07:17 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:48:41 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
 #include "env_module.h"
-#include <stdlib.h>
-
-size_t	print_env(t_env_list *head, int key)
-{
-	while (head)
-	{
-		if ((!key && head->content.visible) || key)
-		{
-			if (ft_putstr_fd(head->content.id, 1) \
-				|| (ft_putchar_fd('=', 1)) \
-				|| (key && !head->content.visible && ft_putchar_fd('\'', 1)) \
-				|| (((key && head->content.visible) \
-					&& !ft_strlen(head->content.content)) \
-					&& ft_putchar_fd('\'', 1)) \
-				|| ft_putstr_fd(head->content.content, 1) \
-				|| (((key && head->content.visible) \
-					&& !ft_strlen(head->content.content)) \
-					&& ft_putchar_fd('\'', 1)) \
-				|| (key && !head->content.visible && ft_putchar_fd('\'', 1)) \
-				|| ft_putchar_fd('\n', 1))
-				return (-1);
-		}
-		head = head->next;
-	}
-	return (0);
-}
+#include "libft.h" // strchr, strcmp, strdup
+#include <stdlib.h> // free
 
 void	clear_env(t_env_list **head)
 {

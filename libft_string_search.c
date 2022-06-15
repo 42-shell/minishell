@@ -1,30 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pm_libft_1.c                                       :+:      :+:    :+:   */
+/*   libft_string_search.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/04 23:18:29 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/06 19:25:26 by yongmkim         ###   ########.fr       */
+/*   Created: 2022/06/15 17:33:04 by yongmkim          #+#    #+#             */
+/*   Updated: 2022/06/15 19:24:01 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pattern_match.h"
-#include <stdlib.h>
+#include "libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	len;
+	char	*temp;
 
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len])
+	temp = (char *)s;
+	while (1)
 	{
-		len++;
+		if (*temp == (char)c)
+			return (temp);
+		if (*temp == '\0')
+			return (NULL);
+		temp++;
 	}
-	return (len);
+}
+
+size_t	ft_strcmp(char *s1, char *s2)
+{
+	if (!s1 || !s2)
+		return (-1);
+	while (1)
+	{
+		if (*s1 - *s2)
+			return (*s1 - *s2);
+		if (*s1 == '\0' && *s2 == '\0')
+			return (0);
+		s1++;
+		s2++;
+	}
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -64,22 +79,20 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	return (NULL);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*temp;
-	size_t	len;
-	size_t	idx;
 
-	idx = 0;
-	len = ft_strlen(s1);
-	temp = malloc(sizeof(char) * (len + 1));
+	if (!s)
+		return (NULL);
+	if ((unsigned int)ft_strlen(s) <= start)
+		return (ft_strdup(""));
+	if (ft_strlen(s + start) < len)
+		len = ft_strlen(s + start);
+	temp = ft_calloc(len + 1, sizeof(char));
 	if (!temp)
 		return (NULL);
-	while (s1[idx])
-	{
-		temp[idx] = s1[idx];
-		idx++;
-	}
-	temp[len] = '\0';
+	temp[len] = 0;
+	ft_memcpy(temp, s + start, len);
 	return (temp);
 }

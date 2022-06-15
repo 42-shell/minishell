@@ -6,11 +6,13 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 11:16:16 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 19:08:04 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include "libft.h" // getarr_size , strchr
+#include "string_buffer.h"
 
 static size_t	sort_print_env(t_env_list *head)
 {
@@ -99,9 +101,9 @@ size_t	ft_export(char **argv, t_env_list *head)
 	{	
 		if (export_syntax_check(argv[size]))
 		{
-			ft_putstr_fd("export: error:", 1);
-			ft_putstr_fd(argv[size], 1);
-			ft_putstr_fd("\n", 1);
+			putstr_safe("export: error:");
+			putstr_safe(argv[size]);
+			putstr_safe("\n");
 		}
 		else if (export_work(argv[size], head))
 			return (-1);

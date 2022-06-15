@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list2.c                                        :+:      :+:    :+:   */
+/*   env_lst_cpy_sort.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 17:32:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 15:55:21 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:49:42 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
-#include <stdlib.h>
+#include <stdlib.h> // malloc
 
 static size_t	ft_compare(char *s1, char *s2)
 {

@@ -6,11 +6,12 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 16:13:02 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:37:06 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include "libft.h"
 
 static void	ft_iter_unset(char *id, t_env_list **head)
 {

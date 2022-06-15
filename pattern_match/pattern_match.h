@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 15:43:02 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 19:30:33 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,12 @@ typedef struct s_patttern_info
 ** Pattern_match function
 */
 char	**ft_pattern_match(char *pattern);
-int		check_pattern(t_pattern_info *info, char *name, int file_type);
-void	count_split_size(t_pattern_info *info);
-int		check_dot_dot(char *name, int type);
-char	*ft_get_pwd(void);
+int		pm_workhorse(t_pattern_info *info);
+int		pm_check_string(t_pattern_info *info, char *name, int file_type);
 
 /*
-** libft
+** PM_util
 */
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	**ft_split(char const *s, char c);
-void	*ft_calloc(size_t cnt, size_t size);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strchr(const char *s, int c);
-void	ft_bzero(void *s, size_t n);
+char	**ft_free_pm(t_pattern_info *info, int key);
 
 #endif

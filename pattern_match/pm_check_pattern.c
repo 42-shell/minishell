@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pm_work.c                                          :+:      :+:    :+:   */
+/*   pm_check_pattern.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 15:47:51 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 19:29:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
 #include "pattern_match_enum.h"
-#include <dirent.h>
+#include "libft.h"
+#include <dirent.h> //DT macro
 
 static void	ft_check_set(t_pattern_info *info, char *name)
 {
@@ -43,7 +44,7 @@ static void	pm_cmp_strstr(t_pattern_info *info, char *name, \
 	}
 }
 
-static int	pm_cmp_abs_work(t_pattern_info *info, char *name, \
+static int	pm_cmp_check_equal(t_pattern_info *info, char *name, \
 														int unit, size_t idx)
 {
 	char	*temp;
@@ -69,7 +70,7 @@ static void	pm_cmp_abs(t_pattern_info *info, char *name, int unit, size_t idx)
 
 	if (info->pm_check.r_pm_pos >= info->pm_check.l_pm_pos)
 	{
-		if (pm_cmp_abs_work(info, name, unit, idx))
+		if (pm_cmp_check_equal(info, name, unit, idx))
 		{
 			if (unit == 1)
 			{
@@ -91,7 +92,7 @@ static void	pm_cmp_abs(t_pattern_info *info, char *name, int unit, size_t idx)
 	}
 }
 
-int	check_pattern(t_pattern_info *info, char *name, int file_type)
+int	pm_check_string(t_pattern_info *info, char *name, int file_type)
 {
 	char	*temp;
 

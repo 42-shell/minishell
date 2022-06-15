@@ -6,11 +6,12 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 19:49:44 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 19:03:37 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include "libft.h"
 
 static size_t	set_point(char ***argv, size_t pos)
 {
@@ -47,6 +48,8 @@ static size_t	check_opt(char ***argv)
 	return (set_point(argv, pos));
 }
 
+// need to use str_buff 
+// change to readable
 size_t	ft_echo(char **argv)
 {
 	size_t	opt;

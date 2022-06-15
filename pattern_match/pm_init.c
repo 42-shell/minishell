@@ -6,16 +6,17 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 15:44:32 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 19:27:26 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
 #include "pattern_match_enum.h"
-#include <dirent.h>
-#include <stdlib.h>
+#include "built_in.h" //getpwd
+#include "libft.h"
+#include <stdlib.h> // free, malloc
 
-static char	**ft_free_pm(t_pattern_info *info, int key)
+char	**ft_free_pm(t_pattern_info *info, int key)
 {
 	size_t	idx;
 
@@ -44,6 +45,24 @@ static char	**ft_free_pm(t_pattern_info *info, int key)
 	return (NULL);
 }
 
+static void	count_split_size(t_pattern_info *info)
+{
+	size_t	i;
+	size_t	cnt;
+
+	i = 0;
+	cnt = 0;
+	while (info->pattern_split && info->pattern_split[i])
+	{
+		cnt += ft_strlen(info->pattern_split[i]);
+		i++;
+	}
+	info->split_size = i;
+	info->split_text_cnt = cnt;
+	if (info->pm_flag.r_type == PM_SLASH && info->split_text_cnt != 1)
+		info->split_text_cnt -= 1;
+}
+
 static void	end_check(char *str, t_pattern_info *info)
 {
 	if (str[0] == PM_ASTERISK)
@@ -59,63 +78,6 @@ static void	end_check(char *str, t_pattern_info *info)
 	info->malloc_size = 1;
 	info->pm_pos = 0;
 	info->pm_interleaving = NULL;
-}
-
-static int	create_inter(t_pattern_info *info, char *find, int idx)
-{
-	char	**temp;
-
-	if (info->malloc_size > info->pm_pos + 1)
-		info->pm_interleaving[info->pm_pos] = ft_strdup(find);
-	else
-	{
-		info->malloc_size *= 2;
-		temp = (char **)malloc(sizeof(char *) * info->malloc_size);
-		if (!temp)
-			return (-1);
-		temp[info->malloc_size - 1] = NULL;
-		idx = 0;
-		while (info->pm_interleaving && info->pm_interleaving[idx])
-		{
-			temp[idx] = ft_strdup(info->pm_interleaving[idx]);
-			idx++;
-		}
-		temp[idx] = ft_strdup(find);
-		temp[idx + 1] = NULL;
-		if (info->pm_interleaving)
-			ft_free_pm(info, RM_PI);
-		info->pm_interleaving = temp;
-	}
-	info->pm_pos += 1;
-	return (0);
-}
-
-static int	pm_workhorse(t_pattern_info *info)
-{
-	struct dirent	*entity_dir;
-	DIR				*current_dir;
-	size_t			cnt;
-
-	current_dir = opendir(info->pwd);
-	if (!current_dir)
-		return (-1);
-	entity_dir = readdir(current_dir);
-	while (entity_dir)
-	{
-		if (!check_dot_dot(entity_dir->d_name, entity_dir->d_type) \
-			&& ft_strlen(entity_dir->d_name) >= (info->split_text_cnt) \
-			&& !check_pattern(info, entity_dir->d_name, entity_dir->d_type))
-		{
-			if (info->pm_flag.r_type == PM_WORD \
-				|| info->pm_flag.r_type == PM_SLASH)
-				entity_dir->d_name[info->pm_check.cut_pos] = \
-												info->pm_check.cut_char;
-			if (create_inter(info, entity_dir->d_name, 0))
-				return (-1);
-		}
-		entity_dir = readdir(current_dir);
-	}
-	return (closedir(current_dir));
 }
 
 // if return -> NULL -> print "pattern"

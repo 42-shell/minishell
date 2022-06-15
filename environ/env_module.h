@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 21:32:49 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 17:48:15 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,6 @@ char		*get_env(t_env_list *head, char *id);
 size_t		print_env(t_env_list *head, int key);
 void		clear_env(t_env_list **head);
 size_t		change_env(t_env_list *head, char *id, char *content);
-
-/*
-** string_util
-*/
-char		*ft_strchr(char *s, int c);
-char		*ft_strdup(const char *s1);
-size_t		ft_strcmp(char *s1, char *s2);
-size_t		ft_strlen(const char *s);
 
 /*
 ** list_util
