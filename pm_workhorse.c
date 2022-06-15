@@ -6,15 +6,43 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:28:34 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 20:53:49 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pattern_match.h"
-#include "pattern_match_enum.h"
+#include "pm.h"
 #include "libft.h"
 #include <dirent.h>
-#include <stdlib.h>	 // malloc
+#include <stdlib.h>	 // malloc, free
+
+char	**ft_free_pm(t_pattern_info *info, int key)
+{
+	size_t	idx;
+
+	idx = 0;
+	if (key & RM_PWD)
+		free(info->pwd);
+	if (key & RM_PM)
+	{
+		while (info->pattern_split && info->pattern_split[idx])
+		{
+			free(info->pattern_split[idx]);
+			++idx;
+		}
+		free(info->pattern_split);
+	}
+	if (key & RM_PI)
+	{
+		idx = 0;
+		while (info->pm_interleaving && info->pm_interleaving[idx])
+		{
+			free(info->pm_interleaving[idx]);
+			++idx;
+		}
+		free(info->pm_interleaving);
+	}
+	return (NULL);
+}
 
 static int	check_dot_dot(char *name, int type)
 {

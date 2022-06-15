@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pattern_match.h                                    :+:      :+:    :+:   */
+/*   pm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:30:33 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 20:51:19 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,21 @@
 # define PATTERN_MATCH_H
 
 # include <stddef.h>
+
+enum e_free_type
+{
+	RM_PWD	= 1,
+	RM_PM	= 2,
+	RM_PI	= 4,
+};
+
+enum e_pattern_match_value
+{
+	PM_EOF = -1,
+	PM_WORD = 0,
+	PM_ASTERISK = '*',
+	PM_SLASH = '/',
+};
 
 typedef struct s_check_done
 {

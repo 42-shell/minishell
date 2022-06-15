@@ -6,12 +6,11 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:29:32 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 20:52:20 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pattern_match.h"
-#include "pattern_match_enum.h"
+#include "pm.h"
 #include "libft.h"
 #include <dirent.h> //DT macro
 

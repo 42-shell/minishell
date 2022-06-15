@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:02:30 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 21:11:02 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h> // chdir
 
 //old_pwd ??? ~, - 
-size_t	ft_cd(char **argv)
+size_t	ft_cd(char **argv, t_env_list *head)
 {
 	int		size;
 	char	*id;

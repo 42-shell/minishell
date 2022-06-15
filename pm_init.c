@@ -6,44 +6,13 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:27:26 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 20:53:58 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pattern_match.h"
-#include "pattern_match_enum.h"
+#include "pm.h"
 #include "built_in.h" //getpwd
 #include "libft.h"
-#include <stdlib.h> // free, malloc
-
-char	**ft_free_pm(t_pattern_info *info, int key)
-{
-	size_t	idx;
-
-	idx = 0;
-	if (key & RM_PWD)
-		free(info->pwd);
-	if (key & RM_PM)
-	{
-		while (info->pattern_split && info->pattern_split[idx])
-		{
-			free(info->pattern_split[idx]);
-			++idx;
-		}
-		free(info->pattern_split);
-	}
-	if (key & RM_PI)
-	{
-		idx = 0;
-		while (info->pm_interleaving && info->pm_interleaving[idx])
-		{
-			free(info->pm_interleaving[idx]);
-			++idx;
-		}
-		free(info->pm_interleaving);
-	}
-	return (NULL);
-}
 
 static void	count_split_size(t_pattern_info *info)
 {

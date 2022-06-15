@@ -6,12 +6,13 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:03:37 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 21:13:37 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "libft.h"
+#include "string_buffer.h"
 
 static size_t	set_point(char ***argv, size_t pos)
 {
@@ -62,15 +63,15 @@ size_t	ft_echo(char **argv)
 	idx = 0;
 	while (argv[idx])
 	{
-		if (ft_putstr_fd(argv[idx], 1))
+		if (putstr_safe(argv[idx]))
 			return (-1);
 		if (argv[idx + 1])
-			if (ft_putstr_fd(" ", 1))
+			if (putstr_safe(" "))
 				return (-1);
 		++idx;
 	}
 	if (!opt)
-		if (ft_putstr_fd("\n", 1))
+		if (putstr_safe("\n"))
 			return (-1);
 	return (0);
 }
