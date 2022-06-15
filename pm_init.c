@@ -46,7 +46,7 @@ static void	pm_set_flag(char *str, t_pattern_info *info)
 		info->pm_flag.r_type = PM_WORD;
 	info->malloc_size = 1;
 	info->pm_pos = 0;
-	info->pm_interleaving = NULL;
+	info->pm_matched = NULL;
 }
 
 // if return -> NULL -> print "pattern"
@@ -67,5 +67,5 @@ char	**find_pattern(char *pattern)
 	if (pm_workhorse(&info))
 		return (ft_free_pm(&info, RM_PWD | RM_PM | RM_PI));
 	ft_free_pm(&info, RM_PWD | RM_PM);
-	return (info.pm_interleaving);
+	return (info.pm_matched);
 }
