@@ -50,7 +50,7 @@ static void	pm_set_flag(char *str, t_pattern_info *info)
 }
 
 // if return -> NULL -> print "pattern"
-char	**ft_pattern_match(char *pattern)
+char	**find_pattern(char *pattern)
 {
 	t_pattern_info	info;
 
