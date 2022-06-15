@@ -44,14 +44,14 @@ static void	pm_cmp_middle(t_pattern_info *info, char *name, \
 }
 
 static int	is_edge_str_equal(t_pattern_info *info, char *name, \
-														int l_to_r, size_t idx)
+														int l_or_r, size_t idx)
 {
 	char	*temp;
 	size_t	temp_len;
 
 	temp = info->pattern_split[idx];
 	temp_len = ft_strlen(temp);
-	if (l_to_r == 1)
+	if (l_or_r == 1)
 	{
 		if (temp_len == 0)
 			return (0);
@@ -63,15 +63,15 @@ static int	is_edge_str_equal(t_pattern_info *info, char *name, \
 	}
 }
 
-static void	pm_cmp_edge(t_pattern_info *info, char *name, int l_to_r, size_t idx)
+static void	pm_cmp_edge(t_pattern_info *info, char *name, int l_or_r, size_t idx)
 {
 	size_t	pos;
 
 	if (info->pm_check.r_pm_pos >= info->pm_check.l_pm_pos)
 	{
-		if (is_edge_str_equal(info, name, l_to_r, idx))
+		if (is_edge_str_equal(info, name, l_or_r, idx))
 		{
-			if (l_to_r == 1)
+			if (l_or_r == 1)
 			{
 				info->pm_check.l_pm_pos++;
 				info->pm_check.l_name_pos = ft_strlen(info->pattern_split[idx]);
@@ -104,11 +104,11 @@ int	pm_check_string(t_pattern_info *info, char *name, int file_type)
 		temp[ft_strlen(temp) - 1] = '\0';
 	}
 	if (info->pm_flag.l_type == PM_WORD)
-		pm_cmp_edge(info, name, 1, 0);
+		pm_cmp_edge(info, name, LHS, 0);
 	if (info->pm_check.r_pm_pos < info->pm_check.l_pm_pos)
 		return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
 	if ((info->pm_flag.r_type == PM_WORD || info->pm_flag.r_type == PM_SLASH))
-		pm_cmp_edge(info, name, -1, info->pm_check.r_pm_pos - 1);
+		pm_cmp_edge(info, name, RHS, info->pm_check.r_pm_pos - 1);
 	if (info->pm_check.r_pm_pos < info->pm_check.l_pm_pos)
 		return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
 	while (info->pm_check.r_pm_pos > info->pm_check.l_pm_pos)
