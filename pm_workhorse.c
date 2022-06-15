@@ -34,12 +34,12 @@ char	**ft_free_pm(t_pattern_info *info, int key)
 	if (key & RM_PI)
 	{
 		idx = 0;
-		while (info->pm_interleaving && info->pm_interleaving[idx])
+		while (info->pm_matched && info->pm_matched[idx])
 		{
-			free(info->pm_interleaving[idx]);
+			free(info->pm_matched[idx]);
 			++idx;
 		}
-		free(info->pm_interleaving);
+		free(info->pm_matched);
 	}
 	return (NULL);
 }
@@ -60,7 +60,7 @@ static int	create_inter(t_pattern_info *info, char *find, int idx)
 	char	**temp;
 
 	if (info->malloc_size > info->pm_pos + 1)
-		info->pm_interleaving[info->pm_pos] = ft_strdup(find);
+		info->pm_matched[info->pm_pos] = ft_strdup(find);
 	else
 	{
 		info->malloc_size *= 2;
@@ -69,16 +69,16 @@ static int	create_inter(t_pattern_info *info, char *find, int idx)
 			return (-1);
 		temp[info->malloc_size - 1] = NULL;
 		idx = 0;
-		while (info->pm_interleaving && info->pm_interleaving[idx])
+		while (info->pm_matched && info->pm_matched[idx])
 		{
-			temp[idx] = ft_strdup(info->pm_interleaving[idx]);
+			temp[idx] = ft_strdup(info->pm_matched[idx]);
 			idx++;
 		}
 		temp[idx] = ft_strdup(find);
 		temp[idx + 1] = NULL;
-		if (info->pm_interleaving)
+		if (info->pm_matched)
 			ft_free_pm(info, RM_PI);
-		info->pm_interleaving = temp;
+		info->pm_matched = temp;
 	}
 	info->pm_pos += 1;
 	return (0);
