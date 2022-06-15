@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 21:10:30 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 21:23:36 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static const uint32_t		g_legal_variable_starter[] = {
 	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
 	/*														*/
-	/*			/* ?>=< ;:98 7654 3210  /.-, +*)( '&%$ #"!  */
+	/*			** ?>=< ;:98 7654 3210  /.-, +*)( '&%$ #"!  */
 	0x03ff0000, /* 0000 0011 1111 1111  0000 0000 0000 0000 */
 	/*														*/
-	/*			/* _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */
+	/*			** _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */
 	0x87fffffe, /* 1000 0111 1111 1111  1111 1111 1111 1110 */
 	/*														*/
-	/*			/*  ~}| {zyx wvut srqp  onml kjih gfed cba` */
+	/*			**  ~}| {zyx wvut srqp  onml kjih gfed cba` */
 	0x07fffffe, /* 0000 0111 1111 1111  1111 1111 1111 1110 */
 	/*														*/
 	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
@@ -33,13 +33,13 @@ static const uint32_t		g_legal_variable_starter[] = {
 static const uint32_t		g_legal_variable_char[] = {
 	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
 	/*														*/
-	/*			/* ?>=< ;:98 7654 3210  /.-, +*)( '&%$ #"!  */
+	/*			** ?>=< ;:98 7654 3210  /.-, +*)( '&%$ #"!  */
 	0x03ff0000, /* 0000 0011 1111 1111  0000 0000 0000 0000 */
 	/*														*/
-	/*			/* _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */
+	/*			** _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */
 	0x87fffffe, /* 1000 0111 1111 1111  1111 1111 1111 1110 */
 	/*														*/
-	/*			/*  ~}| {zyx wvut srqp  onml kjih gfed cba` */
+	/*			**  ~}| {zyx wvut srqp  onml kjih gfed cba` */
 	0x07fffffe, /* 0000 0111 1111 1111  1111 1111 1111 1110 */
 	/*														*/
 	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
@@ -310,4 +310,20 @@ static const t_char_flags	g_syn_table[256] = {
 t_char_flags	get_char_flags(int c)
 {
 	return (g_syn_table[(unsigned char)c]);
+}
+
+int	legal_variable_starter(int c)
+{
+	const size_t	arr_index = ((unsigned char)c) >> 5;
+	const int		bit_index = ((unsigned char)c) & 0x1f;
+
+	return (g_legal_variable_starter[arr_index] & (1U << bit_index));
+}
+
+int	legal_variable_char(int c)
+{
+	const size_t	arr_index = ((unsigned char)c) >> 5;
+	const int		bit_index = ((unsigned char)c) & 0x1f;
+
+	return (g_legal_variable_char[arr_index] & (1U << bit_index));
 }

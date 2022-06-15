@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 01:52:04 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 20:39:23 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 21:24:59 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_token_kind	parser_reduce_5(t_parser *pst)
 	clear_parser_stack_item(&pst->now[0]);
 	pst->now -= 2;
 	*++pst->now = val;
-	//push_heredoc
 	return (TK_NT_REDIRECTION);
 }
 

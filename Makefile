@@ -32,7 +32,8 @@ HEADER_LIBFT = libft.h
 SOURCE_LIBFT = libft_memory.c libft_string.c
 OBJECT_LIBFT = $(addprefix $(OBJECTS_DIR), $(SOURCE_LIBFT:.c=.o))
 
-SOURCE_GENERAL = util_flag.c safe_mem.c string_buffer.c string_vector.c generic_list.c
+SOURCE_GENERAL = util_flag.c safe_io.c safe_io_utils.c safe_mem.c \
+					string_buffer.c string_vector.c generic_list.c
 OBJECT_GENERAL = $(addprefix $(OBJECTS_DIR), $(SOURCE_GENERAL:.c=.o))
 
 TARGET = minishell
@@ -71,6 +72,7 @@ $(SOURCE): $(HEADER)
 $(SOURCE_LIBFT): $(HEADER_LIBFT)
 
 $(addprefix $(OBJECTS_DIR), util_flag.o): util_flag.h
+$(addprefix $(OBJECTS_DIR), safe_io.o safe_io_utils.o): safe_io.h
 $(addprefix $(OBJECTS_DIR), safe_mem.o): safe_mem.h
 $(addprefix $(OBJECTS_DIR), string_buffer.o): string_buffer.h
 $(addprefix $(OBJECTS_DIR), string_vector.o): string_vector.h

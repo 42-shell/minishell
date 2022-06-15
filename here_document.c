@@ -6,12 +6,13 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 20:43:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 21:28:09 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "string_buffer.h"
+#include "safe_io.h"
 #include "libft.h"
 #include <unistd.h>
 
@@ -19,7 +20,7 @@ void	push_here_document(t_parser *pst, t_list_redirect *r)
 {
 	if (pst->here_document_index >= HERE_DOCUMENT_MAX)
 	{
-		write(STDERR_FILENO, "maximum here-document count exceeded", 36);
+		puterr_safe("maximum here-document count exceeded");
 		exit(EXIT_FAILURE);
 	}
 	pst->here_document[pst->here_document_index++] = r;

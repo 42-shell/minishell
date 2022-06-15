@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 20:39:06 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 21:24:17 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,8 @@ typedef struct s_state_info
 typedef t_token_kind				t_parse_func(t_parser *);
 
 t_char_flags			get_char_flags(int c);
+int						legal_variable_starter(int c);
+int						legal_variable_char(int c);
 t_token_kind			read_token(t_parser *pst);
 int						parse(t_parser *pst);
 
