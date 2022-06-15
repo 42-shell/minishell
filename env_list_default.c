@@ -15,10 +15,8 @@
 
 void	ft_lstdel(t_env_list *lst)
 {
-	if (lst->content.id)
-		free(lst->content.id);
-	if (lst->content.content)
-		free(lst->content.content);
+	free(lst->content.id);
+	free(lst->content.content);
 	free(lst);
 	lst = NULL;
 }
