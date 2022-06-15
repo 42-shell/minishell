@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <dirent.h> //DT macro
 
-static void	ft_check_set(t_pattern_info *info, char *name)
+static void	init_check_info(t_pattern_info *info, char *name)
 {
 	info->pm_check.l_name_pos = 0;
 	info->pm_check.l_pm_pos = 0;
@@ -24,7 +24,7 @@ static void	ft_check_set(t_pattern_info *info, char *name)
 	info->pm_check.cut_char = name[0];
 }
 
-static void	pm_cmp_strstr(t_pattern_info *info, char *name, \
+static void	pm_cmp_middle(t_pattern_info *info, char *name, \
 												size_t pm_pos, size_t na_pos)
 {
 	size_t	size;
@@ -43,15 +43,15 @@ static void	pm_cmp_strstr(t_pattern_info *info, char *name, \
 	}
 }
 
-static int	pm_cmp_check_equal(t_pattern_info *info, char *name, \
-														int unit, size_t idx)
+static int	is_edge_str_equal(t_pattern_info *info, char *name, \
+														int l_to_r, size_t idx)
 {
 	char	*temp;
 	size_t	temp_len;
 
 	temp = info->pattern_split[idx];
 	temp_len = ft_strlen(temp);
-	if (unit == 1)
+	if (l_to_r == 1)
 	{
 		if (temp_len == 0)
 			return (0);
@@ -63,15 +63,15 @@ static int	pm_cmp_check_equal(t_pattern_info *info, char *name, \
 	}
 }
 
-static void	pm_cmp_abs(t_pattern_info *info, char *name, int unit, size_t idx)
+static void	pm_cmp_edge(t_pattern_info *info, char *name, int l_to_r, size_t idx)
 {
 	size_t	pos;
 
 	if (info->pm_check.r_pm_pos >= info->pm_check.l_pm_pos)
 	{
-		if (pm_cmp_check_equal(info, name, unit, idx))
+		if (is_edge_str_equal(info, name, l_to_r, idx))
 		{
-			if (unit == 1)
+			if (l_to_r == 1)
 			{
 				info->pm_check.l_pm_pos++;
 				info->pm_check.l_name_pos = ft_strlen(info->pattern_split[idx]);
@@ -97,22 +97,22 @@ int	pm_check_string(t_pattern_info *info, char *name, int file_type)
 
 	if (info->pm_flag.r_type == PM_SLASH && file_type != DT_DIR)
 		return (1);
-	ft_check_set(info, name);
+	init_check_info(info, name);
 	if (info->pm_flag.r_type == PM_SLASH)
 	{
 		temp = info->pattern_split[info->pm_check.r_pm_pos - 1];
 		temp[ft_strlen(temp) - 1] = '\0';
 	}
 	if (info->pm_flag.l_type == PM_WORD)
-		pm_cmp_abs(info, name, 1, 0);
+		pm_cmp_edge(info, name, 1, 0);
 	if (info->pm_check.r_pm_pos < info->pm_check.l_pm_pos)
 		return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
 	if ((info->pm_flag.r_type == PM_WORD || info->pm_flag.r_type == PM_SLASH))
-		pm_cmp_abs(info, name, -1, info->pm_check.r_pm_pos - 1);
+		pm_cmp_edge(info, name, -1, info->pm_check.r_pm_pos - 1);
 	if (info->pm_check.r_pm_pos < info->pm_check.l_pm_pos)
 		return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
 	while (info->pm_check.r_pm_pos > info->pm_check.l_pm_pos)
-		pm_cmp_strstr(info, name, info->pm_check.l_pm_pos, \
+		pm_cmp_middle(info, name, info->pm_check.l_pm_pos, \
 											info->pm_check.l_name_pos);
 	return (info->pm_check.r_pm_pos - info->pm_check.l_pm_pos);
 }
