@@ -15,6 +15,9 @@
 
 # include <stddef.h>
 
+# define LHS 1
+# define RHS -1
+
 enum e_free_type
 {
 	RM_PWD	= 1,
@@ -54,7 +57,7 @@ typedef struct s_patttern_info
 	size_t			split_size;
 	size_t			split_text_cnt;
 	size_t			pm_pos;
-	char			**pm_interleaving;
+	char			**pm_matched;
 	t_pattern_flag	pm_flag;
 	t_check_done	pm_check;
 }					t_pattern_info;
