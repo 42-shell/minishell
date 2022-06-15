@@ -1,22 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   string_vector.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/21 15:31:10 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 19:58:56 by jkong            ###   ########.fr       */
+/*   Created: 2022/05/21 15:37:17 by jkong             #+#    #+#             */
+/*   Updated: 2022/06/15 18:30:24 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef STRING_VECTOR_H
+# define STRING_VECTOR_H
 
+# include "safe_mem.h"
 # include <stdlib.h>
 
-void	*ft_memset(void *b, int c, size_t len);
-size_t	ft_strlen(const char *s);
-int		ft_strcmp(const char *s1, const char *s2);
+# ifndef INITIAL_CAPACITY_V
+#  define INITIAL_CAPACITY_V 0x4
+# endif
+
+# ifndef GROW_THRESHOLD_V
+#  define GROW_THRESHOLD_V 0x20
+# endif
+
+typedef struct s_str_vec
+{
+	char	**arr;
+	size_t	length;
+	size_t	capacity;
+}	t_str_vec;
+
+t_str_vec	*strv_append(t_str_vec *vec, char *s);
+char		**strv_dispose(t_str_vec *vec);
 
 #endif

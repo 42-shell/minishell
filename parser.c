@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/14 16:11:45 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 20:39:39 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ int	parse(t_parser *pst)
 		else
 			token = _parse_shift(pst, state, token);
 	}
+	gather_here_document(pst);
 	return (0);
 }

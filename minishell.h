@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/14 17:02:36 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 20:39:06 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <stddef.h>
+
+# define HERE_DOCUMENT_MAX 16
 
 enum	e_char_flag_index
 {
@@ -214,6 +216,8 @@ typedef struct s_parser
 	size_t					stack_capacity;
 	t_parser_stack			*stack_base;
 	t_parser_stack			*now;
+	t_list_redirect			*here_document[HERE_DOCUMENT_MAX];
+	size_t					here_document_index;
 }	t_parser;
 
 typedef struct s_state_info
@@ -243,10 +247,13 @@ void					dispose_command(t_command *item);
 void					set_redirect(t_redirect *item, int src, t_redirection r,
 							t_word *dest);
 void					dispose_redirect(t_redirect *item);
-void					append_redirect(t_list_redirect **list,
+t_list_redirect			*append_redirect(t_list_redirect **list,
 							t_redirect *item);
 void					subshell_apply_redirect(t_subshell_command *subshell,
 							t_list_redirect *r_list);
+
+void					push_here_document(t_parser *pst, t_list_redirect *r);
+void					gather_here_document(t_parser *pst);
 
 void					swap_word(t_word *a, t_word *b);
 void					swap_redirect(t_redirect *a, t_redirect *b);

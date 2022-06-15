@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:10:34 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/14 16:40:48 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 18:24:52 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	append_word(t_list_word **list, t_word *item)
 {
 	t_list_word	*elem;
 
-	elem = calloc_safe(sizeof(t_list_word), 1);
+	elem = calloc_safe(1, sizeof(t_list_word));
 	elem->word = *item;
 	list_append((void *)list, (void *)elem);
 }
