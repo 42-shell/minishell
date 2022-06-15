@@ -62,7 +62,7 @@ typedef struct s_patttern_info
 /*
 ** Pattern_match function
 */
-char	**ft_pattern_match(char *pattern);
+char	**find_pattern(char *pattern);
 int		pm_workhorse(t_pattern_info *info);
 int		pm_check_string(t_pattern_info *info, char *name, int file_type);
 
