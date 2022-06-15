@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/13 22:30:35 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 16:07:17 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ size_t	print_env(t_env_list *head, int key)
 		if ((!key && head->content.visible) || key)
 		{
 			if (ft_putstr_fd(head->content.id, 1) \
-				|| ft_putchar_fd('=', 1) \
+				|| (ft_putchar_fd('=', 1)) \
 				|| (key && !head->content.visible && ft_putchar_fd('\'', 1)) \
-				|| (key && head->content.visible \
-					&& !ft_strlen(head->content.content) \
+				|| (((key && head->content.visible) \
+					&& !ft_strlen(head->content.content)) \
 					&& ft_putchar_fd('\'', 1)) \
 				|| ft_putstr_fd(head->content.content, 1) \
-				|| (key && head->content.visible \
-					&& !ft_strlen(head->content.content) \
+				|| (((key && head->content.visible) \
+					&& !ft_strlen(head->content.content)) \
 					&& ft_putchar_fd('\'', 1)) \
 				|| (key && !head->content.visible && ft_putchar_fd('\'', 1)) \
 				|| ft_putchar_fd('\n', 1))

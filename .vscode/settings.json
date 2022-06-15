@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"limits.h": "c",
+		"dirent.h": "c",
+		"_types.h": "c",
+		"_pthread_types.h": "c"
+	}
+}

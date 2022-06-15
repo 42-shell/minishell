@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 14:55:03 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 16:13:02 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	ft_iter_unset(char *id, t_env_list **head)
 
 size_t	ft_unset(char **argv, t_env_list **head)
 {
-	t_env_list	*temp;
 	size_t		size;
 
 	size = ft_getarr_size(argv);
@@ -46,8 +45,7 @@ size_t	ft_unset(char **argv, t_env_list **head)
 	size = 1;
 	while (argv[size])
 	{
-		temp = *head;
-		ft_iter_unset(argv[size], &temp);
+		ft_iter_unset(argv[size], head);
 		size++;
 	}
 	return (0);

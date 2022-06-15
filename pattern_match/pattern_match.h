@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/09 17:42:12 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 15:43:02 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define PATTERN_MATCH_H
 
 # include <stddef.h>
-
-# define PATH_MAX 1024
 
 typedef struct s_check_done
 {
@@ -37,7 +35,6 @@ typedef struct s_patttern_info
 {
 	char			*pwd;
 	char			**pattern_split;
-	int				all;
 	size_t			malloc_size;
 	size_t			split_size;
 	size_t			split_text_cnt;

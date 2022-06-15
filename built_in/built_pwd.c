@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 20:00:53 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 15:40:21 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 
 size_t	ft_pwd(char **argv)
 {
-	char	buf[PATH_MAX];
-	size_t	size;
+	char	*buf;
 
-	size = ft_getarr_size(argv);
-	if (!size || size != 1)
+	if (ft_getarr_size(argv) != 1)
 		return (-1);
-	if (getcwd(buf, sizeof(buf)))
+	buf = getcwd(NULL, 0);
+	if (buf)
 	{
 		ft_putstr_fd(buf, 1);
 		ft_putstr_fd("\n", 1);
@@ -34,13 +33,5 @@ size_t	ft_pwd(char **argv)
 
 char	*ft_get_pwd(void)
 {
-	char	*buf;
-
-	buf = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
-	if (!buf)
-		return (NULL);
-	if (getcwd(buf, sizeof(buf)))
-		return (buf);
-	else
-		return (NULL);
+	return (getcwd(NULL, 0));
 }

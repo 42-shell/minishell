@@ -6,12 +6,13 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/09 17:42:18 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/15 15:47:51 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pattern_match.h"
 #include "pattern_match_enum.h"
+#include <dirent.h>
 
 static void	ft_check_set(t_pattern_info *info, char *name)
 {
@@ -94,7 +95,7 @@ int	check_pattern(t_pattern_info *info, char *name, int file_type)
 {
 	char	*temp;
 
-	if (info->pm_flag.r_type == PM_SLASH && file_type != PM_DIRECTORY)
+	if (info->pm_flag.r_type == PM_SLASH && file_type != DT_DIR)
 		return (1);
 	ft_check_set(info, name);
 	if (info->pm_flag.r_type == PM_SLASH)
