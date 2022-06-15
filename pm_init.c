@@ -14,7 +14,7 @@
 #include "built_in.h" //getpwd
 #include "libft.h"
 
-static void	count_split_size(t_pattern_info *info)
+static void	count_pattern_size(t_pattern_info *info)
 {
 	size_t	i;
 	size_t	cnt;
@@ -32,7 +32,7 @@ static void	count_split_size(t_pattern_info *info)
 		info->split_text_cnt -= 1;
 }
 
-static void	end_check(char *str, t_pattern_info *info)
+static void	pm_set_flag(char *str, t_pattern_info *info)
 {
 	if (str[0] == PM_ASTERISK)
 		info->pm_flag.l_type = PM_ASTERISK;
@@ -59,11 +59,11 @@ char	**ft_pattern_match(char *pattern)
 	info.pwd = ft_get_pwd();
 	if (!info.pwd)
 		return (NULL);
-	end_check(pattern, &info);
+	pm_set_flag(pattern, &info);
 	info.pattern_split = ft_split(pattern, PM_ASTERISK);
 	if (!info.pattern_split)
 		return (ft_free_pm(&info, RM_PWD));
-	count_split_size(&info);
+	count_pattern_size(&info);
 	if (pm_workhorse(&info))
 		return (ft_free_pm(&info, RM_PWD | RM_PM | RM_PI));
 	ft_free_pm(&info, RM_PWD | RM_PM);
