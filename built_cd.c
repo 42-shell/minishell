@@ -27,14 +27,16 @@ size_t	ft_cd(char **argv, t_env_list *head)
 	{
 		id = get_env(head, "HOME");
 		if (!id)
-			return (0);
+			return (-1);
 		else if (chdir(id))
 			return (-1);
 	}
 	else if (size == 2)
 	{
+// -, ~ 추가
 		if (chdir(argv[1]))
 			return (-1);
 	}
+// old_path update
 	return (0);
 }
