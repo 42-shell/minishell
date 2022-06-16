@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 01:52:04 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 21:24:59 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/16 18:35:18 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,13 @@ t_token_kind	parser_reduce_9(t_parser *pst)
 	t_list_redirect	*r;
 
 	ft_memset(&val, 0, sizeof(val));
+	ft_memset(&redirect, 0, sizeof(redirect));
+	swap_redirect(&redirect, &pst->now[0].redirect);
 	val.command.type = CMD_SIMPLE;
 	val.command.value.simple = make_simple_command();
-	ft_memset(&redirect, 0, sizeof(redirect));
-	swap_redirect(&redirect, &val.redirect);
 	r = append_redirect(&val.command.value.simple->redirect_list, &redirect);
-	push_here_document(pst, r);
+	if (redirect.instruction == R_READING_UNTIL)
+		push_here_document(pst, r);
 	clear_parser_stack_item(&pst->now[0]);
 	pst->now -= 1;
 	*++pst->now = val;

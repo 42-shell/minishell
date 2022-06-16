@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 21:28:09 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/16 18:41:52 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static char	*_read_document(char *eof)
 	{
 		str = readline("> ");
 		if (!str || ft_strcmp(str, eof) == 0)
+		{
+			free(str);
 			break ;
+		}
 		sb = str_append(sb, str);
 		sb = str_append(sb, "\n");
 		free(str);
