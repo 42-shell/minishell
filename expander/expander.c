@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 18:59:17 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 19:25:53 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,27 @@
 //
 //$VALUE -> 없으면 문자열 이어 붙이기 : stitch A-B
 //
-
 // DQ, SQ : match -> if null_terminate -> error
-static void	init_expand_info(t_exp_info *info)
-{
-	info->cur_pos = 0;
-	info->exp_output = NULL;
-	info->str_buf = NULL;
-	info->str_vec = NULL;
-}
 
-static 
+
+
+
+// 1. check env, del_quote -> str_append(str_buf, str);
+// 2. stitch 'null'-case -> str_append(str_buf, str);
+//
+
+// DQ_case
+
+// SQ_ CASE
+
+// $ case
+//
+//
+
+static void	expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
+{
+
+}
 
 char	**check_expand(char **argv, t_env_list *head)
 {
@@ -52,15 +62,16 @@ char	**check_expand(char **argv, t_env_list *head)
 
 	if (!argv || !(*argv) || !head)
 		return (NULL);
-	init_expand_info(&info);
+	info->cur_pos = 0;
+	info->exp_output = NULL;
+	info->str_buf = NULL;
+	info->str_vec = NULL;
 	while (argv[info.cur_pos])
 	{
-		// 1. check env, del_quote -> str_append(str_buf, str);
-		// 2. stitch 'null'-case -> str_append(str_buf, str);
-		expand_env(info, argv[info.cur_pos]);
+		expand_workhorse(info, head, argv[info.cur_pos]);
 		if (info.cur_pos && ft_strchr(info.str_buf->str, "*"))
 			info-.str_vec \
-				= strv_append(info->str_vec, expand_glob(info.str_buf->str));
+			= strv_append_bulk(info->str_vec, expand_glob(info.str_buf->str));
 		else
 			info->str_vec \
 				= strv_append(info->str_vec, str_dispose(info.str_buf));
