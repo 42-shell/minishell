@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 18:31:40 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 22:01:24 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ typedef struct s_exp_check
 
 typedef struct s_exp_info
 {
-	char		**exp_output;
 	size_t		cur_pos;
-	t_str_buf	*str_buf;
-	t_str_vec	*str_vec;
-	t_exp_check	check;
+	t_str_buf	*s_b;
+	t_str_vec	*s_v;
+	t_exp_check	check; // is_it necessary?
 }				t_exp_info;
 
 /*

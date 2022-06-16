@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 19:56:26 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 22:25:31 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@
 // DQ_case
 
 // SQ_ CASE
-
+	
+static void	
 
 static void	expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
 {
@@ -54,32 +55,45 @@ static void	expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
 
 	while (*str)
 	{
-
-		str++;
+		if (has_flag(get_char_flags(*str), CF_QUOTE))
+		{
+			if (*str == "\"")
+				expand_double_quote();
+			else if (*str == "\'")
+				expand_single_quote();
+		}
+		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
+		{
+			expand_dollar();
+		}
+		else 
+		{
+			info->s_b = str_append_raw(info->s_b, str, 1);
+			str++;
+		}
 	}
+	return (str_dispose(info->s_b));
 }
 
 char	**check_expand(char **argv, t_env_list *head)
 {
 	t_exp_info	info;
+	char		*temp;
 
 	if (!argv || !(*argv) || !head)
 		return (NULL);
+	info->s_b = NULL;
+	info->s_v = NULL;
 	info->cur_pos = 0;
-	info->exp_output = NULL;
-	info->str_buf = NULL;
-	info->str_vec = NULL;
 	while (argv[info.cur_pos])
 	{
-		expand_workhorse(info, head, argv[info.cur_pos]);
-		if (info.cur_pos && ft_strchr(info.str_buf->str, "*"))
-			info-.str_vec \
-			= strv_append_bulk(info->str_vec, expand_glob(info.str_buf->str));
+		temp = expand_workhorse(info, head, argv[info.cur_pos]);
+		if (info.cur_pos && ft_strchr(info.s_b->str, "*"))
+			info-.s_v = strv_append_bulk(info->s_v, expand_glob(info.s_b->str));
 		else
-			info->str_vec \
-				= strv_append(info->str_vec, str_dispose(info.str_buf));
-		info->str_buf = NULL;
+			info->s_v = strv_append(info->s_v, temp);
+		info->s_b = NULL;
 		info.cur_pos++;
 	}
-	return (strv_dispose(info->str_vec));
+	return (strv_dispose(info->s_v));
 }
