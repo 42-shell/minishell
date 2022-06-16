@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 16:25:42 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 13:33:28 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@
 //
 
 // DQ, SQ : match -> if null_terminate -> error
-static ft_init_expand_info(t_exp_info *info)
+static void	ft_init_expand_info(t_exp_info *info)
 {
 	info->malloc_size = 1;
 	info->cur_src_pos = 0;
 	info->cur_pos = 0;
-	info->exp_arr = NULL;
+	info->exp_output = NULL;
 }
 
-char **check_expand(char **argv, t_env_list *head)
+char	**check_expand(char **argv, t_env_list *head)
 {
 	t_exp_info	info;
 
@@ -54,8 +54,8 @@ char **check_expand(char **argv, t_env_list *head)
 	{
 		// check expand, syntax
 		// -> expand
-		// -> add to exp_arr;
+		// -> add to exp_output;
 		info.cur_src_pos++;
 	}
-	return (info->exp_arr);
+	return (info.exp_output);
 }

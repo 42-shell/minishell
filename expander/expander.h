@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/14 19:52:56 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/16 13:33:09 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 
 enum e_exp_type
 {
-	double_quote	= 2,
-	single_quote	= 4,
-	dollar			= 8,
-	asterisk		= 16,
-	pass			= 32,
-}
+	PASS = 0,
+	D_QUOTE,
+	S_QUOTE,
+	ENV,
+	WILDCARD,
+};
 
 typedef struct s_exp_check
 {
@@ -31,7 +31,7 @@ typedef struct s_exp_check
 
 typedef struct s_exp_info
 {
-	char		**exp_arr;
+	char		**exp_output;
 	size_t		malloc_size;
 	size_t		cur_src_pos;
 	size_t		cur_pos;
@@ -42,7 +42,6 @@ typedef struct s_exp_info
 ** main_function
 */
 char	**check_expand(char **argv, t_env_list *head);
-
 
 /*
 ** util_function
