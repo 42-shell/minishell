@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 12:13:34 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 15:57:53 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static int	export_syntax_check(char *str)
 {
 	if (!str || *str == '\0')
 		return (-1);
-	else if (g_legal_variable_starter[(*str) >> 5] & (*str & 0x1f))
+	else if (legal_variable_starter(*str))
 		str++;
 	else
 		return (-1);
 	while (*str)
 	{
-		if (g_legal_variable_char[(*str) >> 5] & (*str & 0x1f))
+		if (legal_variable_char(*str))
 			str++;
 		else if (*str == '=' || *str == '\0')
 			return (0);
