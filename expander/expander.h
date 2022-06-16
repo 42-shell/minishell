@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 18:12:48 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 18:31:40 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 # define EXPANDER_H
 
 # include "env_module.h"
+# include "string_buffer.h"
+# include "string_vector.h"
 
 enum e_exp_type
 {
-	PASS = 0,
-	D_QUOTE,
-	S_QUOTE,
-	ENV,
-	WILDCARD,
+	PASS	= 0,
+	D_QUOTE = 1,
+	S_QUOTE = 2,
+	ENV		= 4,
+	GLOB	= 8,
 };
 
 typedef struct s_exp_check
@@ -33,6 +35,8 @@ typedef struct s_exp_info
 {
 	char		**exp_output;
 	size_t		cur_pos;
+	t_str_buf	*str_buf;
+	t_str_vec	*str_vec;
 	t_exp_check	check;
 }				t_exp_info;
 

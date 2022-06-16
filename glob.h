@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 17:39:19 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 18:47:44 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_glob_info
 /*
 ** Pattern_match function
 */
-char	**find_pattern(char *pattern);
+char	**expand_glob(char *pattern);
 int		glob_workhorse(t_glob_info *info);
 int		check_string(t_glob_info *info, char *name, int file_type);
 

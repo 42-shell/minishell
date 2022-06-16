@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 21:11:02 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 19:18:33 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,23 @@
 #include "libft.h" // getarr_size
 #include <unistd.h> // chdir
 
-//old_pwd ??? ~, - 
+static size_t	check_tild_dash(char **argv, t_env_list *head)
+{
+	if (ft_strcmp(argv[1], "-", 1))
+	{
+		if (chdir(get_env(head, "OLDPWD")))
+			return (-1);
+	}
+	else if (ft_strcmp(argv[1], "~", 1))
+	{
+		if (chdir(get_env(head, "HOME")))
+			return (-1);
+	}
+	else if (chdir(argv[1]))
+		return (-1);
+	return (0);
+}
+
 size_t	ft_cd(char **argv, t_env_list *head)
 {
 	int		size;
@@ -33,10 +49,8 @@ size_t	ft_cd(char **argv, t_env_list *head)
 	}
 	else if (size == 2)
 	{
-// -, ~ 추가
-		if (chdir(argv[1]))
+		if (check_tild_dash(argv, head))
 			return (-1);
 	}
-// old_path update
-	return (0);
+	return (change_env(head, "OLDPWD", get_env(head, "PWD")));
 }
