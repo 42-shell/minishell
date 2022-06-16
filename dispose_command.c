@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:10:34 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/16 18:19:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 01:54:02 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@ void	dispose_word(t_word *item)
 {
 	free(item->str);
 	item->str = NULL;
-}
-
-void	dispose_command(t_command *item)
-{
-	free(item->value.ptr);
-	item->value.ptr = NULL;
 }
 
 static int	_clear_w_list(t_list_word *elem)
@@ -39,7 +33,7 @@ static int	_clear_r_list(t_list_redirect *elem)
 	return (0);
 }
 
-void	dispose_command_recursive(t_command *root)
+void	dispose_command(t_command *root)
 {
 	if (root->type == CMD_SIMPLE)
 	{
@@ -48,13 +42,14 @@ void	dispose_command_recursive(t_command *root)
 	}
 	else if (root->type == CMD_SUBSHELL)
 	{
-		dispose_command_recursive(&root->value.subshell->container);
+		dispose_command(&root->value.subshell->container);
 		list_walk((void *)root->value.subshell->redirect_list, _clear_r_list);
 	}
 	else if (root->type == CMD_CONNECTION)
 	{
-		dispose_command_recursive(&root->value.connection->first);
-		dispose_command_recursive(&root->value.connection->second);
+		dispose_command(&root->value.connection->first);
+		dispose_command(&root->value.connection->second);
 	}
-	dispose_command(root);
+	free(root->value.ptr);
+	root->value.ptr = NULL;
 }

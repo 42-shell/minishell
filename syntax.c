@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/16 15:55:35 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 01:18:00 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,7 +313,7 @@ t_char_flags	get_char_flags(int c)
 	return (g_syn_table[(unsigned char)c]);
 }
 
-static int	_get_condition(const uint32_t table[256], int c)
+static int	_get_condition(const uint32_t table[8], int c)
 {
 	const size_t	arr_index = ((unsigned char)c) >> 5;
 	const int		bit_index = ((unsigned char)c) & 0x1f;

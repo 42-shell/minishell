@@ -6,12 +6,13 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/16 17:41:01 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 01:56:37 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "util_flag.h"
+#include "safe_io.h"
 #include "string_buffer.h"
 #include "generic_list.h"
 #include "libft.h"
@@ -80,6 +81,21 @@ static t_parser_state	_parse_reduce(t_parser *pst, t_parser_state state)
 	return (state);
 }
 
+static void	_parse_on_error(t_parser *pst, t_token_kind token)
+{
+	t_str_buf	*sb;
+	char		*str;
+
+	pst->error = PE_SYNTAX_ERROR;
+	sb = NULL;
+	sb = str_append(sb, "syntax error near unexpected token `");
+	sb = str_append(sb, get_token_str(token));
+	sb = str_append(sb, "'\n");
+	str = str_dispose(sb);
+	puterr_safe(str);
+	free(str);
+}
+
 int	parse(t_parser *pst)
 {
 	t_parser_state	state;
@@ -97,9 +113,9 @@ int	parse(t_parser *pst)
 			break ;
 		state = parser_state(state, token);
 		if (state == PARSER_ACCEPT)
-			break ;
+			return (1);
 		else if (state == PARSER_ERROR)
-			pst->error = PE_SYNTAX_ERROR;
+			_parse_on_error(pst, token);
 		else if (state < 0)
 			state = _parse_reduce(pst, state);
 		else

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/16 18:41:52 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 01:45:46 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	push_here_document(t_parser *pst, t_list_redirect *r)
 {
 	if (pst->here_document_index >= HERE_DOCUMENT_MAX)
 	{
-		puterr_safe("maximum here-document count exceeded");
+		puterr_safe("maximum here-document count exceeded\n");
 		exit(EXIT_FAILURE);
 	}
 	pst->here_document[pst->here_document_index++] = r;
@@ -35,7 +35,13 @@ static char	*_read_document(char *eof)
 	while (1)
 	{
 		str = readline("> ");
-		if (!str || ft_strcmp(str, eof) == 0)
+		if (!str)
+		{
+			printf("???\n");
+			free(str);
+			break ;
+		}
+		if (ft_strcmp(str, eof) == 0)
 		{
 			free(str);
 			break ;

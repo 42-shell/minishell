@@ -6,12 +6,39 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 01:52:04 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/14 16:06:14 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 01:54:17 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
+
+char	*get_token_str(t_token_kind token)
+{
+	if (token == TK_PAREN_L)
+		return ("(");
+	else if (token == TK_PAREN_R)
+		return (")");
+	else if (token == TK_LESS)
+		return ("<");
+	else if (token == TK_GREATER)
+		return (">");
+	else if (token == TK_OR)
+		return ("|");
+	else if (token == TK_WORD)
+		return ("word");
+	else if (token == TK_LESS_LESS)
+		return ("<<");
+	else if (token == TK_GREATER_GREATER)
+		return (">>");
+	else if (token == TK_AND_AND)
+		return ("&&");
+	else if (token == TK_OR_OR)
+		return ("||");
+	else if (token == TK_EOF)
+		return ("newline");
+	return ("unknown");
+}
 
 void	swap_word(t_word *a, t_word *b)
 {

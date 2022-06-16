@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 01:52:04 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/14 19:36:29 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 02:25:21 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@
 t_token_kind	parser_reduce_10(t_parser *pst)
 {
 	t_parser_stack	val;
-	t_command		command_lhs;
-	t_command		command_rhs;
+	t_command		command;
+	t_redirect		redirect;
+	t_list_redirect	*r;
 
 	ft_memset(&val, 0, sizeof(val));
-	ft_memset(&command_lhs, 0, sizeof(command_lhs));
-	swap_command(&command_lhs, &pst->now[-1].command);
-	ft_memset(&command_rhs, 0, sizeof(command_rhs));
-	swap_command(&command_rhs, &pst->now[0].command);
-	combine_simple_command(command_lhs.value.simple, command_rhs.value.simple);
-	val.command = command_lhs;
-	dispose_command(&command_rhs);
+	ft_memset(&command, 0, sizeof(command));
+	swap_command(&command, &pst->now[-1].command);
+	ft_memset(&redirect, 0, sizeof(redirect));
+	swap_redirect(&redirect, &pst->now[0].redirect);
+	r = append_redirect(&command.value.simple->redirect_list, &redirect);
+	if (redirect.instruction == R_READING_UNTIL)
+		push_here_document(pst, r);
+	val.command = command;
 	clear_parser_stack_item(&pst->now[-1]);
 	clear_parser_stack_item(&pst->now[0]);
 	pst->now -= 2;
