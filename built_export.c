@@ -6,13 +6,14 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 11:27:49 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 12:13:34 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "libft.h" // getarr_size , strchr
 #include "string_buffer.h"
+#include "minishell.h"
 
 static size_t	sort_print_env(t_env_list *head)
 {
@@ -39,21 +40,18 @@ static int	export_syntax_check(char *str)
 {
 	if (!str || *str == '\0')
 		return (-1);
-	else if ((*str >= 'a' && *str <= 'z') \
-		|| (*str >= 'A' && *str <= 'Z') \
-		|| (*str == '_'))
+	else if (g_legal_variable_starter[(*str) >> 5] & (*str & 0x1f))
 		str++;
 	else
 		return (-1);
 	while (*str)
 	{
-		if ((*str >= 'a' && *str <= 'z') \
-			|| (*str >= 'A' && *str <= 'Z') \
-			|| (*str == '_') \
-			|| (*str >= '0' && *str <= '9'))
+		if (g_legal_variable_char[(*str) >> 5] & (*str & 0x1f))
 			str++;
 		else if (*str == '=' || *str == '\0')
 			return (0);
+		else
+			return (-1);
 	}
 	return (0);
 }
