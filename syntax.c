@@ -6,17 +6,18 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 21:23:36 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/16 15:55:35 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdint.h>
 
 static const uint32_t		g_legal_variable_starter[] = {
 	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
 	/*														*/
 	/*			** ?>=< ;:98 7654 3210  /.-, +*)( '&%$ #"!  */
-	0x03ff0000, /* 0000 0011 1111 1111  0000 0000 0000 0000 */
+	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
 	/*														*/
 	/*			** _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */
 	0x87fffffe, /* 1000 0111 1111 1111  1111 1111 1111 1110 */
@@ -312,18 +313,20 @@ t_char_flags	get_char_flags(int c)
 	return (g_syn_table[(unsigned char)c]);
 }
 
-int	legal_variable_starter(int c)
+static int	_get_condition(const uint32_t table[256], int c)
 {
 	const size_t	arr_index = ((unsigned char)c) >> 5;
 	const int		bit_index = ((unsigned char)c) & 0x1f;
 
-	return (g_legal_variable_starter[arr_index] & (1U << bit_index));
+	return (table[arr_index] & (1U << bit_index));
+}
+
+int	legal_variable_starter(int c)
+{
+	return (_get_condition(g_legal_variable_starter, c));
 }
 
 int	legal_variable_char(int c)
 {
-	const size_t	arr_index = ((unsigned char)c) >> 5;
-	const int		bit_index = ((unsigned char)c) & 0x1f;
-
-	return (g_legal_variable_char[arr_index] & (1U << bit_index));
+	return (_get_condition(g_legal_variable_char, c));
 }
