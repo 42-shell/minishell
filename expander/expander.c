@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 19:25:53 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 19:56:26 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,11 @@
 //-> quote remove (first quote match)
 //-> if remain other type quote -> error
 
-//$? -> exit status
 //$*, $@ -> non systax[letter | _ ][letter | digit | _ ]^*-> error
 //
 //
 //$ -> SQ -> not interpret
 //-> DQ or Out -> interpret
-//
-//$VALUE -> 없으면 문자열 이어 붙이기 : stitch A-B
 //
 // DQ, SQ : match -> if null_terminate -> error
 
@@ -43,17 +40,23 @@
 // 2. stitch 'null'-case -> str_append(str_buf, str);
 //
 
+// $ case
+// -> $? -> exit_status
+
 // DQ_case
 
 // SQ_ CASE
 
-// $ case
-//
-//
 
 static void	expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
 {
+	char	*temp;
 
+	while (*str)
+	{
+
+		str++;
+	}
 }
 
 char	**check_expand(char **argv, t_env_list *head)
