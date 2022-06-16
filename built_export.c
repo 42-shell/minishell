@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:08:04 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 11:27:49 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static size_t	sort_print_env(t_env_list *head)
 {
 	t_env_list	*cpy;
 	t_env_list	*temp;
-	size_t		ret;
 
 	cpy = NULL;
 	while (head)
@@ -31,9 +30,9 @@ static size_t	sort_print_env(t_env_list *head)
 		}
 		head = head->next;
 	}
-	ret = print_env(cpy, ON_VISIBLE);
+	print_env(cpy, ON_VISIBLE);
 	clear_env(&cpy);
-	return (ret);
+	return (0);
 }
 
 static int	export_syntax_check(char *str)

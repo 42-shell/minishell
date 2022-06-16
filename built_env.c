@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:47:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 17:34:56 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 11:28:16 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@ size_t	ft_env(char **argv, t_env_list *head)
 {
 	if (ft_getarr_size(argv) != 1)
 		return (-1);
-	return (print_env(head, NON_VISIBLE));
+	print_env(head, NON_VISIBLE);
+	return (0);
 }
