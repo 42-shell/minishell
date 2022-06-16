@@ -6,7 +6,7 @@
 #    By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/20 18:42:42 by jkong             #+#    #+#              #
-#    Updated: 2022/06/13 21:16:00 by yongmkim         ###   ########.fr        #
+#    Updated: 2022/05/20 18:42:42 by jkong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,46 +24,24 @@ SOURCE = shell.c \
 			parser_state.c parser_utils.c \
 			parser_reduce_0.c parser_reduce_1.c \
 			parser_reduce_2.c parser_reduce_3.c \
-			redir.c command.c
-
+			make_command.c dispose_command.c \
+			redir.c here_document.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 
 HEADER_LIBFT = libft.h
 SOURCE_LIBFT = libft_memory.c libft_string.c
 OBJECT_LIBFT = $(addprefix $(OBJECTS_DIR), $(SOURCE_LIBFT:.c=.o))
 
-SOURCE_GENERAL = util_flag.c safe_mem.c string_buffer.c generic_list.c
+SOURCE_GENERAL = util_flag.c safe_io.c safe_io_utils.c safe_mem.c \
+					string_buffer.c string_vector.c generic_list.c
 OBJECT_GENERAL = $(addprefix $(OBJECTS_DIR), $(SOURCE_GENERAL:.c=.o))
 
 TARGET = minishell
 OBJS = $(OBJECT) $(OBJECT_LIBFT) $(OBJECT_GENERAL)
 
-###############################################################################
-###############################################################################
-BUILTIN_DIR		=	built_in/
-BUILTIN_SRC 	=	ft_cd.c ft_echo.c ft_env.c \
-					ft_export.c ft_pwd.c ft_unset.c \
-					built_in_util.c
-BUILTIN_HEADER	=	$(addprefix $(BUILTIN_DIR), built_in.h)
-BUILTIN			=	$(addprefix $(BUILTIN_DIR), $(BUILTIN_SRC))
-OBJECT_BUILTIN	=	$(addprefix $(OBJECTS_DIR), $(BUILTIN_SRC:.c=.o))
-###############################################################################
-ENVIRON_DIR		=	environ/
-ENVIRON_SRC		=	env_module.c env_util.c \
-					env_list1.c env_list2.c
-ENVIRON_HEADER	=	$(addprefix $(ENVIRON_DIR), env_module.h)
-ENVIRON			=	$(addprefix $(ENVIRON_DIR), $(ENVIRON_SRC))
-OBJECT_ENVIRON	=	$(addprefix $(OBJECTS_DIR), $(ENVIRON_SRC:.c=.o))
-###############################################################################
-HEADER			+=	$(BUILTIN_HEADER) $(ENVIRON_HEADER)
-SOURCE			+=	$(BUILTIN) $(ENVIRON)
-OBJS			+=	$(OBJECT_BUILTIN) $(OBJECT_ENVIRON)
-###############################################################################
-###############################################################################
-
 LDFLAGS += -lreadline
 
-C_SANITIZER_FLAGS = address undefined
+C_SANITIZER_FLAGS = #address undefined
 CFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 LDFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 
@@ -83,10 +61,10 @@ $(OBJECTS_DIR):
 
 $(OBJS): | $(OBJECTS_DIR)
 
-$(addprefix $(OBJECTS_DIR), %.o): %.c 
+$(addprefix $(OBJECTS_DIR), %.o): %.c
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-$(TARGET): $(OBJS)	
+$(TARGET): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 $(SOURCE): $(HEADER)
@@ -94,6 +72,8 @@ $(SOURCE): $(HEADER)
 $(SOURCE_LIBFT): $(HEADER_LIBFT)
 
 $(addprefix $(OBJECTS_DIR), util_flag.o): util_flag.h
+$(addprefix $(OBJECTS_DIR), safe_io.o safe_io_utils.o): safe_io.h
 $(addprefix $(OBJECTS_DIR), safe_mem.o): safe_mem.h
 $(addprefix $(OBJECTS_DIR), string_buffer.o): string_buffer.h
+$(addprefix $(OBJECTS_DIR), string_vector.o): string_vector.h
 $(addprefix $(OBJECTS_DIR), generic_list.o): generic_list.h

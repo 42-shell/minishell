@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/09 20:21:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 20:39:39 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,28 @@
 #include "util_flag.h"
 #include "string_buffer.h"
 #include "generic_list.h"
+#include "libft.h"
 
-#include <stdio.h>
-
+// S -> list
+// simple_command_element -> WORD
+// simple_command_element -> redirection
+// redirection -> '<' WORD
+// redirection -> '>' WORD
+// redirection -> '<<' WORD
+// redirection -> '>>' WORD
+// simple_command -> simple_command_element
+// simple_command -> simple_command simple_command_element
+// redirection_list -> redirection
+// redirection_list -> redirection_list redirection
+// command -> simple_command
+// command -> subshell
+// command -> subshell redirection_list
+// subshell -> '(' list ')'
+// list -> pipeline
+// list -> list '||' pipeline
+// list -> list '&&' pipeline
+// pipeline -> command
+// pipeline -> command '|' pipeline
 static t_parse_func *const	g_grammer[] = {
 	parser_reduce_0,
 	parser_reduce_1,
@@ -43,14 +62,11 @@ static t_parse_func *const	g_grammer[] = {
 static t_token_kind	_parse_shift(t_parser *pst, t_parser_state state,
 	t_token_kind token)
 {
-	pst->now++;
+	clear_parser_stack_item(++pst->now);
 	pst->now->state = state;
 	pst->now->kind = token;
 	if (token == TK_WORD)
-	{
-		pst->now->word = pst->backup_word;
-		pst->backup_word.str = NULL;
-	}
+		swap_word(&pst->now->word, &pst->backup_word);
 	return (TK_AGAIN);
 }
 
@@ -58,8 +74,9 @@ static t_parser_state	_parse_reduce(t_parser *pst, t_parser_state state)
 {
 	const t_token_kind	token = (*g_grammer[-state])(pst);
 
-	state = parser_state((--pst->now)->state, token);
-	_parse_shift(pst, state, token);
+	state = parser_state(pst->now[-1].state, token);
+	pst->now->state = state;
+	pst->now->kind = token;
 	return (state);
 }
 
@@ -88,5 +105,6 @@ int	parse(t_parser *pst)
 		else
 			token = _parse_shift(pst, state, token);
 	}
+	gather_here_document(pst);
 	return (0);
 }

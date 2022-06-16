@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:16:50 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 13:28:58 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:42:09 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	ft_free_exp_info(t_exp_info *info)
 	free(info->exp_output);
 }
 
-// idx -> 0 : for init_value, reduce fn_line
 // change to string_buffer
 int	create_expand_arr(t_exp_info *info, char *cpy_target, int idx)
 {

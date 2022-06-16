@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 16:27:47 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:40:22 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,30 @@
 
 static void	init_check_info(t_glob_info *info, char *name)
 {
-	info->pattern_check.l_name_pos = 0;
-	info->pattern_check.l_pattern_pos = 0;
-	info->pattern_check.r_pattern_pos = (info->split_size);
-	info->pattern_check.return_value = 0;
-	info->pattern_check.cut_pos = 0;
-	info->pattern_check.cut_char = name[0];
+	info->check_info.name_pos = 0;
+	info->check_info.l_pt_pos = 0;
+	info->check_info.r_pt_pos = (info->split_size);
+	info->check_info.return_value = 0;
+	info->check_info.cut_pos = 0;
+	info->check_info.cut_char = name[0];
 }
 
-static void	pm_cmp_middle(t_glob_info *info, char *name, \
-												size_t pm_pos, size_t na_pos)
+static void	cmp_middle(t_glob_info *info, char *name, \
+												size_t pt_pos, size_t na_pos)
 {
 	size_t	size;
 	char	*pos;
 
 	size = ft_strlen(&name[na_pos]);
-	pos = ft_strnstr(&name[na_pos], info->pattern_split[pm_pos], size);
+	pos = ft_strnstr(&name[na_pos], info->pattern_split[pt_pos], size);
 	if (pos)
 	{
-		info->pattern_check.l_pattern_pos += 1;
-		info->pattern_check.l_name_pos += (pos - &name[na_pos] + 1);
+		info->check_info.l_pt_pos += 1;
+		info->check_info.name_pos += (pos - &name[na_pos] + 1);
 	}
 	else
 	{
-		info->pattern_check.l_pattern_pos = \
-										info->pattern_check.r_pattern_pos + 1;
+		info->check_info.l_pt_pos = info->check_info.r_pt_pos + 1;
 	}
 }
 
@@ -64,38 +63,36 @@ static int	is_edge_str_equal(t_glob_info *info, char *name, \
 	}
 }
 
-static void	pm_cmp_edge(t_glob_info *info, char *name, int l_or_r, size_t idx)
+static void	cmp_edge(t_glob_info *info, char *name, int l_or_r, size_t idx)
 {
 	size_t	pos;
 
-	if (info->pattern_check.r_pattern_pos >= info->pattern_check.l_pattern_pos)
+	if (info->check_info.r_pt_pos >= info->check_info.l_pt_pos)
 	{
 		if (is_edge_str_equal(info, name, l_or_r, idx))
 		{
 			if (l_or_r == 1)
 			{
-				info->pattern_check.l_pattern_pos++;
-				info->pattern_check.l_name_pos = \
-											ft_strlen(info->pattern_split[idx]);
+				info->check_info.l_pt_pos++;
+				info->check_info.name_pos = ft_strlen(info->pattern_split[idx]);
 			}
 			else
 			{
-				if (info->pattern_check.r_pattern_pos != \
-											info->pattern_check.l_pattern_pos)
-					info->pattern_check.r_pattern_pos--;
+				if (info->check_info.r_pt_pos \
+					!= info->check_info.l_pt_pos)
+					info->check_info.r_pt_pos--;
 				pos = ft_strlen(name) - ft_strlen(info->pattern_split[idx]);
-				info->pattern_check.cut_char = name[pos];
-				info->pattern_check.cut_pos = pos;
+				info->check_info.cut_char = name[pos];
+				info->check_info.cut_pos = pos;
 				name[pos] = '\0';
 			}
 		}
 		else
-			info->pattern_check.l_pattern_pos = \
-										info->pattern_check.r_pattern_pos + 1;
+			info->check_info.l_pt_pos = info->check_info.r_pt_pos + 1;
 	}
 }
 
-int	pattern_check.string(t_pattern_info *info, char *name, int file_type)
+int	check_string(t_pattern_info *info, char *name, int file_type)
 {
 	char	*temp;
 
@@ -104,24 +101,20 @@ int	pattern_check.string(t_pattern_info *info, char *name, int file_type)
 	init_check_info(info, name);
 	if (info->glob_flag.r_type == PM_SLASH)
 	{
-		temp = info->pattern_split[info->pattern_check.r_pattern_pos - 1];
+		temp = info->pattern_split[info->check_info.r_pt_pos - 1];
 		temp[ft_strlen(temp) - 1] = '\0';
 	}
 	if (info->glob_flag.l_type == PM_WORD)
-		pm_cmp_edge(info, name, LHS, 0);
-	if (info->pattern_check.r_pattern_pos < info->pattern_check.l_pattern_pos)
-		return (info->pattern_check.r_pattern_pos \
-										- info->pattern_check.l_pattern_pos);
+		cmp_edge(info, name, LHS, 0);
+	if (info->check_info.r_pt_pos < info->check_info.l_pt_pos)
+		return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);
 	if ((info->glob_flag.r_type == PM_WORD \
-										|| info->glob_flag.r_type == PM_SLASH))
-		pm_cmp_edge(info, name, RHS, info->pattern_check.r_pattern_pos - 1);
-	if (info->pattern_check.r_pattern_pos < info->pattern_check.l_pattern_pos)
-		return (info->pattern_check.r_pattern_pos \
-										- info->pattern_check.l_pattern_pos);
-	while (info->pattern_check.r_pattern_pos \
-											> info->pattern_check.l_pattern_pos)
-		pm_cmp_middle(info, name, info->pattern_check.l_pattern_pos, \
-												info->pattern_check.l_name_pos);
-	return (info->pattern_check.r_pattern_pos \
-										- info->pattern_check.l_pattern_pos);
+		|| info->glob_flag.r_type == PM_SLASH))
+		cmp_edge(info, name, RHS, info->check_info.r_pt_pos - 1);
+	if (info->check_info.r_pt_pos < info->check_info.l_pt_pos)
+		return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);
+	while (info->check_info.r_pt_pos > info->check_info.l_pt_pos)
+		cmp_middle(info, name, info->check_info.l_pt_pos, \
+												info->check_info.name_pos);
+	return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);
 }

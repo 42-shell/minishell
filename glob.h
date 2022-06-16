@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 16:21:49 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:39:19 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ enum e_pattern_match_value
 	PM_SLASH = '/',
 };
 
-typedef struct s_check_done
+typedef struct s_check_info
 {
-	size_t		l_name_pos;
+	size_t		name_pos;
 	size_t		l_pt_pos;
 	size_t		r_pt_pos;
 	int			return_value;
 	char		cut_char;
 	size_t		cut_pos;
-}				t_check_done;
+}				t_check_info;
 
 typedef struct s_glob_flag
 {
@@ -58,16 +58,16 @@ typedef struct s_glob_info
 	size_t			split_text_cnt;
 	size_t			pattern_pos;
 	char			**glob_matched;
-	t_pattern_flag	glob_flag;
-	t_check_done	pattern_check;
+	t_glob_flag		glob_flag;
+	t_check_info	check_info;
 }					t_glob_info;
 
 /*
 ** Pattern_match function
 */
 char	**find_pattern(char *pattern);
-int		pm_workhorse(t_glob_info *info);
-int		pm_check_string(t_glob_info *info, char *name, int file_type);
+int		glob_workhorse(t_glob_info *info);
+int		check_string(t_glob_info *info, char *name, int file_type);
 
 /*
 ** PM_util

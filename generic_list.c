@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 16:50:49 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/21 20:46:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/14 16:37:01 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,19 @@ size_t	list_length(t_generic_list *list)
 	return (i);
 }
 
-t_generic_list	*list_append(t_generic_list *head, t_generic_list *elem)
+void	list_append(t_generic_list **head, t_generic_list *elem)
 {
 	t_generic_list	*t;
 
-	if (!head)
-		return (elem);
-	t = head;
-	while (t->next)
-		t = t->next;
-	t->next = elem;
-	return (head);
+	if (!*head)
+		*head = elem;
+	else if (elem)
+	{
+		t = *head;
+		while (t->next)
+			t = t->next;
+		t->next = elem;
+	}
 }
 
 t_generic_list	*list_remove(t_generic_list **list, t_gl_func *cmp, void *arg)

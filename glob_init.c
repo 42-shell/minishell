@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 16:22:18 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:39:37 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	count_pattern_size(t_glob_info *info)
 		info->split_text_cnt -= 1;
 }
 
-static void	pm_set_flag(char *str, t_glob_info *info)
+static void	glob_set_flag(char *str, t_glob_info *info)
 {
 	if (str[0] == PM_ASTERISK)
 		info->glob_flag.l_type = PM_ASTERISK;
@@ -59,12 +59,12 @@ char	**find_pattern(char *pattern)
 	info.pwd = ft_get_pwd();
 	if (!info.pwd)
 		return (NULL);
-	pm_set_flag(pattern, &info);
+	glob_set_flag(pattern, &info);
 	info.pattern_split = ft_split(pattern, PM_ASTERISK);
 	if (!info.pattern_split)
 		return (ft_free_pm(&info, RM_PWD));
 	count_pattern_size(&info);
-	if (pm_workhorse(&info))
+	if (glob_workhorse(&info))
 		return (ft_free_pm(&info, RM_PWD | RM_PM | RM_PI));
 	ft_free_pm(&info, RM_PWD | RM_PM);
 	return (info.glob_matched);

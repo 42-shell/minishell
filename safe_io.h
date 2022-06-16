@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_string.c                                     :+:      :+:    :+:   */
+/*   safe_io.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/21 15:31:13 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 19:58:50 by jkong            ###   ########.fr       */
+/*   Created: 2022/05/21 19:55:19 by jkong             #+#    #+#             */
+/*   Updated: 2022/06/15 21:24:37 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef SAFE_IO_H
+# define SAFE_IO_H
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+# include <stdlib.h>
+# include <unistd.h>
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
+int		read_safe(int fd, void *buf, size_t len);
+void	write_safe(int fd, const void *buf, size_t len);
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
+void	putstr_safe(const char *str);
+void	putnbr_safe(int n);
+void	puterr_safe(const char *str);
+
+#endif

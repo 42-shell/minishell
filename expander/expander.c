@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 15:58:08 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 18:14:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 // DQ, SQ : match -> if null_terminate -> error
 static void	ft_init_expand_info(t_exp_info *info)
 {
-	info->malloc_size = 1;
-	info->cur_src_pos = 0;
 	info->cur_pos = 0;
 	info->exp_output = NULL;
 }

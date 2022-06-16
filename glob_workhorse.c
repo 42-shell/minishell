@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 16:26:09 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:38:01 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	create_inter(t_glob_info *info, char *find, int idx)
 	char	**temp;
 
 	if (info->malloc_size > info->pattern_pos + 1)
-		info->glob_matched[info->pm_pos] = ft_strdup(find);
+		info->glob_matched[info->pattern_pos] = ft_strdup(find);
 	else
 	{
 		info->malloc_size *= 2;
@@ -84,18 +84,18 @@ static int	create_inter(t_glob_info *info, char *find, int idx)
 	return (0);
 }
 
-static int	pattern_check_pattern(t_glob_info *info, char *d_name, int d_type)
+static int	check_pattern(t_glob_info *info, char *d_name, int d_type)
 {
 	if (check_dot_dot(d_name, d_type))
 		return (0);
 	else if (ft_strlen(d_name) < (info->split_text_cnt))
 		return (0);
-	else if (pattern_check.string(info, d_name, d_type))
+	else if (check_string(info, d_name, d_type))
 		return (0);
 	return (1);
 }
 
-int	pm_workhorse(t_glob_info *info)
+int	glob_workhorse(t_glob_info *info)
 {
 	struct dirent	*entity_dir;
 	DIR				*current_dir;
@@ -107,12 +107,12 @@ int	pm_workhorse(t_glob_info *info)
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
-		if (pattern_check_pattern(info, entity_dir->d_name, entity_dir->d_type))
+		if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
 		{
 			if (info->glob_flag.r_type == PM_WORD \
 										|| info->glob_flag.r_type == PM_SLASH)
-				entity_dir->d_name[info->pattern_check.cut_pos] = \
-												info->pattern_check.cut_char;
+				entity_dir->d_name[info->check_info.cut_pos] = \
+												info->check_info.cut_char;
 			if (create_inter(info, entity_dir->d_name, 0))
 				return (-1);
 		}

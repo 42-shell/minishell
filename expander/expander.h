@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 13:33:09 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/16 18:12:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ typedef struct s_exp_check
 typedef struct s_exp_info
 {
 	char		**exp_output;
-	size_t		malloc_size;
-	size_t		cur_src_pos;
 	size_t		cur_pos;
 	t_exp_check	check;
 }				t_exp_info;

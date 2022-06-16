@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/25 21:13:50 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/15 18:28:37 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	_resize_buffer(t_str_buf *buf, size_t n)
 	}
 	if (capacity != buf->capacity)
 	{
-		attach = malloc_safe(capacity);
+		attach = malloc_safe(capacity * sizeof(*buf->str));
 		detach = buf->str;
 		_memcpy(attach, detach, buf->length);
 		buf->str = attach;
@@ -106,7 +106,7 @@ char	*str_dispose(t_str_buf *buf)
 
 	if (!buf)
 		return (NULL);
-	result = calloc_safe(buf->length + 1, sizeof(char));
+	result = calloc_safe(buf->length + 1, sizeof(*buf->str));
 	_memcpy(result, buf->str, buf->length);
 	free(buf->str);
 	free(buf);

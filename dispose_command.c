@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_string.c                                     :+:      :+:    :+:   */
+/*   dispose_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/21 15:31:13 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 19:58:50 by jkong            ###   ########.fr       */
+/*   Created: 2022/05/26 18:10:34 by jkong             #+#    #+#             */
+/*   Updated: 2022/06/14 19:18:38 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *s)
+void	dispose_word(t_word *item)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	free(item->str);
+	item->str = NULL;
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	dispose_command(t_command *item)
 {
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
+	free(item->value.ptr);
+	item->value.ptr = NULL;
 }
