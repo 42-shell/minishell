@@ -33,7 +33,6 @@ static size_t	ft_compare(char *s1, char *s2)
 		return (0);
 	else if (*s2 == '\0')
 		return (1);
-	return (*s1 - *s2);
 }
 
 static void	ft_lstadd_sort_addon(t_env_list **lst, t_env_list *new)
