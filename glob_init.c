@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 18:46:36 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:41:52 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ char	**expand_glob(char *pattern)
 	if (glob_workhorse(&info))
 		return (ft_free_pm(&info, RM_PWD | RM_PM | RM_PI));
 	ft_free_pm(&info, RM_PWD | RM_PM);
-	return (info.glob_matched);
+	return (strv_dispose(info.glob_matched));
 }

@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 18:47:44 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:41:43 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define GLOB_H
 
 # include <stddef.h>
+# include "string_vector.h"
 
 # define LHS 1
 # define RHS -1
@@ -57,7 +58,7 @@ typedef struct s_glob_info
 	size_t			split_size;
 	size_t			split_text_cnt;
 	size_t			pattern_pos;
-	char			**glob_matched;
+	t_str_vec		*glob_matched;
 	t_glob_flag		glob_flag;
 	t_check_info	check_info;
 }					t_glob_info;

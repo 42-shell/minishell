@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 12:34:52 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:08:20 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ static void	expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
 {
 	while (*str)
 	{
-		info->flag = 0;
 		if (has_flag(get_char_flags(*str), CF_QUOTE))
 		{
 			if (*str == "\"")

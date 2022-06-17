@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 12:33:34 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:08:05 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_exp_info
 	t_str_buf	*sb;
 	t_str_buf	*sb_dollar;
 	t_str_vec	*sv;
-	int			flag;
 }				t_exp_info;
 
 /*

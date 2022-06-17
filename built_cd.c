@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 19:18:33 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:06:05 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ size_t	ft_cd(char **argv, t_env_list *head)
 	if (size == 1)
 	{
 		id = get_env(head, "HOME");
-		if (!id)
-			return (-1);
-		else if (chdir(id))
+		if (!id || chdir(id))
 			return (-1);
 	}
 	else if (size == 2)
@@ -52,5 +50,9 @@ size_t	ft_cd(char **argv, t_env_list *head)
 		if (check_tild_dash(argv, head))
 			return (-1);
 	}
-	return (change_env(head, "OLDPWD", get_env(head, "PWD")));
+	change_env(head, "OLDPWD", get_env(head, "PWD"));
+	id = ft_get_pwd();
+	change_env(head, "PWD", id);
+	free(id);
+	return (0);
 }

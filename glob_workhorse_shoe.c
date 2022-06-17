@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   glob_check_pattern.c                               :+:      :+:    :+:   */
+/*   glob_workhorse_shoe.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 17:40:22 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:40:53 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,12 @@ int	check_string(t_pattern_info *info, char *name, int file_type)
 	if (info->check_info.r_pt_pos < info->check_info.l_pt_pos)
 		return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);
 	if ((info->glob_flag.r_type == PM_WORD \
-		|| info->glob_flag.r_type == PM_SLASH))
+	|| info->glob_flag.r_type == PM_SLASH))
 		cmp_edge(info, name, RHS, info->check_info.r_pt_pos - 1);
 	if (info->check_info.r_pt_pos < info->check_info.l_pt_pos)
 		return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);
 	while (info->check_info.r_pt_pos > info->check_info.l_pt_pos)
 		cmp_middle(info, name, info->check_info.l_pt_pos, \
-												info->check_info.name_pos);
+		info->check_info.name_pos);
 	return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);
 }
