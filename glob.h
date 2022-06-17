@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 19:25:31 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:24:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <stddef.h>
 # include "string_vector.h"
-
-# include <stdio.h> // need to del
 
 # define LHS 1
 # define RHS -1

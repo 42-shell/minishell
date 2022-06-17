@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 19:40:46 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 21:02:35 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int main(int argc, char **argv, char **envp)
 		temp = set_env(envp);
 
 
-		argv[2] = "env*";
 		str_arr = check_expand(&argv[1], temp);
+//		str_arr[2] = "\"'hi$PWD'  $PWD\"";
 		int idx = 0;
-		while (str_arr[idx])
+		while (str_arr[idx] && idx < 100)
 		{
-			printf("%s\n", str_arr[idx]);
+			printf("-> %s\n", str_arr[idx]);
 			idx++;
 		}
 		/*

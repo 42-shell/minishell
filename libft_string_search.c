@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:33:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 16:08:18 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 21:00:59 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	char	*temp;
 
+	if (!s || *s == '\0')
+		return (NULL);
 	temp = (char *)s;
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 19:05:49 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:24:30 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include "minishell.h"
 # include "util_flag.h"
 # include "glob.h"
+
+# include <stdio.h> // need to del
 
 enum e_exp_type
 {

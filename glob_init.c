@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 19:20:53 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 20:25:43 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	glob_set_flag(char *str, t_glob_info *info)
 }
 
 // if return -> NULL -> print "pattern"
-t_str_vec *expand_glob(char *pattern, t_str_vec *str_vec)
+t_str_vec	*expand_glob(char *pattern, t_str_vec *str_vec)
 {
 	t_glob_info	info;
 
