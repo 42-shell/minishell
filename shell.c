@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 01:54:36 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 17:03:53 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char *argv[])
 		if (parse(&pst))
 		{
 			gather_here_document(&pst);
-			execute_command(&pst.now->command);
+			execute_command(&pst.now->command, NO_PIPE, NO_PIPE);
 			add_history(rl);
 		}
 		__todo_stack_destroy(&pst);

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 16:57:51 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 19:49:20 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static void	_resize_vector(t_str_vec *vec, size_t n)
 	}
 	if (capacity != vec->capacity)
 	{
-		attach = malloc_safe(capacity * sizeof(vec->arr));
+		attach = malloc_safe(capacity * sizeof(*vec->arr));
 		detach = vec->arr;
-		_memcpy(attach, detach, vec->length);
+		_memcpy(attach, detach, vec->length * sizeof(*vec->arr));
 		vec->arr = attach;
 		free(detach);
 		vec->capacity = capacity;
