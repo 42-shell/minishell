@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/16 18:29:10 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 01:54:36 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ void	__todo_stack_capacity(t_parser *pst)
 	capacity = 200;
 	pst->stack_capacity = capacity;
 	pst->stack_base = calloc_safe(capacity, sizeof(*pst->stack_base));
+	pst->now = pst->stack_base;
+}
+
+void	__todo_stack_destroy(t_parser *pst)
+{
+	while (pst->now > pst->stack_base)
+		clear_parser_stack_item(pst->now--);
 }
 
 int	main(int argc, char *argv[])
@@ -45,14 +52,16 @@ int	main(int argc, char *argv[])
 		}
 		pst.str = rl;
 		pst.begin = pst.str;
-		pst.now = pst.stack_base;
-		parse(&pst);
-		gather_here_document(&pst);
-		execute_command(&pst.now->command);
-		dispose_command_recursive(&pst.now->command);
-		add_history(rl);
+		pst.error = PE_SUCCESS;
+		if (parse(&pst))
+		{
+			gather_here_document(&pst);
+			execute_command(&pst.now->command);
+			add_history(rl);
+		}
+		__todo_stack_destroy(&pst);
 		free(rl);
 	}
-	free(pst.stack_base); //__todo
+	free(pst.stack_base);
 	return (exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/16 18:19:17 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 01:48:59 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,6 +257,7 @@ void					subshell_apply_redirect(t_subshell_command *subshell,
 void					push_here_document(t_parser *pst, t_list_redirect *r);
 void					gather_here_document(t_parser *pst);
 
+char					*get_token_str(t_token_kind token);
 void					swap_word(t_word *a, t_word *b);
 void					swap_redirect(t_redirect *a, t_redirect *b);
 void					swap_command(t_command *a, t_command *b);
