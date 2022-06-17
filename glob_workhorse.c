@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 02:12:00 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 02:54:13 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	glob_workhorse(t_glob_info *info)
 			|| info->glob_flag.r_type == GLOB_SLASH)
 				entity_dir->d_name[info->check_info.cut_pos] \
 				= info->check_info.cut_char;
-			info->glob_matched = strv_append(info->glob_matched, \
-			ft_strdup(entity_dir->d_name));
+			info->glob_matched \
+			= strv_append(info->glob_matched, ft_strdup(entity_dir->d_name));
 		}
 		entity_dir = readdir(current_dir);
 	}

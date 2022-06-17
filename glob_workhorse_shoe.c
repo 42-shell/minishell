@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 01:56:20 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 02:31:34 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	check_string(t_glob_info *info, char *name, int file_type)
 {
 	char	*temp;
 
-	if (info->glob_flag.r_type == PM_SLASH && file_type != DT_DIR)
+	if (info->glob_flag.r_type == GLOB_SLASH && file_type != DT_DIR)
 		return (1);
 	init_check_info(info, name);
 	if (info->glob_flag.r_type == GLOB_SLASH)

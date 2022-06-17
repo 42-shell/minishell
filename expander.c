@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 02:00:47 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 02:55:26 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ char	**check_expand(char **argv, t_env_list *env)
 		if (info.cur_pos && ft_strchr(temp, GLOB_ASTERISK))
 		{
 			info.sv = expand_glob(temp, info.sv, env);
+			free(temp);
 		}
 		else
 		{
