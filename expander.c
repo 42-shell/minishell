@@ -6,13 +6,13 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 21:09:26 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 02:00:47 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-static size_t	_dollar(t_exp_info *info, t_env_list *head, char *str, int key)
+static size_t	_dollar(t_exp_info *info, t_env_list *env, char *str, int key)
 {
 	size_t	ret;
 	char	*expand;
@@ -27,7 +27,7 @@ static size_t	_dollar(t_exp_info *info, t_env_list *head, char *str, int key)
 			info->sb_dollar = str_append_raw(info->sb_dollar, str + ret, 1);
 			ret++;
 		}
-		expand = get_env(head, str_dispose(info->sb_dollar));
+		expand = get_env(env, str_dispose(info->sb_dollar));
 		if (expand)
 			info->sb = str_append(info->sb, expand);
 		ret--;
@@ -40,19 +40,14 @@ static size_t	_dollar(t_exp_info *info, t_env_list *head, char *str, int key)
 	return (ret);
 }
 
-static size_t	_s_quote(t_exp_info *info, t_env_list *head, char *str)
+static size_t	_s_quote(t_exp_info *info, char *str)
 {
 	size_t	ret;
 
 	ret = 1;
 	while (1)
 	{
-		if (*(str + ret) == '\0')
-		{
-			//error 
-			break ;
-		}
-		else if (*(str + ret) == '\'')
+		if ((*(str + ret) == '\0') || (*(str + ret) == '\''))
 		{
 			break ;
 		}
@@ -65,26 +60,21 @@ static size_t	_s_quote(t_exp_info *info, t_env_list *head, char *str)
 	return (ret);
 }
 
-static size_t	_d_quote(t_exp_info *info, t_env_list *head, char *str)
+static size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str)
 {
 	size_t	ret;
 
 	ret = 1;
 	while (1)
 	{
-		if (*(str + ret) == '\0')
-		{
-			//error
-			break ;
-		}
-		else if (*(str + ret) == '\"')
+		if ((*(str + ret) == '\0') || (*(str + ret) == '\"'))
 		{
 			break ;
 		}
 		else
 		{
 			if (*(str + ret) == '$')
-				ret += _dollar(info, head, str + ret, D_QUOTE);
+				ret += _dollar(info, env, str + ret, D_QUOTE);
 			else
 				info->sb = str_append_raw(info->sb, str + ret, 1);
 		}
@@ -93,7 +83,7 @@ static size_t	_d_quote(t_exp_info *info, t_env_list *head, char *str)
 	return (ret);
 }
 
-static char	*expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
+static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
 {
 	while (*str)
 	{
@@ -101,16 +91,16 @@ static char	*expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
 		{
 			if (*str == '\"')
 			{
-				str += _d_quote(info, head, str);
+				str += _d_quote(info, env, str);
 			}
 			else if (*str == '\'')
 			{
-				str += _s_quote(info, head, str);
+				str += _s_quote(info, str);
 			}
 		}
 		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
 		{
-			str += _dollar(info, head, str, DOLLAR);
+			str += _dollar(info, env, str, DOLLAR);
 		}
 		else
 		{
@@ -121,12 +111,12 @@ static char	*expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
 	return (str_dispose(info->sb));
 }
 
-char	**check_expand(char **argv, t_env_list *head)
+char	**check_expand(char **argv, t_env_list *env)
 {
 	t_exp_info	info;
 	char		*temp;
 
-	if (!argv || !(*argv) || !head)
+	if (!argv || !(*argv) || !env)
 		return (NULL);
 	info.sb_dollar = NULL;
 	info.sv = NULL;
@@ -134,10 +124,10 @@ char	**check_expand(char **argv, t_env_list *head)
 	while (argv[info.cur_pos])
 	{
 		info.sb = NULL;
-		temp = expand_workhorse(&info, head, argv[info.cur_pos]);
-		if (info.cur_pos && ft_strchr(temp, PM_ASTERISK))
+		temp = expand_workhorse(&info, env, argv[info.cur_pos]);
+		if (info.cur_pos && ft_strchr(temp, GLOB_ASTERISK))
 		{
-			info.sv = expand_glob(temp, info.sv);
+			info.sv = expand_glob(temp, info.sv, env);
 		}
 		else
 		{

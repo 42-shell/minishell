@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 20:25:43 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 01:55:55 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,38 @@ static void	count_pattern_size(t_glob_info *info)
 	}
 	info->split_size = i;
 	info->split_text_cnt = cnt;
-	if (info->glob_flag.r_type == PM_SLASH && info->split_text_cnt != 1)
+	if (info->glob_flag.r_type == GLOB_SLASH && info->split_text_cnt != 1)
 		info->split_text_cnt -= 1;
 }
 
 static void	glob_set_flag(char *str, t_glob_info *info)
 {
-	if (str[0] == PM_ASTERISK)
-		info->glob_flag.l_type = PM_ASTERISK;
+	if (str[0] == GLOB_ASTERISK)
+		info->glob_flag.l_type = GLOB_ASTERISK;
 	else
-		info->glob_flag.l_type = PM_WORD;
-	if (str[ft_strlen(str) - 1] == PM_ASTERISK)
-		info->glob_flag.r_type = PM_ASTERISK;
-	else if (str[ft_strlen(str) - 1] == PM_SLASH)
-		info->glob_flag.r_type = PM_SLASH;
+		info->glob_flag.l_type = GLOB_WORD;
+	if (str[ft_strlen(str) - 1] == GLOB_ASTERISK)
+		info->glob_flag.r_type = GLOB_ASTERISK;
+	else if (str[ft_strlen(str) - 1] == GLOB_SLASH)
+		info->glob_flag.r_type = GLOB_SLASH;
 	else
-		info->glob_flag.r_type = PM_WORD;
+		info->glob_flag.r_type = GLOB_WORD;
 }
 
 // if return -> NULL -> print "pattern"
-t_str_vec	*expand_glob(char *pattern, t_str_vec *str_vec)
+t_str_vec	*expand_glob(char *pattern, t_str_vec *str_vec, t_env_list *env)
 {
 	t_glob_info	info;
 
 	if (!pattern || *pattern == '\0')
 		return (NULL);
-	info.pwd = ft_get_pwd();
-	if (!info.pwd)
-		return (NULL);
+	info.pwd = get_env(env, "PWD");
 	info.glob_matched = str_vec;
 	glob_set_flag(pattern, &info);
-	info.pattern_split = ft_split(pattern, PM_ASTERISK);
+	info.pattern_split = ft_split(pattern, GLOB_ASTERISK);
 	count_pattern_size(&info);
 	if (glob_workhorse(&info))
-		return (ft_free_pm(&info, RM_PWD | RM_PM | RM_PI));
-	ft_free_pm(&info, RM_PWD | RM_PM);
+		return (ft_free_pm(&info, RM_PATTERN_SPLIT | RM_STR_VEC));
+	ft_free_pm(&info, RM_PATTERN_SPLIT);
 	return (info.glob_matched);
 }

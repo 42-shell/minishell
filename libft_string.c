@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:31:13 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 16:00:43 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 02:11:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ char	*ft_strdup(const char *s1)
 
 	idx = 0;
 	len = ft_strlen(s1);
-	temp = malloc(sizeof(char) * (len + 1));
-	if (!temp)
-		return (NULL);
+	temp = malloc_safe(sizeof(char) * (len + 1));
 	while (s1[idx])
 	{
 		temp[idx] = s1[idx];

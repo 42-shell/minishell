@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 19:04:05 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 02:12:00 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 #include "libft.h"
 #include "string_vector.h"
 #include <dirent.h>	// DT macro
-#include <stdlib.h>	 // malloc, free
+#include <stdlib.h>	 // free
 
 t_str_vec	*ft_free_pm(t_glob_info *info, int key)
 {
 	size_t	idx;
 	char	**temp;
 
-	if (key & RM_PWD)
-		free(info->pwd);
-	if (key & RM_PM)
+	if (key & RM_PATTERN_SPLIT)
 	{
 		idx = 0;
 		while (info->pattern_split && info->pattern_split[idx])
@@ -33,7 +31,7 @@ t_str_vec	*ft_free_pm(t_glob_info *info, int key)
 		}
 		free(info->pattern_split);
 	}
-	if (key & RM_PI)
+	if (key & RM_STR_VEC)
 	{
 		free_strvec(info->glob_matched->arr);
 	}
@@ -76,8 +74,8 @@ int	glob_workhorse(t_glob_info *info)
 	{
 		if (check_pattern(info, entity_dir->d_name, entity_dir->d_type))
 		{
-			if (info->glob_flag.r_type == PM_WORD \
-			|| info->glob_flag.r_type == PM_SLASH)
+			if (info->glob_flag.r_type == GLOB_WORD \
+			|| info->glob_flag.r_type == GLOB_SLASH)
 				entity_dir->d_name[info->check_info.cut_pos] \
 				= info->check_info.cut_char;
 			info->glob_matched = strv_append(info->glob_matched, \

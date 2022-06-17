@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 16:18:52 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 01:56:20 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,17 @@ int	check_string(t_glob_info *info, char *name, int file_type)
 	if (info->glob_flag.r_type == PM_SLASH && file_type != DT_DIR)
 		return (1);
 	init_check_info(info, name);
-	if (info->glob_flag.r_type == PM_SLASH)
+	if (info->glob_flag.r_type == GLOB_SLASH)
 	{
 		temp = info->pattern_split[info->check_info.r_pt_pos - 1];
 		temp[ft_strlen(temp) - 1] = '\0';
 	}
-	if (info->glob_flag.l_type == PM_WORD)
+	if (info->glob_flag.l_type == GLOB_WORD)
 		cmp_edge(info, name, LHS, 0);
 	if (info->check_info.r_pt_pos < info->check_info.l_pt_pos)
 		return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);
-	if ((info->glob_flag.r_type == PM_WORD \
-	|| info->glob_flag.r_type == PM_SLASH))
+	if ((info->glob_flag.r_type == GLOB_WORD \
+	|| info->glob_flag.r_type == GLOB_SLASH))
 		cmp_edge(info, name, RHS, info->check_info.r_pt_pos - 1);
 	if (info->check_info.r_pt_pos < info->check_info.l_pt_pos)
 		return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 20:24:30 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 01:58:12 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ typedef struct s_exp_info
 /*
 ** main_function
 */
-char	**check_expand(char **argv, t_env_list *head);
+char	**check_expand(char **argv, t_env_list *env);
 
 #endif

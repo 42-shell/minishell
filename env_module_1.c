@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 17:48:41 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 02:05:06 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,37 @@
 #include "libft.h" // strchr, strcmp, strdup
 #include <stdlib.h> // free
 
-void	clear_env(t_env_list **head)
+void	clear_env(t_env_list **env)
 {
 	t_env_list	**temp;
 
-	temp = head;
+	temp = env;
 	ft_lstclear(temp);
-	(*head) = NULL;
+	(*env) = NULL;
 }
 
-size_t	change_env(t_env_list *head, char *id, char *content)
+size_t	change_env(t_env_list *env, char *id, char *content)
 {
-	while (head)
+	while (env)
 	{
-		if (!ft_strcmp(id, head->content.id))
+		if (!ft_strcmp(id, env->content.id))
 		{
-			free(head->content.content);
-			head->content.content = ft_strdup(content);
+			free(env->content.content);
+			env->content.content = ft_strdup(content);
 			return (0);
 		}
-		head = head->next;
+		env = env->next;
 	}
 	return (-1);
 }
 
-char	*get_env(t_env_list *head, char *id)
+char	*get_env(t_env_list *env, char *id)
 {
-	while (head)
+	while (env)
 	{
-		if (!ft_strcmp(id, head->content.id))
-			return (head->content.content);
-		head = head->next;
+		if (!ft_strcmp(id, env->content.id))
+			return (env->content.content);
+		env = env->next;
 	}
 	return (NULL);
 }
