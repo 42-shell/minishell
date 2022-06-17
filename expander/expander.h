@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 22:01:24 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 12:33:34 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXPANDER_H
 
 # include "env_module.h"
+# include "libft.h"
 # include "string_buffer.h"
 # include "string_vector.h"
 
@@ -22,32 +23,22 @@ enum e_exp_type
 	PASS	= 0,
 	D_QUOTE = 1,
 	S_QUOTE = 2,
-	ENV		= 4,
+	DOLLAR	= 4,
 	GLOB	= 8,
 };
-
-typedef struct s_exp_check
-{
-	int			flag;
-}				t_exp_check;
 
 typedef struct s_exp_info
 {
 	size_t		cur_pos;
-	t_str_buf	*s_b;
-	t_str_vec	*s_v;
-	t_exp_check	check; // is_it necessary?
+	t_str_buf	*sb;
+	t_str_buf	*sb_dollar;
+	t_str_vec	*sv;
+	int			flag;
 }				t_exp_info;
 
 /*
 ** main_function
 */
 char	**check_expand(char **argv, t_env_list *head);
-
-/*
-** util_function
-*/
-int		create_expand_arr(t_exp_info *info, char *cpy_target, int idx);
-void	ft_free_exp_info(t_exp_info *info);
 
 #endif
