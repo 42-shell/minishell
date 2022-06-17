@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:40:53 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:18:52 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	cmp_edge(t_glob_info *info, char *name, int l_or_r, size_t idx)
 	}
 }
 
-int	check_string(t_pattern_info *info, char *name, int file_type)
+int	check_string(t_glob_info *info, char *name, int file_type)
 {
 	char	*temp;
 

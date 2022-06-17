@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_lst_cpy_sort.c                                 :+:      :+:    :+:   */
+/*   env_list_cpy.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 17:32:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 17:49:42 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:12:04 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
+#include "libft.h"
 #include <stdlib.h> // malloc
 
 static size_t	ft_compare(char *s1, char *s2)
@@ -31,8 +32,7 @@ static size_t	ft_compare(char *s1, char *s2)
 	}
 	if ((*s1 == '\0' && *s2 == '\0') || *s1 == '\0')
 		return (0);
-	else if (*s2 == '\0')
-		return (1);
+	return (1);
 }
 
 static void	ft_lstadd_sort_addon(t_env_list **lst, t_env_list *new)

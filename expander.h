@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:08:05 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:17:11 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include "libft.h"
 # include "string_buffer.h"
 # include "string_vector.h"
+# include "minishell.h"
+# include "util_flag.h"
+# include "glob.h"
 
 enum e_exp_type
 {

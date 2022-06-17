@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:08:20 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:17:27 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static size_t	_s_quote(t_exp_info *info, t_env_list *head, char *str)
 			//error 
 			break ;
 		}
-		if (*(str + ret) == "\'")
+		if (*(str + ret) == '\'')
 		{
 			ret++;
 			break ;
@@ -77,15 +77,15 @@ static size_t	_d_quote(t_exp_info *info, t_env_list *head, char *str)
 			//error
 			break ;
 		}
-		else if (*(str + ret) == "\"")
+		else if (*(str + ret) == '\"')
 		{
 			ret++;
 			break ;
 		}
 		else
 		{
-			if (*(str + ret) == "$")
-				ret += _dollor(info, head, str + ret, D_QUOTE);
+			if (*(str + ret) == '$')
+				ret += _dollar(info, head, str + ret, D_QUOTE);
 			else
 				info->sb = str_append_raw(info->sb, str + ret, 1);
 		}
@@ -94,15 +94,15 @@ static size_t	_d_quote(t_exp_info *info, t_env_list *head, char *str)
 	return (ret);
 }
 
-static void	expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
+static char	*expand_workhorse(t_exp_info *info, t_env_list *head, char *str)
 {
 	while (*str)
 	{
 		if (has_flag(get_char_flags(*str), CF_QUOTE))
 		{
-			if (*str == "\"")
+			if (*str == '\"')
 				str += _d_quote(info, head, str);
-			else if (*str == "\'")
+			else if (*str == '\'')
 				str += _s_quote(info, head, str);
 		}
 		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
@@ -131,17 +131,17 @@ char	**check_expand(char **argv, t_env_list *head)
 	info.cur_pos = 0;
 	while (argv[info.cur_pos])
 	{
-		temp = expand_workhorse(info, head, argv[info.cur_pos]);
+		temp = expand_workhorse(&info, head, argv[info.cur_pos]);
 		if (temp == NULL)
 		{
 			// add (null) to strv_append_bulk
 		}
-		if (info.cur_pos && ft_strchr(temp, "*"))
-			info->sv = strv_append_bulk(info->sv, expand_glob(temp));
+		if (info.cur_pos && ft_strchr(temp, '*'))
+			info.sv = strv_append_bulk(info.sv, expand_glob(temp));
 		else
-			info->sv = strv_append(info->sv, temp);
-		info->sb = NULL;
+			info.sv = strv_append(info.sv, temp);
+		info.sb = NULL;
 		info.cur_pos++;
 	}
-	return (strv_dispose(info->sv));
+	return (strv_dispose(info.sv));
 }

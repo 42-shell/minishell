@@ -6,13 +6,14 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:07:24 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:10:55 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "string_buffer.h"
 #include "libft.h" // getarr_size, print
+#include "safe_io.h"
 #include <stdlib.h> // free
 #include <unistd.h> // getcwd
 

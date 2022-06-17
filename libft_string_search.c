@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:33:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:24:01 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:08:18 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,6 @@ char	*ft_strchr(const char *s, int c)
 		if (*temp == '\0')
 			return (NULL);
 		temp++;
-	}
-}
-
-size_t	ft_strcmp(char *s1, char *s2)
-{
-	if (!s1 || !s2)
-		return (-1);
-	while (1)
-	{
-		if (*s1 - *s2)
-			return (*s1 - *s2);
-		if (*s1 == '\0' && *s2 == '\0')
-			return (0);
-		s1++;
-		s2++;
 	}
 }
 
@@ -89,10 +74,20 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (ft_strlen(s + start) < len)
 		len = ft_strlen(s + start);
-	temp = ft_calloc(len + 1, sizeof(char));
+	temp = calloc_safe(len + 1, sizeof(char));
 	if (!temp)
 		return (NULL);
 	temp[len] = 0;
 	ft_memcpy(temp, s + start, len);
 	return (temp);
+}
+
+size_t	ft_getarr_size(char **str_vec)
+{
+	size_t	idx;
+
+	idx = 0;
+	while (str_vec && str_vec[idx])
+		idx++;
+	return (idx);
 }

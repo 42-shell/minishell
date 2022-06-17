@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/16 19:04:03 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:10:36 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h" // getarr_size , strchr
 #include "string_buffer.h"
 #include "minishell.h"
+#include "safe_io.h"
 
 static size_t	sort_print_env(t_env_list *head)
 {

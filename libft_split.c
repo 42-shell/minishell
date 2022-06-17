@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 20:47:42 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/15 20:50:13 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:04:34 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,6 @@
 static void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, 0, n);
-}
-
-static void	*ft_calloc(size_t count, size_t size)
-{
-	size_t	final_size;
-	void	*ptr;
-
-	final_size = count * size;
-	ptr = malloc(final_size);
-	if (ptr)
-		ft_bzero(ptr, final_size);
-	return (ptr);
 }
 
 static int	_split_elem(char **ptr, char const *s, char c)
@@ -44,7 +32,7 @@ static int	_split_elem(char **ptr, char const *s, char c)
 			i = 0;
 			while (s[i] && s[i] != c)
 				i++;
-			elem = ft_calloc(i + 1, sizeof(char));
+			elem = calloc_safe(i + 1, sizeof(char));
 			*ptr++ = elem;
 			if (elem == NULL)
 				return (0);
@@ -98,7 +86,7 @@ char	**ft_split(char const *s, char c)
 		}
 		i++;
 	}
-	result = ft_calloc(count + 1, sizeof(char *));
+	result = calloc_safe(count + 1, sizeof(char *));
 	if (result == NULL || !_split_elem(result, s, c))
 		return (_split_free(result));
 	return (result);

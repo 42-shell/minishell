@@ -6,12 +6,13 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:40:27 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 16:18:22 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glob.h"
 #include "libft.h"
+#include "string_vector.h"
 #include <dirent.h>	// DT macro
 #include <stdlib.h>	 // malloc, free
 
