@@ -6,13 +6,14 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 02:54:13 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 03:15:43 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glob.h"
 #include "libft.h"
 #include "string_vector.h"
+#include "string_buffer.h"
 #include <dirent.h>	// DT macro
 #include <stdlib.h>	 // free
 
@@ -60,6 +61,23 @@ static int	check_pattern(t_glob_info *info, char *d_name, int d_type)
 	return (1);
 }
 
+static void	glob_append(t_glob_info *info, char *name, int type)
+{
+	t_str_buf	*sb;
+
+	if (info->glob_flag.r_type == GLOB_SLASH && type == DT_DIR)
+	{
+		sb = NULL;
+		sb = str_append(sb, name);
+		sb = str_append(sb, "/");
+		info->glob_matched = strv_append(info->glob_matched, str_dispose(sb));
+	}
+	else
+	{
+		info->glob_matched = strv_append(info->glob_matched, ft_strdup(name));
+	}
+}
+
 int	glob_workhorse(t_glob_info *info)
 {
 	struct dirent	*entity_dir;
@@ -78,8 +96,7 @@ int	glob_workhorse(t_glob_info *info)
 			|| info->glob_flag.r_type == GLOB_SLASH)
 				entity_dir->d_name[info->check_info.cut_pos] \
 				= info->check_info.cut_char;
-			info->glob_matched \
-			= strv_append(info->glob_matched, ft_strdup(entity_dir->d_name));
+			glob_append(info, entity_dir->d_name, entity_dir->d_type);
 		}
 		entity_dir = readdir(current_dir);
 	}
