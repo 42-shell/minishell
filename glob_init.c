@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 16:17:57 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:20:53 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,10 @@ static void	glob_set_flag(char *str, t_glob_info *info)
 		info->glob_flag.r_type = PM_SLASH;
 	else
 		info->glob_flag.r_type = PM_WORD;
-	info->malloc_size = 1;
-	info->pattern_pos = 0;
-	info->glob_matched = NULL;
 }
 
 // if return -> NULL -> print "pattern"
-char	**expand_glob(char *pattern)
+t_str_vec *expand_glob(char *pattern, t_str_vec *str_vec)
 {
 	t_glob_info	info;
 
@@ -59,13 +56,12 @@ char	**expand_glob(char *pattern)
 	info.pwd = ft_get_pwd();
 	if (!info.pwd)
 		return (NULL);
+	info.glob_matched = str_vec;
 	glob_set_flag(pattern, &info);
 	info.pattern_split = ft_split(pattern, PM_ASTERISK);
-	if (!info.pattern_split)
-		return (ft_free_pm(&info, RM_PWD));
 	count_pattern_size(&info);
 	if (glob_workhorse(&info))
 		return (ft_free_pm(&info, RM_PWD | RM_PM | RM_PI));
 	ft_free_pm(&info, RM_PWD | RM_PM);
-	return (strv_dispose(info.glob_matched));
+	return (info.glob_matched);
 }

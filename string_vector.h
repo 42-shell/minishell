@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/16 19:02:12 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/17 17:02:18 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ typedef struct s_str_vec
 t_str_vec	*strv_append(t_str_vec *vec, char *s);
 t_str_vec	*strv_append_bulk(t_str_vec *vec, char **arr);
 char		**strv_dispose(t_str_vec *vec);
+void		free_strvec(char **arr);
 
 #endif

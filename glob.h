@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:41:43 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:25:31 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stddef.h>
 # include "string_vector.h"
+
+# include <stdio.h> // need to del
 
 # define LHS 1
 # define RHS -1
@@ -55,9 +57,8 @@ typedef struct s_glob_info
 	char			*pwd;
 	char			**pattern_split;
 	size_t			malloc_size;
-	size_t			split_size;
 	size_t			split_text_cnt;
-	size_t			pattern_pos;
+	size_t			split_size;
 	t_str_vec		*glob_matched;
 	t_glob_flag		glob_flag;
 	t_check_info	check_info;
@@ -66,13 +67,13 @@ typedef struct s_glob_info
 /*
 ** Pattern_match function
 */
-char	**expand_glob(char *pattern);
-int		glob_workhorse(t_glob_info *info);
-int		check_string(t_glob_info *info, char *name, int file_type);
+t_str_vec	*expand_glob(char *pattern, t_str_vec *str_vec);
+int			glob_workhorse(t_glob_info *info);
+int			check_string(t_glob_info *info, char *name, int file_type);
 
 /*
 ** PM_util
 */
-char	**ft_free_pm(t_glob_info *info, int key);
+t_str_vec	*ft_free_pm(t_glob_info *info, int key);
 
 #endif

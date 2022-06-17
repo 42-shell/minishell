@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:54:27 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:40:46 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,23 @@ void	check_exit(void)
 
 int main(int argc, char **argv, char **envp)
 {
-	char		**str_arr;
+	char		**str_arr = NULL;
 	t_env_list	*temp;
 
-	if (argc > 0)
+	if (argc > 1)
 	{
 	//	atexit(check_exit);
 		temp = set_env(envp);
+
+
+		argv[2] = "env*";
 		str_arr = check_expand(&argv[1], temp);
 		int idx = 0;
 		while (str_arr[idx])
 		{
 			printf("%s\n", str_arr[idx]);
-			free(str_arr[idx]);
 			idx++;
 		}
-		free(str_arr);
 		/*
 		if (!ft_strcmp(argv[1], "env"))
 		{

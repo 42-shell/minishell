@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 16:17:11 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/17 19:05:49 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ enum e_exp_type
 typedef struct s_exp_info
 {
 	size_t		cur_pos;
+	char		**temp;
 	t_str_buf	*sb;
 	t_str_buf	*sb_dollar;
 	t_str_vec	*sv;
