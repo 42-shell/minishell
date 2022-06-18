@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:50:31 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 17:50:03 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 21:55:36 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ size_t		ft_cd(char **argv, t_env_list *env);
 size_t		ft_env(char **argv, t_env_list *env);
 size_t		ft_export(char **argv, t_env_list *env);
 size_t		ft_unset(char **argv, t_env_list **env);
+int			ft_exit(char **argv);
 
 #endif

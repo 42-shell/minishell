@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 01:48:59 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/18 21:57:06 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,5 +287,7 @@ t_token_kind			parser_reduce_19(t_parser *pst);
 void					execute_command(t_command *cmd);
 
 void					dispose_command_recursive(t_command *root);
+
+int						print_error(char *prefix, char *parameter, char *msg);
 
 #endif
