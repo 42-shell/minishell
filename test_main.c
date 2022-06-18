@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 02:30:28 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:32:05 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,23 @@ int main(int argc, char **argv, char **envp)
 		temp = set_env(envp);
 
 		char *path = path_finder(argv[1], temp);
-		printf("%s\n", path);
-/*
-		str_arr = check_expand(&argv[1], temp);
-//		str_arr[2] = "\"'hi$PWD'  $PWD\"";
+		printf("path\n-> %s\n\n", path);
+
+
+		str_arr = check_expand(argv, temp);
+
+		ft_echo(str_arr);
+		/*
 		int idx = 0;
-		while (str_arr[idx] && idx < 100)
+		while (str_arr[idx])
 		{
 			printf("-> %s\n", str_arr[idx]);
 			idx++;
 		}
+		*/
+
+
+		/*
 		if (!ft_strcmp(argv[1], "env"))
 		{
 			ft_env(&argv[1], temp);

@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 16:04:42 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:05:00 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static int	is_there_cmd_in_path(char *cmd, char *pwd)
 	return (-1);
 }
 
-#include<stdio.h>
 char	*path_finder(char *cmd, t_env_list *env)
 {
 	char		**all_path;

@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 15:52:02 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 17:13:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static size_t	_dollar(t_exp_info *info, t_env_list *env, char *str, int key)
 		expand = get_env(env, str_dispose(info->sb_dollar));
 		if (expand)
 			info->sb = str_append(info->sb, expand);
-		ret--;
 		info->sb_dollar = NULL;
 	}
 	else if (*(str + ret) == '\0')
@@ -49,6 +48,7 @@ static size_t	_s_quote(t_exp_info *info, char *str)
 	{
 		if ((*(str + ret) == '\0') || (*(str + ret) == '\''))
 		{
+			ret++;
 			break ;
 		}
 		else
@@ -69,6 +69,7 @@ static size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str)
 	{
 		if ((*(str + ret) == '\0') || (*(str + ret) == '\"'))
 		{
+			ret++;
 			break ;
 		}
 		else
@@ -76,27 +77,26 @@ static size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str)
 			if (*(str + ret) == '$')
 				ret += _dollar(info, env, str + ret, D_QUOTE);
 			else
+			{
 				info->sb = str_append_raw(info->sb, str + ret, 1);
+				ret++;
+			}
 		}
-		ret++;
 	}
 	return (ret);
 }
 
 static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
 {
+	info->sb = str_append(info->sb, "");
 	while (*str)
 	{
 		if (has_flag(get_char_flags(*str), CF_QUOTE))
 		{
 			if (*str == '\"')
-			{
 				str += _d_quote(info, env, str);
-			}
 			else if (*str == '\'')
-			{
 				str += _s_quote(info, str);
-			}
 		}
 		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
 		{
