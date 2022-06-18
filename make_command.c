@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:10:34 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/15 18:24:52 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/19 00:34:08 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ t_subshell_command	*make_subshell(t_command *container)
 	return (cmd);
 }
 
-t_command_connection	*connect_command(t_command *a, t_command *b,
-	t_token_kind c)
+t_command_connection	*connect_command(t_command *lhs, t_command *rhs,
+	t_token_kind connector)
 {
 	t_command_connection	*cmd;
 
 	cmd = malloc_safe(sizeof(*cmd));
 	cmd->flags = 0;
-	cmd->connector = c;
-	cmd->first = *a;
-	cmd->second = *b;
+	cmd->connector = connector;
+	cmd->first = *lhs;
+	cmd->second = *rhs;
 	return (cmd);
 }
 

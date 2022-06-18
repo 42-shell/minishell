@@ -6,23 +6,27 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 16:50:49 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/16 18:17:06 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/19 00:41:56 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "generic_list.h"
 
-void	list_walk(t_generic_list *list, t_gl_func *func)
+int	list_walk(t_generic_list *list, t_gl_func *func)
 {
 	t_generic_list	*next;
+	int				res;
 
+	res = 0;
 	while (list)
 	{
 		next = list->next;
-		if ((*func)(list) < 0)
+		res = (*func)(list);
+		if (res < 0)
 			break ;
 		list = next;
 	}
+	return (res);
 }
 
 t_generic_list	*list_reverse(t_generic_list *list)

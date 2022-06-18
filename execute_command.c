@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/18 22:03:47 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/19 04:05:38 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,22 @@
 
 extern char	**environ;
 
+static int	_execute_simple_command_internal(t_simple_command *val)
+{
+	do_redirections(val->redirect_list);
+	return (EXIT_SUCCESS);
+}
+
 static int	_execute_simple_command(t_command *cmd, int pipe_in, int pipe_out)
 {
 	t_simple_command *const	val = cmd->value.simple;
+	const int				do_fork = pipe_in != NO_PIPE || pipe_out != NO_PIPE;
 	pid_t					pid;
+	int						result;
+	int						undo[3];
 
-	if (pipe_in == NO_PIPE && pipe_out == NO_PIPE)
-		pid = 0;
-	else
+	pid = 0;
+	if (do_fork)
 	{
 		pid = make_child();
 		if (pid == 0)
@@ -32,12 +40,14 @@ static int	_execute_simple_command(t_command *cmd, int pipe_in, int pipe_out)
 		else
 			return (wait_for(pid));
 	}
-	if (val->word_list)
-		printf("SimpleCommand[%d, %d] %s\n",
-			pipe_in, pipe_out, val->word_list->word.str);
 	else
-		printf("NullCommand\n");
-	return (EXIT_SUCCESS);
+		add_undo_redirects(undo);
+	result = _execute_simple_command_internal(val);
+	if (do_fork)
+		exit(result);
+	else
+		cleanup_redirects(undo);
+	return (result);
 }
 
 static int	_execute_subshell(t_command *cmd, int pipe_in, int pipe_out)
@@ -50,6 +60,7 @@ static int	_execute_subshell(t_command *cmd, int pipe_in, int pipe_out)
 	if (pid == 0)
 	{
 		do_piping(pipe_in, pipe_out);
+		do_redirections(val->redirect_list);
 		exit_value = execute_command(&val->container, pipe_in, pipe_out);
 		exit(exit_value);
 	}

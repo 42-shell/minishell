@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/18 19:36:48 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/19 03:24:31 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,21 +239,22 @@ t_parser_state			parser_state(t_parser_state state, t_token_kind token);
 
 t_simple_command		*make_simple_command(void);
 t_subshell_command		*make_subshell(t_command *container);
-t_command_connection	*connect_command(t_command *a, t_command *b,
-							t_token_kind c);
+t_command_connection	*connect_command(t_command *lhs, t_command *rhs,
+							t_token_kind connector);
 void					append_word(t_list_word **list, t_word *item);
 void					combine_simple_command(t_simple_command *lhs,
 							t_simple_command *rhs);
-void					dispose_word(t_word *item);
-void					dispose_command(t_command *item);
 
-void					set_redirect(t_redirect *item, int src, t_redirection r,
-							t_word *dest);
-void					dispose_redirect(t_redirect *item);
+void					set_redirect(t_redirect *item, int src,
+							t_redirection ins, t_word *dest);
 t_list_redirect			*append_redirect(t_list_redirect **list,
 							t_redirect *item);
 void					subshell_apply_redirect(t_subshell_command *subshell,
 							t_list_redirect *r_list);
+
+void					dispose_word(t_word *item);
+void					dispose_redirect(t_redirect *item);
+void					dispose_command(t_command *item);
 
 void					push_here_document(t_parser *pst, t_list_redirect *r);
 void					gather_here_document(t_parser *pst);
@@ -293,5 +294,9 @@ int						execute_pipeline(t_command *cmd, int pipe_in,
 void					do_piping(int pipe_in, int pipe_out);
 pid_t					make_child(void);
 int						wait_for(pid_t pid);
+
+int						do_redirections(t_list_redirect *r_list);
+void					add_undo_redirects(int undo[3]);
+void					cleanup_redirects(int undo[3]);
 
 #endif

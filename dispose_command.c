@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 18:10:34 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/18 16:32:41 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/19 00:26:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	dispose_word(t_word *item)
 {
 	free(item->str);
 	item->str = NULL;
+}
+
+void	dispose_redirect(t_redirect *item)
+{
+	dispose_word(&item->word);
 }
 
 static int	_clear_w_list(t_list_word *elem)
