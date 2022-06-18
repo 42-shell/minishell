@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:26:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 22:04:08 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 22:05:11 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include <errno.h>
 #include <string.h>
 
+// prefix-> cmd;
+// parameter-> argv or param
+// msg-> cause
 int	print_error(char *prefix, char *parameter, char *msg)
 {
 	if (prefix)
