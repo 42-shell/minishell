@@ -6,106 +6,95 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 17:49:51 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 02:49:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "libft.h" // getarr_size , strchr
-#include "string_buffer.h"
 #include "minishell.h"
+#include "string_buffer.h"
 #include "safe_io.h"
+
+static size_t	export_check_error(t_env_list *env, size_t check_error)
+{
+	if (check_error)
+	{
+		change_env(env, "EXIT_STATUS", "1");
+		return (-1);
+	}
+	else
+	{
+		change_env(env, "EXIT_STATUS", "0");
+		return (0);
+	}
+}
 
 static size_t	sort_print_env(t_env_list *env)
 {
 	t_env_list	*cpy;
-	t_env_list	*temp;
 
 	cpy = NULL;
 	while (env)
 	{
-		temp = ft_lstcpy(env, &cpy);
-		if (!temp)
-		{
-			clear_env(&cpy);
-			return (-1);
-		}
+		ft_lstcpy(env, &cpy);
 		env = env->next;
 	}
 	print_env(cpy, ON_VISIBLE);
 	clear_env(&cpy);
+	change_env(env, "EXIT_STATUS", "0");
 	return (0);
 }
 
-static int	export_syntax_check(char *str)
+static void	export_work(char *id, t_env_list *env)
 {
-	if (!str || *str == '\0')
-		return (-1);
-	else if (legal_variable_starter(*str))
-		str++;
-	else
-		return (-1);
-	while (*str)
-	{
-		if (legal_variable_char(*str))
-			str++;
-		else if (*str == '=' || *str == '\0')
-			return (0);
-		else
-			return (-1);
-	}
-	return (0);
-}
-
-static size_t	export_work(char *str, t_env_list *env)
-{
-	t_env_list	*temp;
 	char		*pos;
 
-	pos = ft_strchr(str, '=');
+	pos = ft_strchr(id, '=');
 	if (pos)
-		str[pos - str] = '\0';
-	if (!get_env(env, str))
+		id[pos - id] = '\0';
+	if (get_env(env, id))
 	{
 		if (pos)
-			temp = ft_lstnew(str, &str[pos - str + 1], &env, ON_VISIBLE);
+			change_env(env, id, &id[pos - id + 1]);
 		else
-			temp = ft_lstnew(str, "", &env, NON_VISIBLE);
-		if (!temp)
-			return (-1);
+			change_env(env, id, "");
 	}
 	else
 	{
-		if (pos && change_env(env, str, &str[pos - str + 1]))
-			return (-1);
-		else if (!pos && change_env(env, str, ""))
-			return (-1);
+		if (pos)
+			ft_lstnew(id, &id[pos - id + 1], &env, ON_VISIBLE);
+		else
+			ft_lstnew(id, "", &env, NON_VISIBLE);
 	}
-	return (0);
 }
 
 // error_print(export: not an identifier: str)
 size_t	ft_export(char **argv, t_env_list *env)
 {
-	size_t		size;
+	size_t	size;
+	size_t	check_error;
 
 	size = ft_getarr_size(argv);
 	if (!size)
-		return (-1);
+	{
+		change_env(env, "EXIT_STATUS", "1");
+		return (print_error("export", "parameter", "empty cmd"));
+	}
 	if (size == 1)
 		return (sort_print_env(env));
+	check_error = 0;
 	size = 1;
 	while (argv[size])
 	{	
-		if (export_syntax_check(argv[size]))
+		if (env_syntax_check(argv[size], SKIP_OFF))
 		{
-			putstr_safe("export: error:");
-			putstr_safe(argv[size]);
-			putstr_safe("\n");
+			check_error++;
+			print_error("export", argv[size], "not a valid identifier");
 		}
-		else if (export_work(argv[size], env))
-			return (-1);
+		else
+			export_work(argv[size], env);
 		size++;
 	}
-	return (0);
+	return (export_check_error(env, check_error));
 }

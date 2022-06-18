@@ -6,19 +6,18 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 20:13:57 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 02:46:03 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-static size_t	_dollar(t_exp_info *info, t_env_list *env, char *str)
+static size_t	_dollar(t_exp_info *info, t_env_list *env, char *str, \
+																	size_t ret)
 {
-	size_t	ret;
 	char	*expand;
 	char	*temp;
 
-	ret = 1;
 	if (legal_variable_starter(*(str + ret)))
 	{
 		info->sb_dollar = str_append_raw(info->sb_dollar, str + ret, 1);
@@ -78,7 +77,7 @@ static size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str)
 		else
 		{
 			if (*(str + ret) == '$')
-				ret += _dollar(info, env, str + ret);
+				ret += _dollar(info, env, str + ret, 1);
 			else
 			{
 				info->sb = str_append_raw(info->sb, str + ret, 1);
@@ -103,7 +102,7 @@ static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
 		}
 		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
 		{
-			str += _dollar(info, env, str);
+			str += _dollar(info, env, str, 1);
 		}
 		else
 		{
@@ -119,12 +118,10 @@ char	**check_expand(char **argv, t_env_list *env)
 	t_exp_info	info;
 	char		*temp;
 
-	if (!argv || !(*argv) || !env)
-		return (NULL);
 	info.sb_dollar = NULL;
 	info.sv = NULL;
 	info.cur_pos = 0;
-	while (argv[info.cur_pos])
+	while (argv && argv[info.cur_pos])
 	{
 		info.sb = NULL;
 		temp = expand_workhorse(&info, env, argv[info.cur_pos]);

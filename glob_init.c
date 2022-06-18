@@ -6,12 +6,11 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 01:55:55 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 00:21:35 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glob.h"
-#include "built_in.h" //getpwd
 #include "libft.h"
 
 static void	count_pattern_size(t_glob_info *info)

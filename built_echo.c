@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 22:03:55 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 02:48:42 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 #include "libft.h"
 #include "string_buffer.h"
 #include "safe_io.h"
+
+static size_t	echo_print_error(int key, t_env_list *env)
+{
+	if (key == EMPTY_CMD)
+	{
+		change_env(env, "EXIT_STATUS", "1");
+		return (print_error("echo", "parameter", "empty cmd"));
+	}
+	return (-1);
+}
 
 static size_t	set_point(char ***argv, size_t pos)
 {
@@ -52,14 +62,14 @@ static size_t	check_opt(char ***argv)
 
 // need to use str_buff 
 // change for readable
-size_t	ft_echo(char **argv)
+size_t	ft_echo(char **argv, t_env_list *env)
 {
 	size_t	opt;
 	size_t	idx;
 
 	idx = ft_getarr_size(argv);
 	if (!idx)
-		return (-1);
+		return (echo_print_error(EMPTY_CMD, env));
 	opt = check_opt(&argv);
 	idx = 0;
 	while (argv[idx])
@@ -71,5 +81,6 @@ size_t	ft_echo(char **argv)
 	}
 	if (!opt)
 		putstr_safe("\n");
+	change_env(env, "EXIT_STATUS", "0");
 	return (0);
 }

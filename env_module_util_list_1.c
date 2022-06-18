@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list_default.c                                 :+:      :+:    :+:   */
+/*   env_module_util_list_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 00:30:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 16:12:28 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 01:19:46 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
 #include "libft.h"
+#include "safe_mem.h"
 #include <stdlib.h> // malloc, free
 
 void	ft_lstdel(t_env_list *lst)
@@ -46,14 +47,14 @@ static t_env_list	*ft_lstlast(t_env_list *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_env_list **lst, t_env_list *new)
+void	ft_lstadd_back(t_env_list **lst, t_env_list *new_lst)
 {
-	if (new)
+	if (new_lst)
 	{
 		if (*lst)
-			ft_lstlast(*lst)->next = new;
+			ft_lstlast(*lst)->next = new_lst;
 		else
-			*lst = new;
+			*lst = new_lst;
 	}
 }
 
@@ -61,9 +62,7 @@ t_env_list	*ft_lstnew(char *id, char *content, t_env_list **head, int key)
 {
 	t_env_list	*temp;
 
-	temp = (t_env_list *)malloc(sizeof(t_env_list));
-	if (!temp)
-		return (NULL);
+	temp = (t_env_list *)malloc_safe(sizeof(t_env_list));
 	temp->content.id = ft_strdup(id);
 	temp->content.content = ft_strdup(content);
 	temp->content.visible = key;

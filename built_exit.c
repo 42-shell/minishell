@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 22:21:27 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 02:50:09 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,47 +26,35 @@ static int	is_all_digit(char *str)
 	return (0);
 }
 
-static int	atoi_done_exit(char **argv, size_t size)
+// if return -1, then doesn't exit minishell
+static int	exit_print_error(int key, t_env_list *env)
 {
-	size_t	atoi;
-
-	if (size > 2)
-	{
-		putstr_safe("exit\n");
+	change_env(env, "EXIT_STATUS", "1");
+	if (key == EMPTY_CMD)
+		return (print_error("exit", "parameter", "empty cmd"));
+	else if (key == ERROR_OCCURED)
 		return (print_error("exit", NULL, "too many arguments"));
-	}
-	else
-	{
-		atoi = ft_atoi(argv[1]);
-		putstr_safe("exit\n");
-		return (atoi & 255);
-	}
+	return (-1);
 }
 
-int	ft_exit(char **argv)
+int	ft_exit(char **argv, t_env_list *env)
 {
 	size_t	size;
 	size_t	atoi;
 
 	size = ft_getarr_size(argv);
 	if (!size)
-		return (print_error("exit", NULL, "empty arg_vector"));
-	else if (size == 1)
-	{
-		putstr_safe("exit\n");
+		return (exit_print_error(EMPTY_CMD, env));
+	putstr_safe("exit\n");
+	if (size == 1)
 		return (0);
-	}
-	else
+	else if (!is_all_digit(argv[1]))
 	{
-		if (!is_all_digit(argv[1]))
-		{
-			return (atoi_done_exit(argv, size));
-		}
+		if (size > 2)
+			return (exit_print_error(ERROR_OCCURED, env));
 		else
-		{
-			putstr_safe("exit\n");
-			print_error("exit", argv[1], "numeric argument required");
-			return (255);
-		}
+			return (ft_atoi(argv[1]) & 255);
 	}
+	print_error("exit", argv[1], "numeric argument required");
+	return (255);
 }

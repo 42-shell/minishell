@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 22:02:09 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 00:07:02 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv, char **envp)
 		else if (!ft_strcmp(argv[1], "cd"))
 		{
 			ft_pwd(temp_arr);
-			ft_cd(str_arr, temp);
+			printf("%zu\n", ft_cd(str_arr, temp));
 			ft_pwd(temp_arr);
 		}
 		else if (!ft_strcmp(argv[1], "printenv"))
@@ -84,7 +84,6 @@ int main(int argc, char **argv, char **envp)
 		{
 			printf("%d\n", ft_exit(str_arr));
 		}
-
 
 
 		clear_env(&temp);

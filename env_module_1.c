@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 20:23:21 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 00:10:22 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	change_env(t_env_list *env, char *id, char *content)
 		}
 		env = env->next;
 	}
-	return (-1);
+	return (0);
 }
 
 char	*get_env(t_env_list *env, char *id)
@@ -63,11 +63,6 @@ t_env_list	*set_env(char **env)
 		{
 			(*env)[pos - *env] = '\0';
 			temp = ft_lstnew(*env, &(*env)[pos - *env + 1], &head, ON_VISIBLE);
-			if (!temp)
-			{
-				clear_env(&head);
-				return (NULL);
-			}
 		}
 		else
 			break ;

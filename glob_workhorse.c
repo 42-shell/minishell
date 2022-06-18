@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 03:15:43 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 00:26:02 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "string_vector.h"
 #include "string_buffer.h"
+#include "minishell.h"
 #include <dirent.h>	// DT macro
 #include <stdlib.h>	 // free
 
@@ -44,7 +45,7 @@ static int	check_dot_dot(char *name, int type)
 	if (type == DT_DIR)
 	{
 		if (!(ft_strncmp(name, ".", ft_strlen(name))) \
-			|| !(ft_strncmp(name, "..", ft_strlen(name))))
+		|| !(ft_strncmp(name, "..", ft_strlen(name))))
 			return (1);
 	}
 	return (0);
@@ -86,7 +87,8 @@ int	glob_workhorse(t_glob_info *info)
 
 	current_dir = opendir(info->pwd);
 	if (!current_dir)
-		return (-1);
+		return (print_error("glob", "opendir", \
+			"filename cannot be accessed, or cannot malloc enough memory"));
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
@@ -100,5 +102,7 @@ int	glob_workhorse(t_glob_info *info)
 		}
 		entity_dir = readdir(current_dir);
 	}
-	return (closedir(current_dir));
+	if (closedir(current_dir))
+		return (print_error("glob", "closedir", "failure"));
+	return (0);
 }

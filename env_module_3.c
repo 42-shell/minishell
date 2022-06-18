@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 20:23:53 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 01:30:15 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "string_buffer.h"
 #include "safe_io.h"
+#include "minishell.h"
 #include <dirent.h>
 
 char	*path_finder(char *cmd, t_env_list *env);
@@ -71,25 +72,28 @@ static void	util_path_finder(char **all_path)
 	free(all_path);
 }
 
-static int	is_there_cmd_in_path(char *cmd, char *pwd)
+static int	is_there_cmd_in_path(char *cmd, char *pwd, t_env_lst *env)
 {
 	struct dirent	*entity;
 	DIR				*dir;
 
 	dir = opendir(pwd);
 	if (!dir)
-		return (-1);
+		return (print_error("glob", "opendir", \
+			"filename cannot be accessed, or cannot malloc enough memory"));
 	entity = readdir(dir);
 	while (entity)
 	{
 		if (!ft_strcmp(cmd, entity->d_name))
 		{
-			closedir(dir);
+			if (closedir(dir))
+				return (print_error("glob", "closedir", "failure"));
 			return (0);
 		}
 		entity = readdir(dir);
 	}
-	closedir(dir);
+	if (closedir(dir))
+		return (print_error("glob", "closedir", "failure"));
 	return (-1);
 }
 
@@ -104,7 +108,7 @@ char	*path_finder(char *cmd, t_env_list *env)
 	ret_path = NULL;
 	while (all_path && all_path[idx])
 	{
-		if (!is_there_cmd_in_path(cmd, all_path[idx]))
+		if (!is_there_cmd_in_path(cmd, all_path[idx], env))
 		{
 			ret_path = str_append(ret_path, all_path[idx]);
 			ret_path = str_append(ret_path, "/");
@@ -114,5 +118,7 @@ char	*path_finder(char *cmd, t_env_list *env)
 		idx++;
 	}
 	util_path_finder(all_path);
+	change_env(env, "EXIT_STATUS", "127");
+	print_error(cmd, NULL, "command not found");
 	return (NULL);
 }
