@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 01:48:59 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/18 19:36:48 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stddef.h>
 
 # define HERE_DOCUMENT_MAX 16
+# define NO_PIPE (-1)
 
 enum	e_char_flag_index
 {
@@ -284,8 +285,13 @@ t_token_kind			parser_reduce_17(t_parser *pst);
 t_token_kind			parser_reduce_18(t_parser *pst);
 t_token_kind			parser_reduce_19(t_parser *pst);
 
-void					execute_command(t_command *cmd);
+int						execute_command(t_command *cmd, int pipe_in,
+							int pipe_out);
+int						execute_pipeline(t_command *cmd, int pipe_in,
+							int pipe_out);
 
-void					dispose_command_recursive(t_command *root);
+void					do_piping(int pipe_in, int pipe_out);
+pid_t					make_child(void);
+int						wait_for(pid_t pid);
 
 #endif
