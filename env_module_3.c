@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 01:30:15 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 02:53:28 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	util_path_finder(char **all_path)
 	free(all_path);
 }
 
-static int	is_there_cmd_in_path(char *cmd, char *pwd, t_env_lst *env)
+static int	is_there_cmd_in_path(char *cmd, char *pwd, t_env_list *env)
 {
 	struct dirent	*entity;
 	DIR				*dir;

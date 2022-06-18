@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:43:18 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 02:55:23 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static size_t	unset_print_error(int key, t_env_list *env)
 		change_env(env, "EXIT_STATUS", "0");
 		return (0);
 	}
+	return (-1);
 }
 
 size_t	ft_unset(char **argv, t_env_list **env)

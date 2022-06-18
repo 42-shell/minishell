@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 00:07:02 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 02:56:55 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int main(int argc, char **argv, char **envp)
 		temp = set_env(envp);
 		str_arr = check_expand(&argv[1], temp);
 		printf("--> \n");
-		ft_echo(argv);
+		ft_echo(argv,  temp);
 		printf("\n-->\n");
-		ft_echo(str_arr);
+		ft_echo(str_arr, temp);
 		printf("\n-----\n\n");
 
 		if (!ft_strcmp(argv[1], "env"))
@@ -57,11 +57,11 @@ int main(int argc, char **argv, char **envp)
 		}
 		else if (!ft_strcmp(argv[1], "echo"))
 		{
-			ft_echo(str_arr);
+			ft_echo(str_arr, temp);
 		}
 		else if (!ft_strcmp(argv[1], "pwd"))
 		{
-			ft_pwd(temp_arr);
+			ft_pwd(temp_arr, temp);
 		}
 		else if (!ft_strcmp(argv[1], "unset"))
 		{
@@ -72,9 +72,9 @@ int main(int argc, char **argv, char **envp)
 		}
 		else if (!ft_strcmp(argv[1], "cd"))
 		{
-			ft_pwd(temp_arr);
+			ft_pwd(temp_arr, temp);
 			printf("%zu\n", ft_cd(str_arr, temp));
-			ft_pwd(temp_arr);
+			ft_pwd(temp_arr, temp);
 		}
 		else if (!ft_strcmp(argv[1], "printenv"))
 		{
@@ -82,9 +82,9 @@ int main(int argc, char **argv, char **envp)
 		}
 		else if (!ft_strcmp(argv[1], "exit"))
 		{
-			printf("%d\n", ft_exit(str_arr));
+			ft_exit(str_arr, temp);
 		}
-
+		printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 
 		clear_env(&temp);
 	}
