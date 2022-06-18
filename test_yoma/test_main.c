@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 21:55:04 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 22:02:09 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int main(int argc, char **argv, char **envp)
 		}
 		else if (!ft_strcmp(argv[1], "exit"))
 		{
-			ft_exit(str_arr);
+			printf("%d\n", ft_exit(str_arr));
 		}
 
 
