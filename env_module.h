@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 02:29:46 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 17:41:23 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ typedef struct s_env_list
 */
 t_env_list	*set_env(char **env);
 char		*get_env(t_env_list *env, char *id);
+int			add_env(t_env_list *env, char *id, char *content, int key);
 void		print_env(t_env_list *env, int key);
 void		clear_env(t_env_list **env);
-size_t		change_env(t_env_list *env, char *id, char *content);
+int			change_env(t_env_list *env, char *id, char *content);
 char		*path_finder(char *cmd, t_env_list *env);
 
 /*

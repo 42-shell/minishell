@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 16:32:05 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 17:52:21 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,51 +24,60 @@ void	check_exit(void)
 int main(int argc, char **argv, char **envp)
 {
 	char		**str_arr = NULL;
+	char		**temp_arr;
 	t_env_list	*temp;
+	int			idx = 0;
 
 	if (argc > 1)
 	{
-	//	atexit(check_exit);
+		//	atexit(check_exit);
+		//
+		temp_arr = (char **)malloc(sizeof(char *) * 2);
+		temp_arr[1] = NULL;
+		temp_arr[0] = ft_strdup("test");
 		temp = set_env(envp);
-
-		char *path = path_finder(argv[1], temp);
-		printf("path\n-> %s\n\n", path);
-
-
-		str_arr = check_expand(argv, temp);
-
+		str_arr = check_expand(&argv[1], temp);
+		printf("--> \n");
+		ft_echo(argv);
+		printf("\n-->\n");
 		ft_echo(str_arr);
-		/*
-		int idx = 0;
-		while (str_arr[idx])
-		{
-			printf("-> %s\n", str_arr[idx]);
-			idx++;
-		}
-		*/
+		printf("\n-----\n\n");
 
-
-		/*
 		if (!ft_strcmp(argv[1], "env"))
 		{
-			ft_env(&argv[1], temp);
-		}
-		if (!ft_strcmp(argv[1], "unset"))
-		{
-			ft_env(str_arr, temp);
-			ft_unset(&argv[1], &temp);
-			printf("\n----\n\n");
 			ft_env(str_arr, temp);
 		}
-		if (!ft_strcmp(argv[1], "export"))
+		else if (!ft_strcmp(argv[1], "export"))
 		{
-			printf("ret = %lu \n", ft_export(&argv[1], temp));
-			printf("\n----\n\n");
-			ft_env(str_arr, temp);
-			printf("\n----\n\n");
+			ft_env(temp_arr, temp);
+			printf("\n----\n");
 			ft_export(str_arr, temp);
+			ft_env(temp_arr, temp);
 		}
-		*/
+		else if (!ft_strcmp(argv[1], "echo"))
+		{
+			ft_echo(str_arr);
+		}
+		else if (!ft_strcmp(argv[1], "pwd"))
+		{
+			ft_pwd(temp_arr);
+		}
+		else if (!ft_strcmp(argv[1], "unset"))
+		{
+			ft_env(temp_arr, temp);
+			ft_unset(str_arr, &temp);
+			printf("\n----\n");
+			ft_env(temp_arr, temp);
+		}
+		else if (!ft_strcmp(argv[1], "cd"))
+		{
+			ft_pwd(temp_arr);
+			ft_cd(str_arr, temp);
+			ft_pwd(temp_arr);
+		}
+
+
+
 		clear_env(&temp);
 	}
 	return (0);

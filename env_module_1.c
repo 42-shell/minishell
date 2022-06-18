@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_module.c                                       :+:      :+:    :+:   */
+/*   env_module_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 02:05:06 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 17:41:12 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	clear_env(t_env_list **env)
 	(*env) = NULL;
 }
 
-size_t	change_env(t_env_list *env, char *id, char *content)
+int	change_env(t_env_list *env, char *id, char *content)
 {
 	while (env)
 	{
@@ -47,6 +47,13 @@ char	*get_env(t_env_list *env, char *id)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+int	add_env(t_env_list *env, char *id, char *content, int key)
+{
+	if (!ft_lstnew(id, content, &env, key))
+		return (-1);
+	return (0);
 }
 
 t_env_list	*set_env(char **env)

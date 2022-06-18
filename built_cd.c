@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 16:07:00 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 17:54:37 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include "libft.h" // getarr_size
 #include <unistd.h> // chdir
 
-static size_t	check_tild_dash(char **argv, t_env_list *head)
+static size_t	check_tild_dash(char **argv, t_env_list *env)
 {
 	if (ft_strcmp(argv[1], "-"))
 	{
-		if (chdir(get_env(head, "OLDPWD")))
+		if (chdir(get_env(env, "OLDPWD")))
 			return (-1);
 	}
 	else if (ft_strcmp(argv[1], "~"))
 	{
-		if (chdir(get_env(head, "HOME")))
+		if (chdir(get_env(env, "HOME")))
 			return (-1);
 	}
 	else if (chdir(argv[1]))
@@ -31,7 +31,7 @@ static size_t	check_tild_dash(char **argv, t_env_list *head)
 	return (0);
 }
 
-size_t	ft_cd(char **argv, t_env_list *head)
+size_t	ft_cd(char **argv, t_env_list *env)
 {
 	int		size;
 	char	*id;
@@ -41,18 +41,18 @@ size_t	ft_cd(char **argv, t_env_list *head)
 		return (-1);
 	if (size == 1)
 	{
-		id = get_env(head, "HOME");
+		id = get_env(env, "HOME");
 		if (!id || chdir(id))
 			return (-1);
 	}
 	else if (size == 2)
 	{
-		if (check_tild_dash(argv, head))
+		if (check_tild_dash(argv, env))
 			return (-1);
 	}
-	change_env(head, "OLDPWD", get_env(head, "PWD"));
+	change_env(env, "OLDPWD", get_env(env, "PWD"));
 	id = ft_get_pwd();
-	change_env(head, "PWD", id);
+	change_env(env, "PWD", id);
 	free(id);
 	return (0);
 }
