@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 03:17:33 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 16:04:42 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include "string_buffer.h"
 #include "safe_io.h"
 #include <dirent.h>
+
+char	*path_finder(char *cmd, t_env_list *env);
+void	print_env(t_env_list *head, int key);
 
 static void	str_manage(t_str_buf *sb)
 {
@@ -89,6 +92,7 @@ static int	is_there_cmd_in_path(char *cmd, char *pwd)
 	return (-1);
 }
 
+#include<stdio.h>
 char	*path_finder(char *cmd, t_env_list *env)
 {
 	char		**all_path;
@@ -96,11 +100,14 @@ char	*path_finder(char *cmd, t_env_list *env)
 	size_t		idx;
 
 	all_path = ft_split(get_env(env, "PATH"), ':');
-	while (all_path[idx])
+	idx = 0;
+	ret_path = NULL;
+	while (all_path && all_path[idx])
 	{
 		if (!is_there_cmd_in_path(cmd, all_path[idx]))
 		{
 			ret_path = str_append(ret_path, all_path[idx]);
+			ret_path = str_append(ret_path, "/");
 			util_path_finder(all_path);
 			return (str_dispose(str_append(ret_path, cmd)));
 		}

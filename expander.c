@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 02:55:26 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:52:02 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	_dollar(t_exp_info *info, t_env_list *env, char *str, int key)
 		ret--;
 		info->sb_dollar = NULL;
 	}
-	else if ((key & D_QUOTE) || (*(str + ret) == '\0'))
+	else if (*(str + ret) == '\0')
 	{
 		info->sb = str_append_raw(info->sb, "$", 1);
 	}
