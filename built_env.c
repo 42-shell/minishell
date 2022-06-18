@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:47:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:49:50 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 03:23:28 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ size_t	ft_env(char **argv, t_env_list *env)
 {
 	size_t	size;
 
+	change_late_cmd(env, "env", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (env_print_error(EMPTY_CMD, env));

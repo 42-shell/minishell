@@ -6,13 +6,14 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 00:10:22 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 03:20:26 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
 #include "libft.h" // strchr, strcmp, strdup
 #include <stdlib.h> // free
+#include "minishell.h"
 
 void	clear_env(t_env_list **env)
 {
@@ -69,5 +70,26 @@ t_env_list	*set_env(char **env)
 		env++;
 	}
 	add_env(head, "EXIT_STATUS", "0", HIDE_VISIBLE);
+	add_env(head, "MINISHELL_INIT_PATH", get_env(head, "PWD"), HIDE_VISIBLE);
 	return (head);
+}
+
+int	env_syntax_check(char *str, int skip_equal)
+{
+	if (!str || *str == '\0')
+		return (-1);
+	else if (legal_variable_starter(*str))
+		str++;
+	else
+		return (-1);
+	while (*str)
+	{
+		if (legal_variable_char(*str))
+			str++;
+		else if (!skip_equal && *str == '=')
+			return (0);
+		else
+			return (-1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:55:23 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 03:24:19 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ size_t	ft_unset(char **argv, t_env_list **env)
 	size_t	size;
 	size_t	check_error;
 
+	change_late_cmd(*env, "unset", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (unset_print_error(EMPTY_CMD, *env));

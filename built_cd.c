@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:14:49 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 03:23:01 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ size_t	ft_cd(char **argv, t_env_list *env)
 	int		size;
 	char	*id;
 
+	change_late_cmd(env, "cd", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (cd_print_error(EMPTY_CMD, env));

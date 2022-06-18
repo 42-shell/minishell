@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:56:55 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 03:39:12 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp)
 		temp = set_env(envp);
 		str_arr = check_expand(&argv[1], temp);
 		printf("--> \n");
-		ft_echo(argv,  temp);
+		ft_echo(argv, temp);
 		printf("\n-->\n");
 		ft_echo(str_arr, temp);
 		printf("\n-----\n\n");

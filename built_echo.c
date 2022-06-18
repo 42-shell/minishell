@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:48:42 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 03:23:19 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ size_t	ft_echo(char **argv, t_env_list *env)
 	size_t	opt;
 	size_t	idx;
 
+	change_late_cmd(env, "echo", BUILT_IN);
 	idx = ft_getarr_size(argv);
 	if (!idx)
 		return (echo_print_error(EMPTY_CMD, env));

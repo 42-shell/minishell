@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:49:09 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 03:24:07 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ size_t	ft_pwd(char **argv, t_env_list *env)
 {
 	char	*buf;
 
+	change_late_cmd(env, "pwd", BUILT_IN);
 	if (!ft_getarr_size(argv))
 		return (pwd_print_error(EMPTY_CMD, env));
 	buf = getcwd(NULL, 0);

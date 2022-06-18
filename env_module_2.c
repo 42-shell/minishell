@@ -6,13 +6,15 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:45:21 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:43:47 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 03:34:06 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
 #include "minishell.h"
+#include "string_buffer.h"
 #include "libft.h" // strcmp
+#include "safe_io.h"
 
 void	add_env(t_env_list *env, char *id, char *content, int key)
 {
@@ -42,22 +44,62 @@ void	del_env(char *id, t_env_list **env)
 	}
 }
 
-int	env_syntax_check(char *str, int skip_equal)
+void	change_late_cmd(t_env_list *env, char *cmd, int is_built_in)
 {
-	if (!str || *str == '\0')
-		return (-1);
-	else if (legal_variable_starter(*str))
-		str++;
-	else
-		return (-1);
-	while (*str)
+	t_str_buf	*sb;
+	char		*temp;
+
+	temp = NULL;
+	if (is_built_in == BUILT_IN)
 	{
-		if (legal_variable_char(*str))
-			str++;
-		else if (!skip_equal && *str == '=')
-			return (0);
-		else
-			return (-1);
+		sb = NULL;
+		sb = str_append(sb, get_env(env, "MINISHELL_INIT_PATH"));
+		sb = str_append(sb, "/");
+		sb = str_append(sb, cmd);
+		temp = str_dispose(sb);
 	}
-	return (0);
+	else if (is_built_in == NON_BUILT_IN)
+		temp = path_finder(cmd, env);
+	del_env("_", &env);
+	add_env(env, "_", temp, ON_VISIBLE);
+	free(temp);
+}
+
+static void	str_manage(t_str_buf *sb)
+{
+	char	*str;
+
+	str = str_dispose(sb);
+	putstr_safe(str);
+	free(str);
+}
+
+//quote = key && (!head->content.visible || !head->content.content);
+void	print_env(t_env_list *head, int key)
+{
+	t_str_buf	*sb;
+
+	sb = NULL;
+	while (head)
+	{
+		if ((head->content.visible != HIDE_VISIBLE) \
+		&& (key || head->content.visible))
+		{
+			if (key)
+				sb = str_append(sb, "declare -x ");
+			sb = str_append(sb, head->content.id);
+			if (head->content.visible)
+			{
+				sb = str_append(sb, "=");
+				if (key)
+					sb = str_append(sb, "\"");
+				sb = str_append(sb, head->content.content);
+				if (key)
+					sb = str_append(sb, "\"");
+			}
+			sb = str_append(sb, "\n");
+		}
+		head = head->next;
+	}
+	str_manage(sb);
 }
