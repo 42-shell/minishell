@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 22:03:48 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 22:21:27 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static int	atoi_done_exit(char **argv, size_t size)
 
 	if (size > 2)
 	{
-		write_safe(1, "exit\n", 5);
+		putstr_safe("exit\n");
 		return (print_error("exit", NULL, "too many arguments"));
 	}
 	else
 	{
 		atoi = ft_atoi(argv[1]);
-		write_safe(1, "exit\n", 5);
+		putstr_safe("exit\n");
 		return (atoi & 255);
 	}
 }
@@ -53,7 +53,7 @@ int	ft_exit(char **argv)
 		return (print_error("exit", NULL, "empty arg_vector"));
 	else if (size == 1)
 	{
-		write_safe(1, "exit\n", 5);
+		putstr_safe("exit\n");
 		return (0);
 	}
 	else
@@ -64,7 +64,7 @@ int	ft_exit(char **argv)
 		}
 		else
 		{
-			write_safe(1, "exit\n", 5);
+			putstr_safe("exit\n");
 			print_error("exit", argv[1], "numeric argument required");
 			return (255);
 		}
