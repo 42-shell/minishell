@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_unset.c                                      :+:      :+:    :+:   */
+/*   libft_string_to_integer.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 19:45:42 by yongmkim         ###   ########.fr       */
+/*   Created: 2022/06/18 20:53:11 by yongmkim          #+#    #+#             */
+/*   Updated: 2022/06/18 21:00:08 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
 #include "libft.h"
 
-size_t	ft_unset(char **argv, t_env_list **env)
+int	ft_isdigit(int c)
 {
-	size_t		size;
+	return ('0' <= c && c <= '9');
+}
 
-	size = ft_getarr_size(argv);
-	if (!size || size == 1)
-		return (-1);
-	size = 1;
-	while (argv[size])
-	{
-		del_env(argv[size], env);
-		size++;
-	}
-	return (0);
+static int	_isspace(int c)
+{
+	return ((011 <= c && c <= 015) || c == ' ');
+}
+
+int	ft_atoi(const char *str)
+{
+	int	sign;
+	int	number;
+
+	while (_isspace(*str))
+		str++;
+	sign = 0;
+	if (*str == '+' || *str == '-')
+		sign = *str++ == '-';
+	number = 0;
+	while (*str && ft_isdigit(*str))
+		number = 10 * number + (1 - (sign << 1)) * (*str++ - '0');
+	return (number);
 }

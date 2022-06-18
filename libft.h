@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:31:10 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 16:08:26 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 20:54:42 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_getarr_size(char **str_vec);
+
+int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/17 16:10:13 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 20:47:21 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static size_t	check_opt(char ***argv)
 }
 
 // need to use str_buff 
-// change to readable
+// change for readable
 size_t	ft_echo(char **argv)
 {
 	size_t	opt;

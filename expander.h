@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 01:58:12 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 20:14:54 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ typedef struct s_exp_info
 ** main_function
 */
 char	**check_expand(char **argv, t_env_list *env);
+void	expand_find_exit_status(t_exp_info *info, t_env_list *env, size_t *ret);
 
 #endif

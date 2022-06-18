@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_unset.c                                      :+:      :+:    :+:   */
+/*   expander_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 19:45:42 by yongmkim         ###   ########.fr       */
+/*   Created: 2022/06/18 19:54:30 by yongmkim          #+#    #+#             */
+/*   Updated: 2022/06/18 20:18:09 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
-#include "libft.h"
+#include "expander.h"
 
-size_t	ft_unset(char **argv, t_env_list **env)
+void	expand_find_exit_status(t_exp_info *info, t_env_list *env, size_t *ret)
 {
-	size_t		size;
-
-	size = ft_getarr_size(argv);
-	if (!size || size == 1)
-		return (-1);
-	size = 1;
-	while (argv[size])
-	{
-		del_env(argv[size], env);
-		size++;
-	}
-	return (0);
+	*ret += 1;
+	info->sb = str_append(info->sb, get_env(env, "EXIT_STATUS"));
 }

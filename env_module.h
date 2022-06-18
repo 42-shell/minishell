@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 17:41:23 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 20:22:50 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,9 @@
 
 # define NON_VISIBLE 0
 # define ON_VISIBLE 1
+# define HIDE_VISIBLE -1
 
 # include <stddef.h>
-
-enum e_env_type
-{
-	other = 0,
-	path,
-	old_pwd,
-	home,
-};
 
 typedef struct s_content
 {
@@ -43,11 +36,12 @@ typedef struct s_env_list
 ** env
 */
 t_env_list	*set_env(char **env);
-char		*get_env(t_env_list *env, char *id);
 int			add_env(t_env_list *env, char *id, char *content, int key);
+void		del_env(char *id, t_env_list **env);
+char		*get_env(t_env_list *env, char *id);
+int			change_env(t_env_list *env, char *id, char *content);
 void		print_env(t_env_list *env, int key);
 void		clear_env(t_env_list **env);
-int			change_env(t_env_list *env, char *id, char *content);
 char		*path_finder(char *cmd, t_env_list *env);
 
 /*

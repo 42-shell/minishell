@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 17:54:37 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 19:37:03 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 static size_t	check_tild_dash(char **argv, t_env_list *env)
 {
-	if (ft_strcmp(argv[1], "-"))
+	if (!ft_strcmp(argv[1], "-"))
 	{
 		if (chdir(get_env(env, "OLDPWD")))
 			return (-1);
 	}
-	else if (ft_strcmp(argv[1], "~"))
+	else if (!ft_strcmp(argv[1], "~"))
 	{
 		if (chdir(get_env(env, "HOME")))
 			return (-1);

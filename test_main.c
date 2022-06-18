@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 17:52:21 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/18 20:26:46 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int main(int argc, char **argv, char **envp)
 			ft_env(temp_arr, temp);
 			printf("\n----\n");
 			ft_export(str_arr, temp);
+			printf("\n----\n");
 			ft_env(temp_arr, temp);
 		}
 		else if (!ft_strcmp(argv[1], "echo"))
@@ -74,6 +75,10 @@ int main(int argc, char **argv, char **envp)
 			ft_pwd(temp_arr);
 			ft_cd(str_arr, temp);
 			ft_pwd(temp_arr);
+		}
+		else if (!ft_strcmp(argv[1], "printenv"))
+		{
+			printf("%s\n", get_env(temp, argv[2]));
 		}
 
 
