@@ -6,12 +6,13 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 22:10:36 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/19 22:52:30 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
+#include <stdio.h>
 static size_t	_dollar(\
 t_exp_info *info, t_env_list *env, char *str, size_t ret)
 {
@@ -36,8 +37,8 @@ t_exp_info *info, t_env_list *env, char *str, size_t ret)
 	}
 	else if (*(str + ret) == '\0')
 		info->sb = str_append_raw(info->sb, "$", 1);
-	else if (*(str + ret) == '\?')
-		expand_find_exit_status(info, env, &ret);
+	else
+		expand_other_case(info, str, env, &ret);
 	return (ret);
 }
 
@@ -48,7 +49,8 @@ static size_t	_s_quote(t_exp_info *info, char *str)
 	ret = 1;
 	while (1)
 	{
-		if ((*(str + ret) == '\0') || (*(str + ret) == '\''))
+		if ((*(str + ret) == '\0') || (*(str + ret) == '\'') \
+		|| (*(str + ret) == '`'))
 		{
 			ret++;
 			break ;
@@ -95,7 +97,7 @@ static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
 		{
 			if (*str == '\"')
 				str += _d_quote(info, env, str);
-			else if (*str == '\'')
+			else if (*str == '\'' || *str == '`')
 				str += _s_quote(info, str);
 		}
 		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
@@ -120,7 +122,9 @@ char	**check_expand(char **argv, t_env_list *env)
 	while (argv && argv[info.cur_pos])
 	{
 		info.sb = NULL;
+		printf("before expand\n");
 		temp = expand_workhorse(&info, env, argv[info.cur_pos]);
+		printf("before ast\n");
 		if (info.cur_pos && ft_strchr(temp, GLOB_ASTERISK))
 		{
 			info.sv = expand_glob(temp, info.sv, env);

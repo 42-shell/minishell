@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:26:10 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:49:43 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int main(int argc, char **argv, char **envp)
 
 	if (argc > 1)
 	{
+		printf("%s\n", argv[2]);
 		//	atexit(check_exit);
 		//
 		temp_arr = (char **)malloc(sizeof(char *) * 2);
