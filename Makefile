@@ -26,7 +26,8 @@ SOURCE = shell.c \
 			parser_reduce_2.c parser_reduce_3.c \
 			make_command.c make_command_redir.c dispose_command.c \
 			execute_command.c execute_command_pipeline.c \
-			execute_command_jobs.c execute_command_redir.c \
+			execute_command_redir.c execute_command_redir_undo.c \
+			execute_command_jobs.c \
 			expander.c here_document.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 

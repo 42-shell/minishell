@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/19 03:24:31 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 02:23:31 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,19 @@ typedef struct s_state_info
 
 typedef t_token_kind				t_parse_func(t_parser *);
 
+typedef struct s_list_process
+{
+	struct s_list_process	*next;
+	pid_t					pid;
+}	t_list_process;
+
+typedef struct s_shell
+{
+	int				redir_undo[3];
+	int				exit_status;
+	t_list_process	*pid_list;
+}	t_shell;
+
 t_char_flags			get_char_flags(int c);
 int						legal_variable_starter(int c);
 int						legal_variable_char(int c);
@@ -286,17 +299,17 @@ t_token_kind			parser_reduce_17(t_parser *pst);
 t_token_kind			parser_reduce_18(t_parser *pst);
 t_token_kind			parser_reduce_19(t_parser *pst);
 
-int						execute_command(t_command *cmd, int pipe_in,
-							int pipe_out);
-int						execute_pipeline(t_command *cmd, int pipe_in,
-							int pipe_out);
+int						execute_command(t_shell *sh, t_command *cmd,
+							int pipe_in, int pipe_out);
+int						execute_pipeline(t_shell *sh, t_command *cmd,
+							int pipe_in, int pipe_out);
 
 void					do_piping(int pipe_in, int pipe_out);
-pid_t					make_child(void);
-int						wait_for(pid_t pid);
+pid_t					make_child(t_shell *sh);
+int						wait_for(t_shell *sh, pid_t pid);
 
 int						do_redirections(t_list_redirect *r_list);
-void					add_undo_redirects(int undo[3]);
-void					cleanup_redirects(int undo[3]);
+void					add_undo_redirects(t_shell *sh);
+void					cleanup_redirects(t_shell *sh);
 
 #endif

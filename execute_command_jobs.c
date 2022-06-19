@@ -6,12 +6,14 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:33:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/18 17:14:04 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 03:52:15 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "safe_io.h"
+#include "safe_mem.h"
+#include "generic_list.h"
 #include <unistd.h>
 
 static int	_is_regular_fd(int fd)
@@ -45,9 +47,10 @@ void	do_piping(int pipe_in, int pipe_out)
 	}
 }
 
-pid_t	make_child(void)
+pid_t	make_child(t_shell *sh)
 {
-	pid_t	pid;
+	pid_t			pid;
+	t_list_process	*next;
 
 	pid = fork();
 	if (pid < 0)
@@ -57,28 +60,51 @@ pid_t	make_child(void)
 	}
 	if (pid == 0)
 	{
-		putstr_safe("in the child\n");
+		while (sh->pid_list)
+		{
+			next = sh->pid_list->next;
+			free(sh->pid_list);
+			sh->pid_list = next;
+		}
 	}
 	else
 	{
-		putstr_safe("IN THE PARENT\n");
+		next = calloc_safe(1, sizeof(*next));
+		next->pid = pid;
+		list_append((void *)&sh->pid_list, (void *)next);
 	}
 	return (pid);
 }
 
-int	wait_for(pid_t pid)
+static int	_get_exit_status(int status)
 {
-	pid_t	got_pid;
-	int		status;
-
-	got_pid = waitpid(pid, &status, 0);
-	if (got_pid < 0)
-	{
-		puterr_safe("waitpid\n");
-		exit(EXIT_FAILURE);
-	}
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	else
 		return (WEXITSTATUS(status));
+}
+
+int	wait_for(t_shell *sh, pid_t pid)
+{
+	pid_t			got_pid;
+	t_list_process	*next;
+	int				status;
+
+	sh->exit_status = -1;
+	sh->pid_list = (void *)list_reverse((void *)sh->pid_list);
+	while (sh->pid_list)
+	{
+		next = sh->pid_list->next;
+		got_pid = waitpid(sh->pid_list->pid, &status, 0);
+		if (got_pid < 0)
+		{
+			puterr_safe("waitpid\n");
+			exit(EXIT_FAILURE);
+		}
+		if (got_pid == pid)
+			sh->exit_status = _get_exit_status(status);
+		free(sh->pid_list);
+		sh->pid_list = next;
+	}
+	return (sh->exit_status);
 }
