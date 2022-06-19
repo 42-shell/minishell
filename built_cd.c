@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 11:52:29 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 12:05:16 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,22 @@
 #include "libft.h" // getarr_size
 #include <unistd.h> // chdir
 
-static size_t	cd_print_error(int key, t_env_list *env)
+static size_t	cd_print_error(char *parameter, int key, t_env_list *env)
 {
 	change_env(env, "EXIT_STATUS", "1");
 	if (key == EMPTY_CMD)
 		return (print_error("cd", "parameter", "empty cmd"));
 	else if (key == ERROR_OCCURED)
-		return (print_error("cd", "chdir", "failure"));
+		return (print_error("cd", parameter, "failure"));
 	return (-1);
 }
 
-static size_t	check_tild_dash(char **argv, t_env_list *env)
+static size_t	check_tild_dash(char **argv, t_env_list *env, int size)
 {
-	if (!ft_strcmp(argv[1], "-") && chdir(get_env(env, "OLDPWD")))
+	if ((size == 1 || !ft_strcmp(argv[1], "~")) \
+	&& chdir(get_env(env, "HOME")))
 		return (-1);
-	else if (!ft_strcmp(argv[1], "~") && chdir(get_env(env, "HOME")))
+	else if (!ft_strcmp(argv[1], "-") && chdir(get_env(env, "OLDPWD")))
 		return (-1);
 	else if (chdir(argv[1]))
 		return (-1);
@@ -54,11 +55,9 @@ size_t	ft_cd(char **argv, t_env_list *env)
 	change_late_cmd(env, "cd", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
-		return (cd_print_error(EMPTY_CMD, env));
-	if (size == 1 && chdir(get_env(env, "HOME")))
-		return (cd_print_error(ERROR_OCCURED, env));
-	else if (size > 1 && check_tild_dash(argv, env))
-		return (cd_print_error(ERROR_OCCURED, env));
+		return (cd_print_error(NULL, EMPTY_CMD, env));
+	else if (check_tild_dash(argv, env, size))
+		return (cd_print_error(argv[1], ERROR_OCCURED, env));
 	cd_change_pwd(env);
 	return (0);
 }

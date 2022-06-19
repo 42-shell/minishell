@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:50:31 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 02:32:45 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 12:00:59 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # define EMPTY_CMD 0
 # define ERROR_OCCURED 1
 # define FAST_DONE 2
+
+# define HOME 0
+# define OUTSIDE 1
 
 char		*ft_get_pwd(void);
 size_t		ft_pwd(char **argv, t_env_list *env);

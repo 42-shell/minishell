@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:39:12 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 12:06:30 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,32 @@ int main(int argc, char **argv, char **envp)
 		if (!ft_strcmp(argv[1], "env"))
 		{
 			ft_env(str_arr, temp);
+			printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 		}
 		else if (!ft_strcmp(argv[1], "export"))
 		{
 			ft_env(temp_arr, temp);
 			printf("\n----\n");
 			ft_export(str_arr, temp);
+			printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 			printf("\n----\n");
 			ft_env(temp_arr, temp);
 		}
 		else if (!ft_strcmp(argv[1], "echo"))
 		{
 			ft_echo(str_arr, temp);
+			printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 		}
 		else if (!ft_strcmp(argv[1], "pwd"))
 		{
 			ft_pwd(temp_arr, temp);
+			printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 		}
 		else if (!ft_strcmp(argv[1], "unset"))
 		{
 			ft_env(temp_arr, temp);
 			ft_unset(str_arr, &temp);
+			printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 			printf("\n----\n");
 			ft_env(temp_arr, temp);
 		}
@@ -74,17 +79,19 @@ int main(int argc, char **argv, char **envp)
 		{
 			ft_pwd(temp_arr, temp);
 			printf("%zu\n", ft_cd(str_arr, temp));
+			printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 			ft_pwd(temp_arr, temp);
 		}
 		else if (!ft_strcmp(argv[1], "printenv"))
 		{
 			printf("%s\n", get_env(temp, argv[2]));
+			printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 		}
 		else if (!ft_strcmp(argv[1], "exit"))
 		{
 			ft_exit(str_arr, temp);
+			printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 		}
-		printf("-> exit_status : %s\n", get_env(temp, "EXIT_STATUS"));
 
 		clear_env(&temp);
 	}
