@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:24:07 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 12:10:46 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static size_t	pwd_print_error(int key, t_env_list *env)
 	if (key == EMPTY_CMD)
 		return (print_error("pwd", "parameter", "empty cmd"));
 	else if (key == ERROR_OCCURED)
-		return (print_error("pwd", "getcwd", "failure"));
+		return (print_error("pwd", NULL, "failure"));
 	return (-1);
 }
 

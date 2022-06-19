@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:23:19 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:38:12 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,63 +25,62 @@ static size_t	echo_print_error(int key, t_env_list *env)
 	return (-1);
 }
 
-static size_t	set_point(char ***argv, size_t pos)
-{
-	(*argv) = &(*argv)[pos];
-	return (pos);
-}
-
-static size_t	check_opt(char ***argv)
+static size_t	check_option_parameter(char **argv)
 {
 	size_t	idx;
 	size_t	pos;
 
-	(*argv) = &(*argv)[1];
-	pos = 0;
-	while ((*argv)[pos])
-	{
-		idx = 0;
-		if (((*argv)[pos])[idx] == '-')
-		{
-			idx++;
-			while (((*argv)[pos])[idx])
-			{
-				if (((*argv)[pos])[idx] != 'n')
-					return (set_point(argv, pos));
-				idx++;
-			}
-			if (idx == 1)
-				return (set_point(argv, pos + 1));
-		}
-		else
-			return (set_point(argv, pos));
-		pos++;
-	}
-	return (set_point(argv, pos));
-}
-
-// need to use str_buff 
-// change for readable
-size_t	ft_echo(char **argv, t_env_list *env)
-{
-	size_t	opt;
-	size_t	idx;
-
-	change_late_cmd(env, "echo", BUILT_IN);
-	idx = ft_getarr_size(argv);
-	if (!idx)
-		return (echo_print_error(EMPTY_CMD, env));
-	opt = check_opt(&argv);
-	idx = 0;
+	idx = 1;
 	while (argv[idx])
 	{
-		putstr_safe(argv[idx]);
-		if (argv[idx + 1])
-			putstr_safe(" ");
-		++idx;
+		pos = 1;
+		if (argv[idx][0] == '-')
+		{
+			while (argv[idx][pos] == 'n')
+				pos++;
+			if (argv[idx][pos] != '\0')
+				return (idx - 1);
+		}
+		else
+			return (idx - 1);
+		idx++;
 	}
-	if (!opt)
-		putstr_safe("\n");
+	return (idx - 1);
+}
+
+static void	echo_workhorse(t_str_buf *sb, char **argv, size_t idx, size_t opt)
+{	
+	char	*temp;
+
+	sb = NULL;
+	while (argv[idx])
+	{
+		sb = str_append(sb, argv[idx]);
+		if (argv[idx + 1])
+			sb = str_append(sb, " ");
+		idx++;
+	}
+	if (opt == 1)
+		sb = str_append(sb, "\n");
+	temp = str_dispose(sb);
+	if (temp)
+	{
+		putstr_safe(temp);
+		free(temp);
+	}
+}
+
+size_t	ft_echo(char **argv, t_env_list *env)
+{
+	size_t		opt_pos;
+	t_str_buf	*sb;
+
+	change_late_cmd(env, "echo", BUILT_IN);
+	if (!ft_getarr_size(argv))
+		return (echo_print_error(EMPTY_CMD, env));
+	opt_pos = check_option_parameter(argv);
+	opt_pos++;
+	echo_workhorse(sb, argv, opt_pos, opt_pos);
 	change_env(env, "EXIT_STATUS", "0");
 	return (0);
 }

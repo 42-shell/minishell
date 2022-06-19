@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 12:06:30 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:26:10 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int main(int argc, char **argv, char **envp)
 		temp_arr[0] = ft_strdup("test");
 		temp = set_env(envp);
 		str_arr = check_expand(&argv[1], temp);
-		printf("--> \n");
+		printf("org --> \n");
 		ft_echo(argv, temp);
-		printf("\n-->\n");
+		printf("\nexpand -->\n");
 		ft_echo(str_arr, temp);
 		printf("\n-----\n\n");
 
