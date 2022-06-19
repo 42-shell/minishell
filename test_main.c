@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:24:40 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 22:49:43 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 00:07:53 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int main(int argc, char **argv, char **envp)
 		temp_arr[1] = NULL;
 		temp_arr[0] = ft_strdup("test");
 		temp = set_env(envp);
+		add_env(temp, "A", "", NON_VISIBLE);
+		add_env(temp, "B", "", ON_VISIBLE);
+		add_env(temp, "C", "", HIDE_VISIBLE);
 		str_arr = check_expand(&argv[1], temp);
 		printf("org --> \n");
 		ft_echo(argv, temp);

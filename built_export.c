@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:55:09 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/20 00:11:59 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static size_t	sort_print_env(t_env_list *env)
 	cpy = NULL;
 	while (env)
 	{
-		ft_lstcpy(env, &cpy);
+		if (ft_strcmp(env->content.id, "_"))
+			ft_lstcpy(env, &cpy);
 		env = env->next;
 	}
 	print_env(cpy, ON_VISIBLE);
