@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:23:01 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 11:52:29 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,20 @@ static size_t	check_tild_dash(char **argv, t_env_list *env)
 	return (0);
 }
 
+static void	cd_change_pwd(t_env_list *env)
+{
+	char	*id;
+
+	change_env(env, "OLDPWD", get_env(env, "PWD"));
+	id = ft_get_pwd();
+	change_env(env, "PWD", id);
+	free(id);
+	change_env(env, "EXIT_STATUS", "0");
+}
+
 size_t	ft_cd(char **argv, t_env_list *env)
 {
 	int		size;
-	char	*id;
 
 	change_late_cmd(env, "cd", BUILT_IN);
 	size = ft_getarr_size(argv);
@@ -49,10 +59,6 @@ size_t	ft_cd(char **argv, t_env_list *env)
 		return (cd_print_error(ERROR_OCCURED, env));
 	else if (size > 1 && check_tild_dash(argv, env))
 		return (cd_print_error(ERROR_OCCURED, env));
-	change_env(env, "OLDPWD", get_env(env, "PWD"));
-	id = ft_get_pwd();
-	change_env(env, "PWD", id);
-	free(id);
-	change_env(env, "EXIT_STATUS", "0");
+	cd_change_pwd(env);
 	return (0);
 }
