@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:23:40 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:52:04 by yongmkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ int	ft_exit(char **argv, t_env_list *env)
 	putstr_safe("exit\n");
 	if (size == 1)
 		return (0);
-	else if (!is_all_digit(argv[1]))
+	if (!is_all_digit(argv[1]))
 	{
-		if (size > 2)
-			return (exit_print_error(ERROR_OCCURED, env));
-		else
+		if (size == 2)
 			return (ft_atoi(argv[1]) & 255);
+		else if (size > 2)
+			return (exit_print_error(ERROR_OCCURED, env));
 	}
-	print_error("exit", argv[1], "numeric argument required");
+	else
+		print_error("exit", argv[1], "numeric argument required");
 	return (255);
 }

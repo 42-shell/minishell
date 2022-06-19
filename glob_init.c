@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glob_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 00:21:35 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:10:01 by yongmkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ static void	count_pattern_size(t_glob_info *info)
 		info->split_text_cnt -= 1;
 }
 
-static void	glob_set_flag(char *str, t_glob_info *info)
+static void	glob_init(\
+char *str, t_glob_info *info, t_str_vec *str_vec, t_env_list *env)
 {
+	info->glob_matched = str_vec;
+	info->pwd = get_env(env, "PWD");
 	if (str[0] == GLOB_ASTERISK)
 		info->glob_flag.l_type = GLOB_ASTERISK;
 	else
@@ -43,6 +46,7 @@ static void	glob_set_flag(char *str, t_glob_info *info)
 		info->glob_flag.r_type = GLOB_SLASH;
 	else
 		info->glob_flag.r_type = GLOB_WORD;
+	info->pattern_split = ft_split(str, GLOB_ASTERISK);
 }
 
 // if return -> NULL -> print "pattern"
@@ -52,10 +56,7 @@ t_str_vec	*expand_glob(char *pattern, t_str_vec *str_vec, t_env_list *env)
 
 	if (!pattern || *pattern == '\0')
 		return (NULL);
-	info.pwd = get_env(env, "PWD");
-	info.glob_matched = str_vec;
-	glob_set_flag(pattern, &info);
-	info.pattern_split = ft_split(pattern, GLOB_ASTERISK);
+	glob_init(pattern, &info, str_vec, env);
 	count_pattern_size(&info);
 	if (glob_workhorse(&info))
 		return (ft_free_pm(&info, RM_PATTERN_SPLIT | RM_STR_VEC));

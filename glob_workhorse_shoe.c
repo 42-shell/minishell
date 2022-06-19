@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glob_workhorse_shoe.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 02:31:34 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:09:28 by yongmkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	init_check_info(t_glob_info *info, char *name)
 	info->check_info.cut_char = name[0];
 }
 
-static void	cmp_middle(t_glob_info *info, char *name, \
-												size_t pt_pos, size_t na_pos)
+static void	cmp_middle(\
+t_glob_info *info, char *name, size_t pt_pos, size_t na_pos)
 {
 	size_t	size;
 	char	*pos;
@@ -38,13 +38,11 @@ static void	cmp_middle(t_glob_info *info, char *name, \
 		info->check_info.name_pos += (pos - &name[na_pos] + 1);
 	}
 	else
-	{
 		info->check_info.l_pt_pos = info->check_info.r_pt_pos + 1;
-	}
 }
 
-static int	is_edge_str_equal(t_glob_info *info, char *name, \
-														int l_or_r, size_t idx)
+static int	is_edge_str_equal(\
+t_glob_info *info, char *name, int l_or_r, size_t idx)
 {
 	char	*temp;
 	size_t	temp_len;
@@ -58,9 +56,7 @@ static int	is_edge_str_equal(t_glob_info *info, char *name, \
 		return (!ft_strncmp(name, temp, temp_len));
 	}
 	else
-	{
 		return (!ft_strncmp(&name[ft_strlen(name) - temp_len], temp, temp_len));
-	}
 }
 
 static void	cmp_edge(t_glob_info *info, char *name, int l_or_r, size_t idx)

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:43:37 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:10:36 by yongmkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-static size_t	_dollar(t_exp_info *info, t_env_list *env, char *str, \
-																	size_t ret)
+static size_t	_dollar(\
+t_exp_info *info, t_env_list *env, char *str, size_t ret)
 {
 	char	*expand;
 	char	*temp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   glob_workhorse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 00:26:02 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:07:05 by yongmkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ t_str_vec	*ft_free_pm(t_glob_info *info, int key)
 		free(info->pattern_split);
 	}
 	if (key & RM_STR_VEC)
-	{
 		free_strvec(info->glob_matched->arr);
-	}
 	return (NULL);
 }
 
@@ -74,9 +72,7 @@ static void	glob_append(t_glob_info *info, char *name, int type)
 		info->glob_matched = strv_append(info->glob_matched, str_dispose(sb));
 	}
 	else
-	{
 		info->glob_matched = strv_append(info->glob_matched, ft_strdup(name));
-	}
 }
 
 int	glob_workhorse(t_glob_info *info)

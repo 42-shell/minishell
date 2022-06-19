@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 12:05:16 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:49:23 by yongmkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static size_t	cd_print_error(char *parameter, int key, t_env_list *env)
 	return (-1);
 }
 
-static size_t	check_tild_dash(char **argv, t_env_list *env, int size)
+static size_t	check_path(char **argv, t_env_list *env, int size)
 {
 	if ((size == 1 || !ft_strcmp(argv[1], "~")) \
 	&& chdir(get_env(env, "HOME")))
@@ -56,7 +56,7 @@ size_t	ft_cd(char **argv, t_env_list *env)
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (cd_print_error(NULL, EMPTY_CMD, env));
-	else if (check_tild_dash(argv, env, size))
+	else if (check_path(argv, env, size))
 		return (cd_print_error(argv[1], ERROR_OCCURED, env));
 	cd_change_pwd(env);
 	return (0);
