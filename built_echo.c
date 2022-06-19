@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:38:12 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 01:39:00 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	echo_workhorse(t_str_buf *sb, char **argv, size_t idx, size_t opt)
 {	
 	char	*temp;
 
-	sb = NULL;
 	while (argv[idx])
 	{
 		sb = str_append(sb, argv[idx]);
@@ -78,6 +77,7 @@ size_t	ft_echo(char **argv, t_env_list *env)
 	change_late_cmd(env, "echo", BUILT_IN);
 	if (!ft_getarr_size(argv))
 		return (echo_print_error(EMPTY_CMD, env));
+	sb = NULL;
 	opt_pos = check_option_parameter(argv);
 	opt_pos++;
 	echo_workhorse(sb, argv, opt_pos, opt_pos);

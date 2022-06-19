@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 22:09:28 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/20 02:30:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,15 @@ t_glob_info *info, char *name, int l_or_r, size_t idx)
 
 	temp = info->pattern_split[idx];
 	temp_len = ft_strlen(temp);
-	if (l_or_r == 1)
+	if (l_or_r == LHS)
 	{
 		if (temp_len == 0)
 			return (0);
 		return (!ft_strncmp(name, temp, temp_len));
 	}
-	else
+	else if (l_or_r == RHS)
 		return (!ft_strncmp(&name[ft_strlen(name) - temp_len], temp, temp_len));
+	return (0);
 }
 
 static void	cmp_edge(t_glob_info *info, char *name, int l_or_r, size_t idx)
@@ -67,15 +68,14 @@ static void	cmp_edge(t_glob_info *info, char *name, int l_or_r, size_t idx)
 	{
 		if (is_edge_str_equal(info, name, l_or_r, idx))
 		{
-			if (l_or_r == 1)
+			if (l_or_r == LHS)
 			{
 				info->check_info.l_pt_pos++;
 				info->check_info.name_pos = ft_strlen(info->pattern_split[idx]);
 			}
-			else
+			else if (l_or_r == RHS)
 			{
-				if (info->check_info.r_pt_pos \
-					!= info->check_info.l_pt_pos)
+				if (info->check_info.r_pt_pos != info->check_info.l_pt_pos)
 					info->check_info.r_pt_pos--;
 				pos = ft_strlen(name) - ft_strlen(info->pattern_split[idx]);
 				info->check_info.cut_char = name[pos];
@@ -94,13 +94,11 @@ int	check_string(t_glob_info *info, char *name, int file_type)
 
 	if (info->glob_flag.r_type == GLOB_SLASH && file_type != DT_DIR)
 		return (1);
+	if (info->glob_flag.l_type != GLOB_DOT && name[0] == '.')
+		return (1);
 	init_check_info(info, name);
-	if (info->glob_flag.r_type == GLOB_SLASH)
-	{
-		temp = info->pattern_split[info->check_info.r_pt_pos - 1];
-		temp[ft_strlen(temp) - 1] = '\0';
-	}
-	if (info->glob_flag.l_type == GLOB_WORD)
+	if (info->glob_flag.l_type == GLOB_WORD \
+	|| info->glob_flag.l_type == GLOB_DOT)
 		cmp_edge(info, name, LHS, 0);
 	if (info->check_info.r_pt_pos < info->check_info.l_pt_pos)
 		return (info->check_info.r_pt_pos - info->check_info.l_pt_pos);

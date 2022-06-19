@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:12:34 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 01:44:35 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 
 # define BUILT_IN 0
 # define NON_BUILT_IN 1
+
+# define EMPTY_CMD 0
+# define ERROR_OCCURED 1
+# define FAST_DONE 2
 
 # include <stddef.h>
 
@@ -54,6 +58,8 @@ void		clear_env(t_env_list **env);
 void		print_env(t_env_list *env, int key);
 char		*path_finder(char *cmd, t_env_list *env);
 void		change_late_cmd(t_env_list *env, char *cmd, int is_built_in);
+
+int			dirent_print_error(int key, t_env_list *env);
 
 /*
 ** list_util

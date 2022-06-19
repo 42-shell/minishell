@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:20:43 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 01:47:44 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,21 @@
 #include "libft.h"
 #include "string_buffer.h"
 #include "minishell.h"
+#include "built_in.h"
 #include <dirent.h>
+
+int	dirent_print_error(int key, t_env_list *env)
+{
+	change_env(env, "EXIT_STATUS", "1");
+	if (key == FAST_DONE)
+	{
+		return (print_error("glob", "opendir", \
+		"filename cannot be accessed, or cannot malloc enough memory"));
+	}
+	else if (key == ERROR_OCCURED)
+		return (print_error("glob", "closedir", "failure"));
+	return (-1);
+}
 
 static void	util_path_finder(char **all_path)
 {
@@ -36,21 +50,20 @@ static int	is_there_cmd_in_path(char *cmd, char *pwd, t_env_list *env)
 
 	dir = opendir(pwd);
 	if (!dir)
-		return (print_error("glob", "opendir", \
-			"filename cannot be accessed, or cannot malloc enough memory"));
+		return (dirent_print_error(FAST_DONE, env));
 	entity = readdir(dir);
 	while (entity)
 	{
 		if (!ft_strcmp(cmd, entity->d_name))
 		{
 			if (closedir(dir))
-				return (print_error("glob", "closedir", "failure"));
+				return (dirent_print_error(ERROR_OCCURED, env));
 			return (0);
 		}
 		entity = readdir(dir);
 	}
 	if (closedir(dir))
-		return (print_error("glob", "closedir", "failure"));
+		return (dirent_print_error(ERROR_OCCURED, env));
 	return (-1);
 }
 

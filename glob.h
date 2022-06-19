@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 00:39:01 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 02:21:58 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ enum e_pattern_match_value
 	GLOB_WORD		= 0,
 	GLOB_ASTERISK	= '*',
 	GLOB_SLASH		= '/',
+	GLOB_DOT		= '.',
 };
 
 typedef struct s_check_info
@@ -66,7 +67,7 @@ typedef struct s_glob_info
 ** Pattern_match function
 */
 t_str_vec	*expand_glob(char *pattern, t_str_vec *str_vec, t_env_list *env);
-int			glob_workhorse(t_glob_info *info);
+int			glob_workhorse(t_glob_info *info, t_env_list *env);
 int			check_string(t_glob_info *info, char *name, int file_type);
 
 /*

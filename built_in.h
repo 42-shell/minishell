@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:50:31 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 12:00:59 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 01:44:40 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@
 # include <stddef.h>
 # include "env_module.h"
 # include "minishell.h"
-
-# define EMPTY_CMD 0
-# define ERROR_OCCURED 1
-# define FAST_DONE 2
 
 # define HOME 0
 # define OUTSIDE 1

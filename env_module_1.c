@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:59:33 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/20 01:37:34 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char	*get_env(t_env_list *env, char *id)
 t_env_list	*set_env(char **env)
 {
 	t_env_list	*head;
-	t_env_list	*temp;
 	char		*pos;
 
 	head = NULL;
@@ -83,7 +82,7 @@ t_env_list	*set_env(char **env)
 		if (pos)
 		{
 			(*env)[pos - *env] = '\0';
-			temp = ft_lstnew(*env, &(*env)[pos - *env + 1], &head, ON_VISIBLE);
+			ft_lstnew(*env, &(*env)[pos - *env + 1], &head, ON_VISIBLE);
 		}
 		else
 			break ;

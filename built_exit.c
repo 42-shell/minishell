@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:52:04 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/20 01:37:58 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int	exit_print_error(int key, t_env_list *env)
 int	ft_exit(char **argv, t_env_list *env)
 {
 	size_t	size;
-	size_t	atoi;
 
 	change_late_cmd(env, "exit", BUILT_IN);
 	size = ft_getarr_size(argv);

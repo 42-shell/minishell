@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 22:07:05 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/20 02:25:38 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 t_str_vec	*ft_free_pm(t_glob_info *info, int key)
 {
 	size_t	idx;
-	char	**temp;
 
 	if (key & RM_PATTERN_SPLIT)
 	{
@@ -42,8 +41,7 @@ static int	check_dot_dot(char *name, int type)
 {
 	if (type == DT_DIR)
 	{
-		if (!(ft_strncmp(name, ".", ft_strlen(name))) \
-		|| !(ft_strncmp(name, "..", ft_strlen(name))))
+		if (!(ft_strcmp(name, ".")) || !(ft_strcmp(name, "..")))
 			return (1);
 	}
 	return (0);
@@ -60,6 +58,7 @@ static int	check_pattern(t_glob_info *info, char *d_name, int d_type)
 	return (1);
 }
 
+// add sort
 static void	glob_append(t_glob_info *info, char *name, int type)
 {
 	t_str_buf	*sb;
@@ -75,16 +74,14 @@ static void	glob_append(t_glob_info *info, char *name, int type)
 		info->glob_matched = strv_append(info->glob_matched, ft_strdup(name));
 }
 
-int	glob_workhorse(t_glob_info *info)
+int	glob_workhorse(t_glob_info *info, t_env_list *env)
 {
 	struct dirent	*entity_dir;
 	DIR				*current_dir;
-	size_t			cnt;
 
 	current_dir = opendir(info->pwd);
 	if (!current_dir)
-		return (print_error("glob", "opendir", \
-			"filename cannot be accessed, or cannot malloc enough memory"));
+		return (dirent_print_error(FAST_DONE, env));
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
@@ -99,6 +96,6 @@ int	glob_workhorse(t_glob_info *info)
 		entity_dir = readdir(current_dir);
 	}
 	if (closedir(current_dir))
-		return (print_error("glob", "closedir", "failure"));
+		return (dirent_print_error(ERROR_OCCURED, env));
 	return (0);
 }
