@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:40:11 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:43:37 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ static size_t	_s_quote(t_exp_info *info, char *str)
 			break ;
 		}
 		else
-		{
 			info->sb = str_append_raw(info->sb, str + ret, 1);
-		}
 		ret++;
 	}
 	return (ret);
@@ -101,9 +99,7 @@ static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
 				str += _s_quote(info, str);
 		}
 		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
-		{
 			str += _dollar(info, env, str, 1);
-		}
 		else
 		{
 			info->sb = str_append_raw(info->sb, str, 1);
@@ -131,9 +127,7 @@ char	**check_expand(char **argv, t_env_list *env)
 			free(temp);
 		}
 		else
-		{
 			info.sv = strv_append(info.sv, temp);
-		}
 		info.cur_pos++;
 	}
 	return (strv_dispose(info.sv));
