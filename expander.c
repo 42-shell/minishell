@@ -6,13 +6,12 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 22:52:30 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 23:57:58 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-#include <stdio.h>
 static size_t	_dollar(\
 t_exp_info *info, t_env_list *env, char *str, size_t ret)
 {
@@ -122,9 +121,7 @@ char	**check_expand(char **argv, t_env_list *env)
 	while (argv && argv[info.cur_pos])
 	{
 		info.sb = NULL;
-		printf("before expand\n");
 		temp = expand_workhorse(&info, env, argv[info.cur_pos]);
-		printf("before ast\n");
 		if (info.cur_pos && ft_strchr(temp, GLOB_ASTERISK))
 		{
 			info.sv = expand_glob(temp, info.sv, env);

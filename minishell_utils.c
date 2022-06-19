@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:26:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/18 22:19:12 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/19 23:57:03 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,34 @@
 #include "libft.h"
 #include <errno.h>
 #include <string.h>
+#include "string_buffer.h"
 
-// prefix-> cmd;
-// parameter-> argv or param
-// msg-> cause
+// prefix-> cmd; parameter-> argv or param; msg-> cause
 int	print_error(char *prefix, char *parameter, char *msg)
 {
+	t_str_buf	*sb;
+
+	sb = NULL;
+	sb = str_append(sb, "minishell: ");
 	if (prefix)
 	{
-		puterr_safe(prefix);
-		puterr_safe(": ");
+		sb = str_append(sb, prefix);
+		sb = str_append(sb, ": ");
 	}
 	if (parameter)
 	{
-		puterr_safe(parameter);
-		puterr_safe(": ");
+		sb = str_append(sb, parameter);
+		sb = str_append(sb, ": ");
 	}
 	if (errno != 0)
 	{
 		msg = strerror(errno);
 		errno = 0;
 	}
+	sb = str_append(sb, msg);
+	sb = str_append(sb, "\n");
+	msg = str_dispose(sb);
 	puterr_safe(msg);
-	puterr_safe("\n");
+	free(msg);
 	return (-1);
 }
