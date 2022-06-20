@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:33:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 15:17:26 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 21:27:34 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	wait_for(t_shell *sh, pid_t pid)
 	t_list_process	*next;
 	int				status;
 
-	sh->exit_status = -1;
+	status = -1;
 	sh->pid_list = (void *)list_reverse((void *)sh->pid_list);
 	while (sh->pid_list)
 	{
@@ -107,9 +107,9 @@ int	wait_for(t_shell *sh, pid_t pid)
 		sh->pid_list = next;
 		if (got_pid == pid)
 		{
-			sh->exit_status = _get_exit_status(status);
+			status = _get_exit_status(status);
 			break ;
 		}
 	}
-	return (sh->exit_status);
+	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:03 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 17:34:18 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 21:28:10 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	_last_pipe(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 	if (pipe_in != NO_PIPE)
 		close(pipe_in);
 	if (pipe_out == NO_PIPE)
-		sh->exit_status = wait_for(sh, -1);
+		(void)wait_for(sh, -1);
 	return (exec_result);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 17:41:01 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 21:35:35 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	main(int argc, char *argv[])
 		if (parse(&pst))
 		{
 			sh.next_pipe = NO_PIPE;
-			sh.exit_status = -1;
 			gather_here_document(&pst);
 			execute_command(&sh, &pst.now->command, NO_PIPE, NO_PIPE);
 			add_history(rl);
