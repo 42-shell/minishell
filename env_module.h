@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:33:02 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 23:23:51 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define FAST_DONE 2
 
 # include <stddef.h>
+# include <errno.h>
 
 typedef struct s_content
 {
@@ -61,6 +62,7 @@ void		change_late_cmd(t_env_list *env, char *cmd, int is_built_in);
 //change_late_cmd(env, "pwd", BUILT_IN);
 
 int			dirent_print_error(int key);
+char		**env_to_strvec(t_env_list *env);
 
 /*
 ** list_util

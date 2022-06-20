@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 23:14:30 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 23:23:43 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "built_in.h"
 #include <dirent.h>
 
-char	**env_to_strv(t_env_list *env)
+char	**env_to_strvec(t_env_list *env)
 {
 	t_str_vec	*sv;
 	t_str_buf	*sb;
@@ -27,10 +27,11 @@ char	**env_to_strv(t_env_list *env)
 	while (env)
 	{
 		sb = NULL;
-		sb = str_append(sb, env->content->id);
+		sb = str_append(sb, env->content.id);
 		sb = str_append(sb, "=");
-		sb = str_append(sb, env->content->content);
+		sb = str_append(sb, env->content.content);
 		sv = strv_append(sv, str_dispose(sb));
+		env = env->next;
 	}
 	return (strv_dispose(sv));
 }
@@ -93,6 +94,7 @@ char	*path_finder(char *cmd, t_env_list *env)
 	all_path = ft_split(get_env(env, "PATH"), ':');
 	idx = 0;
 	ret_path = NULL;
+	errno = 0;
 	while (all_path && all_path[idx])
 	{
 		if (!is_there_cmd_in_path(cmd, all_path[idx]))

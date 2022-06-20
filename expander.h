@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:29:27 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 23:24:26 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ typedef struct s_exp_info
 */
 char	**check_expand(char **argv, t_env_list *env);
 void	expand_other_case(
-		t_exp_info *info, char *str, t_env_list *env, size_t *ret);
+			t_exp_info *info, char *str, t_env_list *env, size_t *ret);
 
 #endif

@@ -6,12 +6,14 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 21:59:50 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 06:32:36 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include "env_module.h"
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -20,6 +22,26 @@
 
 # define HERE_DOCUMENT_MAX 16
 # define NO_PIPE (-1)
+
+# define EX_BADUSAGE 2
+
+# define EX_MISCERROR 2
+
+# define EX_RETRYFAIL 124
+# define EX_WEXPCOMSUB 125
+# define EX_BINARY_FILE 126
+# define EX_NOEXEC 126
+# define EX_NOINPUT 126
+# define EX_NOTFOUND 127
+
+# define EX_SHERRBASE 256
+
+# define EX_BADSYNTAX 257
+# define EX_USAGE 258
+# define EX_REDIRFAIL 259
+# define EX_BADASSIGN 260
+# define EX_EXPFAIL 261
+# define EX_DISKFALLBACK 262
 
 enum	e_char_flag_index
 {
@@ -241,6 +263,7 @@ typedef struct s_shell
 	int				redir_undo[3];
 	int				exit_status;
 	t_list_process	*pid_list;
+	t_env_list		*env_list;
 }	t_shell;
 
 t_char_flags			get_char_flags(int c);

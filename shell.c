@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 22:18:29 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 22:53:24 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	__todo_stack_destroy(t_parser *pst)
 		clear_parser_stack_item(pst->now--);
 }
 
+extern char	**environ;
+
 int	main(int argc, char *argv[])
 {
 	t_shell		sh;
@@ -42,6 +44,7 @@ int	main(int argc, char *argv[])
 	ft_memset(&sh, 0, sizeof(sh));
 	ft_memset(&pst, 0, sizeof(pst));
 	__todo_stack_capacity(&pst);
+	sh.env_list = set_env(environ);
 	while (1)
 	{
 		rl = readline("$ ");

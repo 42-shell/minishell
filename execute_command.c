@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 21:56:10 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 06:33:12 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 
 #include <stdio.h>
 
-extern char	**environ;
-
 #include <string.h>
 #include "string_buffer.h"
+
+#include "expander.h"
+#include "env_module.h"
+
+extern char	**environ;
 
 static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 	int no_fork, int wait)
@@ -69,7 +72,10 @@ static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 				sv = strv_append(sv, str);
 				w = w->next;
 			}
-			execve(val->word_list->word.str, strv_dispose(sv), environ);
+			char *cmd_path = path_finder(val->word_list->word.str, sh->env_list);
+			if (cmd_path == NULL)
+				exit(EX_NOTFOUND);
+			execve(cmd_path, check_expand(strv_dispose(sv), sh->env_list), env_to_strvec(sh->env_list)); //TODO: env
 		}
 		if (!no_fork)
 			exit(EXIT_SUCCESS);
