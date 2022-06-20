@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 15:18:05 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 17:34:33 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ typedef struct s_list_process
 
 typedef struct s_shell
 {
-	int				next_fd;
+	int				next_pipe;
 	int				redir_undo[3];
 	int				exit_status;
 	t_list_process	*pid_list;

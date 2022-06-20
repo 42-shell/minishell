@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 15:18:23 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 17:40:18 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	_execute_simple_command(t_shell *sh, t_command *cmd,
 	{
 		pid = make_child(sh);
 		if (pid == 0)
-			do_piping(pipe_in, pipe_out, sh->next_fd);
+			do_piping(pipe_in, pipe_out, sh->next_pipe);
 		else
 		{
 			if (pipe_out == NO_PIPE)
@@ -89,9 +89,9 @@ static int	_execute_subshell(t_shell *sh, t_command *cmd,
 	pid = make_child(sh);
 	if (pid == 0)
 	{
-		do_piping(pipe_in, pipe_out, sh->next_fd);
+		do_piping(pipe_in, pipe_out, sh->next_pipe);
 		do_redirections(val->redirect_list);
-		exit(execute_command(sh, &val->container, pipe_in, pipe_out));
+		exit(execute_command(sh, &val->container, NO_PIPE, NO_PIPE));
 	}
 	else
 	{
