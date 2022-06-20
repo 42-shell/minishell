@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:03 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 03:29:46 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 15:17:51 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ static int	_last_pipe(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 {
 	int	exec_result;
 
+	sh->next_fd = NO_PIPE;
 	exec_result = execute_command(sh, cmd, pipe_in, pipe_out);
 	if (pipe_in != NO_PIPE)
 		close(pipe_in);
+	if (pipe_out == NO_PIPE)
+		sh->exit_status = wait_for(sh, -1);
 	return (exec_result);
 }
 
@@ -48,9 +51,10 @@ int	execute_pipeline(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 			puterr_safe("pipe error");
 			exit(EXIT_FAILURE);
 		}
+		sh->next_fd = fildes[STDIN_FILENO];
 		_first_pipe(sh, &cur->value.connection->first,
 			prev, fildes[STDOUT_FILENO]);
-		prev = fildes[STDIN_FILENO];
+		prev = sh->next_fd;
 		cur = &cur->value.connection->second;
 	}
 	return (_last_pipe(sh, cur, prev, pipe_out));

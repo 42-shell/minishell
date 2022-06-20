@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 02:23:31 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 15:18:05 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ typedef struct s_list_process
 
 typedef struct s_shell
 {
+	int				next_fd;
 	int				redir_undo[3];
 	int				exit_status;
 	t_list_process	*pid_list;
@@ -304,7 +305,7 @@ int						execute_command(t_shell *sh, t_command *cmd,
 int						execute_pipeline(t_shell *sh, t_command *cmd,
 							int pipe_in, int pipe_out);
 
-void					do_piping(int pipe_in, int pipe_out);
+void					do_piping(int pipe_in, int pipe_out, int pipe_next);
 pid_t					make_child(t_shell *sh);
 int						wait_for(t_shell *sh, pid_t pid);
 

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:33:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 03:52:15 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 15:17:26 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	_is_regular_fd(int fd)
 	return (1);
 }
 
-void	do_piping(int pipe_in, int pipe_out)
+void	do_piping(int pipe_in, int pipe_out, int pipe_next)
 {
 	if (pipe_in != NO_PIPE)
 	{
@@ -45,6 +45,8 @@ void	do_piping(int pipe_in, int pipe_out)
 		if (_is_regular_fd(pipe_out))
 			close(pipe_out);
 	}
+	if (pipe_next != NO_PIPE)
+		close(pipe_next);
 }
 
 pid_t	make_child(t_shell *sh)
@@ -101,10 +103,13 @@ int	wait_for(t_shell *sh, pid_t pid)
 			puterr_safe("waitpid\n");
 			exit(EXIT_FAILURE);
 		}
-		if (got_pid == pid)
-			sh->exit_status = _get_exit_status(status);
 		free(sh->pid_list);
 		sh->pid_list = next;
+		if (got_pid == pid)
+		{
+			sh->exit_status = _get_exit_status(status);
+			break ;
+		}
 	}
 	return (sh->exit_status);
 }
