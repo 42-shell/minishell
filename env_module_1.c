@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 07:23:05 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,6 @@ int	env_syntax_check(char *str, int skip_equal)
 			return (-1);
 	}
 	return (0);
-}
-
-void	clear_env(t_env_list **env)
-{
-	t_env_list	**temp;
-
-	temp = env;
-	ft_lstclear(temp);
-	(*env) = NULL;
 }
 
 int	change_env(t_env_list *env, char *id, char *content)

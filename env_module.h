@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 07:16:43 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 07:23:39 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,5 @@ char		**env_to_strvec(t_env_list *env);
 */
 t_env_list	*ft_lstnew(char *id, char *content, t_env_list **head, int key);
 t_env_list	*ft_lstcpy(t_env_list *org, t_env_list **cpy);
-void		ft_lstclear(t_env_list **lst);
-void		ft_lstadd_back(t_env_list **lst, t_env_list *new_lst);
-void		ft_lstdel(t_env_list *lst);
 
 #endif
