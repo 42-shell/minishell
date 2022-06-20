@@ -28,11 +28,17 @@ SOURCE = shell.c \
 			execute_command.c execute_command_pipeline.c \
 			execute_command_redir.c execute_command_redir_undo.c \
 			execute_command_jobs.c \
-			expander.c here_document.c
+			expander.c here_document.c \
+			minishell_utils.c env_module_1.c env_module_2.c env_module_3.c \
+			env_module_util_list_1.c env_module_util_list_2.c \
+			built_cd.c built_echo.c built_env.c built_exit.c built_export.c \
+			built_pwd.c built_unset.c \
+			expander_util.c glob_init.c glob_workhorse.c glob_workhorse_shoe.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 
 HEADER_LIBFT = libft.h
-SOURCE_LIBFT = libft_memory.c libft_string.c
+SOURCE_LIBFT = libft_memory.c libft_string.c libft_string_search.c \
+			libft_split.c libft_stdlib.c
 OBJECT_LIBFT = $(addprefix $(OBJECTS_DIR), $(SOURCE_LIBFT:.c=.o))
 
 SOURCE_GENERAL = util_flag.c safe_io.c safe_io_utils.c safe_mem.c \

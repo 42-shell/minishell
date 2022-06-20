@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 17:34:33 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 21:59:50 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,5 +312,8 @@ int						wait_for(t_shell *sh, pid_t pid);
 int						do_redirections(t_list_redirect *r_list);
 void					add_undo_redirects(t_shell *sh);
 void					cleanup_redirects(t_shell *sh);
+
+int						print_error(char *prefix, char *parameter, char *msg,
+							int return_value);
 
 #endif

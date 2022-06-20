@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_memory.c                                     :+:      :+:    :+:   */
+/*   libft_stdlib.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/21 15:31:13 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 21:58:00 by jkong            ###   ########.fr       */
+/*   Created: 2022/06/18 20:53:11 by yongmkim          #+#    #+#             */
+/*   Updated: 2022/06/20 22:15:01 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+static int	_isdigit(int c)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < len)
-		((unsigned char *)b)[i++] = (unsigned char)c;
-	return (b);
+	return ('0' <= c && c <= '9');
 }
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+static int	_isspace(int c)
 {
-	size_t	i;
+	return ((011 <= c && c <= 015) || c == ' ');
+}
 
-	if (src != dst)
-	{
-		i = 0;
-		while (i < n)
-		{
-			((unsigned char *)dst)[i] = ((const unsigned char *)src)[i];
-			i++;
-		}
-	}
-	return (dst);
+int	ft_atoi(const char *str)
+{
+	int	sign;
+	int	number;
+
+	while (_isspace(*str))
+		str++;
+	sign = 0;
+	if (*str == '+' || *str == '-')
+		sign = *str++ == '-';
+	number = 0;
+	while (*str && _isdigit(*str))
+		number = 10 * number + (1 - (sign << 1)) * (*str++ - '0');
+	return (number);
 }
