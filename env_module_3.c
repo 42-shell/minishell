@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 23:23:43 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	**env_to_strvec(t_env_list *env)
 	while (env)
 	{
 		sb = NULL;
-		sb = str_append(sb, env->content.id);
+		sb = str_append(sb, env->id);
 		sb = str_append(sb, "=");
-		sb = str_append(sb, env->content.content);
+		sb = str_append(sb, env->content);
 		sv = strv_append(sv, str_dispose(sb));
 		env = env->next;
 	}

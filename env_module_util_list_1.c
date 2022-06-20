@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_module_util_list_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 00:30:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 15:49:34 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 void	ft_lstdel(t_env_list *lst)
 {
-	free(lst->content.id);
-	free(lst->content.content);
+	free(lst->id);
+	free(lst->content);
 	free(lst);
 	lst = NULL;
 }
@@ -61,9 +61,9 @@ t_env_list	*ft_lstnew(char *id, char *content, t_env_list **head, int key)
 	t_env_list	*temp;
 
 	temp = (t_env_list *)malloc_safe(sizeof(t_env_list));
-	temp->content.id = ft_strdup(id);
-	temp->content.content = ft_strdup(content);
-	temp->content.visible = key;
+	temp->id = ft_strdup(id);
+	temp->content = ft_strdup(content);
+	temp->visible = key;
 	temp->next = NULL;
 	ft_lstadd_back(head, temp);
 	return (temp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_module_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:45:21 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 16:51:17 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 07:21:54 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,26 @@
 #include "string_buffer.h"
 #include "libft.h" // strcmp
 #include "safe_io.h"
+#include "generic_list.h"
 
 void	add_env(t_env_list *env, char *id, char *content, int key)
 {
 	ft_lstnew(id, content, &env, key);
 }
 
+static int	_env_cmp(t_env_list *t, void *arg)
+{
+	return (ft_strcmp(t->id, arg) == 0);
+}
+
 void	del_env(char *id, t_env_list **env)
 {
-	t_env_list	*lead;
-	t_env_list	*follow;
+	t_env_list	*del;
 
-	lead = (*env);
-	follow = NULL;
-	while (lead)
-	{
-		if (!ft_strcmp(id, lead->content.id))
-		{
-			if (follow)
-				follow->next = lead->next;
-			else
-				(*env) = lead->next;
-			ft_lstdel(lead);
-			break ;
-		}
-		follow = lead;
-		lead = lead->next;
-	}
+	del = (void *)list_remove((void *)env, _env_cmp, id);
+	free(del->id);
+	free(del->content);
+	free(del);
 }
 
 void	change_late_cmd(t_env_list *env, char *cmd, int is_built_in)
@@ -81,18 +74,18 @@ void	print_env(t_env_list *head, int key)
 	sb = NULL;
 	while (head)
 	{
-		if ((head->content.visible != HIDE_VISIBLE) \
-		&& (key || head->content.visible))
+		if ((head->visible != HIDE_VISIBLE) \
+		&& (key || head->visible))
 		{
 			if (key)
 				sb = str_append(sb, "declare -x ");
-			sb = str_append(sb, head->content.id);
-			if (head->content.visible)
+			sb = str_append(sb, head->id);
+			if (head->visible)
 			{
 				sb = str_append(sb, "=");
 				if (key)
 					sb = str_append(sb, "\"");
-				sb = str_append(sb, head->content.content);
+				sb = str_append(sb, head->content);
 				if (key)
 					sb = str_append(sb, "\"");
 			}

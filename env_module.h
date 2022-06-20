@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 23:23:51 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 07:16:43 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,13 @@
 # include <stddef.h>
 # include <errno.h>
 
-typedef struct s_content
-{
-	char	*id;
-	char	*content;
-	int		visible;
-}			t_content;
-
 typedef struct s_env_list
 {
 	struct s_env_list	*next;
-	struct s_content	content;
-}						t_env_list;
+	char				*id;
+	char				*content;
+	int					visible;
+}	t_env_list;
 
 /*
 ** env

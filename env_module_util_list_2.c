@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_module_util_list_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 17:32:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 01:19:11 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	ft_lstadd_sort_addon(t_env_list **lst, t_env_list *new_lst)
 	follow = NULL;
 	while (temp)
 	{
-		if (ft_compare(temp->content.id, new_lst->content.id))
+		if (ft_compare(temp->id, new_lst->id))
 		{
 			if (!follow)
 			{
@@ -69,9 +69,9 @@ t_env_list	*ft_lstcpy(t_env_list *org, t_env_list **cpy)
 	t_env_list	*temp;
 
 	temp = (t_env_list *)malloc_safe(sizeof(t_env_list));
-	temp->content.id = ft_strdup(org->content.id);
-	temp->content.content = ft_strdup(org->content.content);
-	temp->content.visible = org->content.visible;
+	temp->id = ft_strdup(org->id);
+	temp->content = ft_strdup(org->content);
+	temp->visible = org->visible;
 	temp->next = NULL;
 	if (!(*cpy))
 		*cpy = temp;

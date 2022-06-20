@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:54:18 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	change_env(t_env_list *env, char *id, char *content)
 {
 	while (env)
 	{
-		if (!ft_strcmp(id, env->content.id))
+		if (!ft_strcmp(id, env->id))
 		{
-			free(env->content.content);
-			env->content.content = ft_strdup(content);
+			free(env->content);
+			env->content = ft_strdup(content);
 			return (0);
 		}
 		env = env->next;
@@ -63,8 +63,8 @@ char	*get_env(t_env_list *env, char *id)
 {
 	while (env)
 	{
-		if (!ft_strcmp(id, env->content.id))
-			return (env->content.content);
+		if (!ft_strcmp(id, env->id))
+			return (env->content);
 		env = env->next;
 	}
 	return (NULL);

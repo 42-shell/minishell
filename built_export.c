@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:39:45 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static size_t	sort_print_env(t_env_list *env)
 	cpy = NULL;
 	while (env)
 	{
-		if (ft_strcmp(env->content.id, "_"))
+		if (ft_strcmp(env->id, "_"))
 			ft_lstcpy(env, &cpy);
 		env = env->next;
 	}
