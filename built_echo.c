@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 21:31:58 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:36:00 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 08:12:02 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "string_vector.h"
 #include "safe_io.h"
 
-static size_t	echo_print_error(int key)
+static int	echo_print_error(int key)
 {
 	if (key == EMPTY_CMD)
 		return (print_error("echo", "parameter", "empty cmd", 1));
@@ -67,7 +67,7 @@ static void	echo_workhorse(t_str_buf *sb, char **argv, size_t idx, size_t opt)
 	}
 }
 
-size_t	ft_echo(char **argv, t_env_list *env)
+int	ft_echo(char **argv, t_env_list **env)
 {
 	size_t		opt_pos;
 	t_str_buf	*sb;

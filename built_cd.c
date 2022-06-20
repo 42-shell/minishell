@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:34:22 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 08:24:00 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "string_vector.h"
 #include <unistd.h> // chdir
 
-static size_t	cd_print_error(char *parameter, int key)
+static int	cd_print_error(char *parameter, int key)
 {
 	if (key == EMPTY_CMD)
 		return (print_error("cd", "parameter", "empty cmd", 1));
@@ -26,10 +26,11 @@ static size_t	cd_print_error(char *parameter, int key)
 		return (-1);
 }
 
-static size_t	check_path(char **argv, t_env_list *env, int size)
+static int	check_path(char **argv, t_env_list *env, int size)
 {
-	if ((size == 1 || !ft_strcmp(argv[1], "~")) \
-	&& chdir(get_env(env, "HOME")))
+	if ((size == 1 || !ft_strcmp(argv[1], "~")) && chdir(get_env(env, "HOME")))
+		return (-1);
+	else if (size <= 1)
 		return (-1);
 	else if (!ft_strcmp(argv[1], "-") && chdir(get_env(env, "OLDPWD")))
 		return (-1);
@@ -39,7 +40,7 @@ static size_t	check_path(char **argv, t_env_list *env, int size)
 }
 
 // exec 전에 pwd, oldpwd 수정?
-static size_t	cd_change_pwd(t_env_list *env)
+static int	cd_change_pwd(t_env_list *env)
 {
 	char	*id;
 
@@ -50,14 +51,14 @@ static size_t	cd_change_pwd(t_env_list *env)
 	return (0);
 }
 
-size_t	ft_cd(char **argv, t_env_list *env)
+int	ft_cd(char **argv, t_env_list **env)
 {
 	int		size;
 
 	size = length_strvec(argv);
 	if (!size)
 		return (cd_print_error(NULL, EMPTY_CMD));
-	else if (check_path(argv, env, size))
+	else if (check_path(argv, *env, size))
 		return (cd_print_error(argv[1], ERROR_OCCURED));
-	return (cd_change_pwd(env));
+	return (cd_change_pwd(*env));
 }

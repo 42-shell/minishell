@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:39:00 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 08:12:20 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	exit_print_error(int key, char *arg)
 	return (-1);
 }
 
-int	ft_exit(char **argv, t_env_list *env)
+int	ft_exit(char **argv, t_env_list **env)
 {
 	size_t	size;
 

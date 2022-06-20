@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/21 06:42:18 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 08:15:43 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string.h>
 #include "string_buffer.h"
 
+#include "built_in.h"
 #include "expander.h"
 #include "env_module.h"
 
@@ -27,12 +28,14 @@ extern char	**environ;
 static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 	int no_fork, int wait)
 {
-	t_str_vec	*sv;
-	t_list_word	*w;
-	pid_t		pid;
-	int			status;
+	t_built_in_func	built_in;
+	t_str_vec		*sv;
+	t_list_word		*w;
+	pid_t			pid;
+	int				status;
 
-	if (no_fork)
+	built_in = get_built_in(val->word_list->word.str);
+	if (built_in || no_fork)
 		pid = 0;
 	else
 		pid = make_child(sh);
@@ -49,6 +52,8 @@ static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 				sv = strv_append(sv, w->word.str);
 				w = w->next;
 			}
+			if (built_in)
+				return (built_in(check_expand(sh, strv_dispose(sv), sh->env_list), &sh->env_list));
 			char *cmd_path = path_finder(val->word_list->word.str, sh->env_list);
 			if (cmd_path == NULL)
 				exit(EX_NOTFOUND);

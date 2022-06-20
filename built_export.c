@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 07:42:09 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 08:12:29 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "safe_io.h"
 #include "generic_list.h"
 
-static size_t	export_print_error(int key, char *argv)
+static int	export_print_error(int key, char *argv)
 {
 	if (key == EMPTY_CMD)
 		return (print_error("export", "parameter", "empty cmd", 1));
@@ -58,7 +58,7 @@ static int	_clear_env(t_env_list *ptr)
 	return (0);
 }
 
-static size_t	sort_print_env(t_env_list *env)
+static int	sort_print_env(t_env_list *env)
 {
 	t_env_list	*cpy;
 
@@ -75,7 +75,7 @@ static size_t	sort_print_env(t_env_list *env)
 }
 
 // error_print(export: not an identifier: str)
-size_t	ft_export(char **argv, t_env_list *env)
+int	ft_export(char **argv, t_env_list **env)
 {
 	size_t	size;
 	size_t	check_error;
@@ -84,7 +84,7 @@ size_t	ft_export(char **argv, t_env_list *env)
 	if (!size)
 		return (export_print_error(EMPTY_CMD, NULL));
 	else if (size == 1)
-		return (sort_print_env(env));
+		return (sort_print_env(*env));
 	check_error = 0;
 	size = 1;
 	while (argv[size])
@@ -95,7 +95,7 @@ size_t	ft_export(char **argv, t_env_list *env)
 			export_print_error(ERROR_OCCURED, argv[size]);
 		}
 		else
-			export_work(argv[size], env);
+			export_work(argv[size], *env);
 		size++;
 	}
 	return (check_error > 0);

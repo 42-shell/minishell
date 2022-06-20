@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:40:34 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 08:12:38 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_get_pwd(void)
 	return (getcwd(NULL, 0));
 }
 
-static size_t	pwd_print_error(int key)
+static int	pwd_print_error(int key)
 {
 	if (key == EMPTY_CMD)
 		return (print_error("pwd", "parameter", "empty cmd", 1));
@@ -31,7 +31,7 @@ static size_t	pwd_print_error(int key)
 	return (-1);
 }
 
-size_t	ft_pwd(char **argv, t_env_list *env)
+int	ft_pwd(char **argv, t_env_list **env)
 {
 	char		*buf;
 	t_str_buf	*sb;

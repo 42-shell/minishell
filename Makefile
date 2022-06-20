@@ -32,7 +32,7 @@ SOURCE = shell.c \
 			minishell_utils.c env_module_1.c env_module_2.c env_module_3.c \
 			env_module_util_list.c \
 			built_cd.c built_echo.c built_env.c built_exit.c built_export.c \
-			built_pwd.c built_unset.c \
+			built_pwd.c built_unset.c built_in.c \
 			expander_util.c glob_init.c glob_workhorse.c glob_workhorse_shoe.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 

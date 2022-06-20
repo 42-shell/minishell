@@ -6,14 +6,14 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:44:16 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 08:01:06 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "string_vector.h"
 
-static size_t	unset_print_error(int key, char *arg)
+static int	unset_print_error(int key, char *arg)
 {
 	if (key == EMPTY_CMD)
 		return (print_error("unset", "parameter", "empty cmd", 1));
@@ -24,7 +24,7 @@ static size_t	unset_print_error(int key, char *arg)
 	return (-1);
 }
 
-size_t	ft_unset(char **argv, t_env_list **env)
+int	ft_unset(char **argv, t_env_list **env)
 {
 	size_t	size;
 	int		err;
