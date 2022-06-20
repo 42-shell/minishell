@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 23:24:26 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 06:41:27 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ typedef struct s_exp_info
 	t_str_buf	*sb;
 	t_str_buf	*sb_dollar;
 	t_str_vec	*sv;
+	int			last_exit_status;
 }				t_exp_info;
 
 /*
 ** main_function
 */
-char	**check_expand(char **argv, t_env_list *env);
-void	expand_other_case(
-			t_exp_info *info, char *str, t_env_list *env, size_t *ret);
+char	**check_expand(t_shell *sh, char **argv, t_env_list *env);
+void	expand_other_case(t_exp_info *info, char *str, size_t *ret);
 
 #endif

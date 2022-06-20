@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/21 06:33:12 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 06:42:18 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,36 +46,13 @@ static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 		{
 			while (w)
 			{
-				char *str = w->word.str;
-				if (strcmp(str, "$?") == 0)
-				{
-					t_str_buf *sb = NULL;
-					int n = sh->exit_status;
-					const int		sign = n < 0;
-					char			buf[11];
-					const size_t	count = sizeof(buf) / sizeof(*buf);
-					size_t			i;
-
-					i = count;
-					if (!n)
-						buf[--i] = '0';
-					while (n)
-					{
-						buf[--i] = '0' + (1 - (sign << 1)) * (n % 10);
-						n /= 10;
-					}
-					if (sign)
-						buf[--i] = '-';
-					sb = str_append_raw(sb, buf + i, count - i);
-					str = str_dispose(sb);
-				}
-				sv = strv_append(sv, str);
+				sv = strv_append(sv, w->word.str);
 				w = w->next;
 			}
 			char *cmd_path = path_finder(val->word_list->word.str, sh->env_list);
 			if (cmd_path == NULL)
 				exit(EX_NOTFOUND);
-			execve(cmd_path, check_expand(strv_dispose(sv), sh->env_list), env_to_strvec(sh->env_list)); //TODO: env
+			execve(cmd_path, check_expand(sh, strv_dispose(sv), sh->env_list), env_to_strvec(sh->env_list));
 		}
 		if (!no_fork)
 			exit(EXIT_SUCCESS);

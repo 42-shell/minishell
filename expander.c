@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:46:13 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 06:41:31 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static size_t	_dollar(t_exp_info *info, t_env_list *env, char *str)
 		info->sb_dollar = NULL;
 	}
 	else
-		expand_other_case(info, str, env, &ret);
+		expand_other_case(info, str, &ret);
 	return (ret);
 }
 
@@ -139,7 +139,7 @@ static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
 	return (str_dispose(info->sb));
 }
 
-char	**check_expand(char **argv, t_env_list *env)
+char	**check_expand(t_shell *sh, char **argv, t_env_list *env)
 {
 	t_exp_info	info;
 	char		*temp;
@@ -147,6 +147,7 @@ char	**check_expand(char **argv, t_env_list *env)
 	info.sb_dollar = NULL;
 	info.sv = NULL;
 	info.cur_pos = 0;
+	info.last_exit_status = sh->exit_status;
 	while (argv && argv[info.cur_pos])
 	{
 		info.sb = NULL;
