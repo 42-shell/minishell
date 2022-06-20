@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 01:47:44 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 15:42:04 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 
 int	dirent_print_error(int key, t_env_list *env)
 {
-	change_env(env, "EXIT_STATUS", "1");
 	if (key == FAST_DONE)
 	{
 		return (print_error("glob", "opendir", \
-		"filename cannot be accessed, or cannot malloc enough memory"));
+		"filename cannot be accessed, or cannot malloc enough memory", 1));
 	}
 	else if (key == ERROR_OCCURED)
-		return (print_error("glob", "closedir", "failure"));
+		return (print_error("glob", "closedir", "failure", 1));
 	return (-1);
 }
 
@@ -88,7 +87,6 @@ char	*path_finder(char *cmd, t_env_list *env)
 		idx++;
 	}
 	util_path_finder(all_path);
-	change_env(env, "EXIT_STATUS", "127");
-	print_error(cmd, NULL, "command not found");
+	print_error(cmd, NULL, "command not found", 127);
 	return (NULL);
 }

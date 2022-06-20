@@ -6,39 +6,21 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:24:19 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:40:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "libft.h"
 
-static size_t	unset_check_error(t_env_list *env, size_t check_error)
-{
-	if (check_error)
-	{
-		change_env(env, "EXIT_STATUS", "1");
-		return (-1);
-	}
-	else
-	{
-		change_env(env, "EXIT_STATUS", "0");
-		return (0);
-	}
-}
-
 static size_t	unset_print_error(int key, t_env_list *env)
 {
 	if (key == EMPTY_CMD)
-	{
-		change_env(env, "EXIT_STATUS", "1");
-		return (print_error("unset", "parameter", "empty cmd"));
-	}
+		return (print_error("unset", "parameter", "empty cmd", 1));
 	else if (key == FAST_DONE)
-	{
-		change_env(env, "EXIT_STATUS", "0");
 		return (0);
-	}
+	else if (key == ERROR_OCCURED)
+		print_error("unset", argv[size], "not a valid identifier");
 	return (-1);
 }
 
@@ -47,7 +29,6 @@ size_t	ft_unset(char **argv, t_env_list **env)
 	size_t	size;
 	size_t	check_error;
 
-	change_late_cmd(*env, "unset", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (unset_print_error(EMPTY_CMD, *env));
@@ -61,11 +42,11 @@ size_t	ft_unset(char **argv, t_env_list **env)
 		if (env_syntax_check(argv[size], SKIP_ON))
 		{
 			check_error++;
-			print_error("unset", argv[size], "not a valid identifier");
+			unset_print_error(ERROR_OCCURED, *env);
 		}
 		else
 			del_env(argv[size], env);
 		size++;
 	}
-	return (unset_check_error(*env, check_error));
+	return (check_error > 0);
 }

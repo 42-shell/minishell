@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 01:37:58 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:27:41 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,12 @@ static int	is_all_digit(char *str)
 	return (0);
 }
 
-// if return -1, then doesn't exit minishell
 static int	exit_print_error(int key, t_env_list *env)
 {
-	change_env(env, "EXIT_STATUS", "1");
 	if (key == EMPTY_CMD)
-		return (print_error("exit", "parameter", "empty cmd"));
+		return (print_error("exit", "parameter", "empty cmd", 1));
 	else if (key == ERROR_OCCURED)
-		return (print_error("exit", NULL, "too many arguments"));
+		return (print_error("exit", NULL, "too many arguments", 1));
 	return (-1);
 }
 
@@ -41,7 +39,6 @@ int	ft_exit(char **argv, t_env_list *env)
 {
 	size_t	size;
 
-	change_late_cmd(env, "exit", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (exit_print_error(EMPTY_CMD, env));
@@ -56,6 +53,5 @@ int	ft_exit(char **argv, t_env_list *env)
 			return (exit_print_error(ERROR_OCCURED, env));
 	}
 	else
-		print_error("exit", argv[1], "numeric argument required");
-	return (255);
+		return (print_error("exit", argv[1], "numeric argument required", 2));
 }

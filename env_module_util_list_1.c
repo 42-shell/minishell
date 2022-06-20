@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 00:30:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 01:19:46 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 15:49:34 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ static t_env_list	*ft_lstlast(t_env_list *lst)
 	if (lst)
 	{
 		while (lst->next)
-		{
 			lst = lst->next;
-		}
 	}
 	return (lst);
 }

@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 01:44:35 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:35:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void		clear_env(t_env_list **env);
 void		print_env(t_env_list *env, int key);
 char		*path_finder(char *cmd, t_env_list *env);
 void		change_late_cmd(t_env_list *env, char *cmd, int is_built_in);
+//change_late_cmd(env, "pwd", BUILT_IN);
 
 int			dirent_print_error(int key, t_env_list *env);
 

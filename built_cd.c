@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:49:23 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/20 15:59:21 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 
 static size_t	cd_print_error(char *parameter, int key, t_env_list *env)
 {
-	change_env(env, "EXIT_STATUS", "1");
 	if (key == EMPTY_CMD)
-		return (print_error("cd", "parameter", "empty cmd"));
+		return (print_error("cd", "parameter", "empty cmd", 1));
 	else if (key == ERROR_OCCURED)
-		return (print_error("cd", parameter, "failure"));
-	return (-1);
+		return (print_error("cd", parameter, "failure", 1));
+	else
+		return (-1);
 }
 
 static size_t	check_path(char **argv, t_env_list *env, int size)
@@ -37,7 +37,7 @@ static size_t	check_path(char **argv, t_env_list *env, int size)
 	return (0);
 }
 
-static void	cd_change_pwd(t_env_list *env)
+static size_t	cd_change_pwd(t_env_list *env)
 {
 	char	*id;
 
@@ -45,19 +45,17 @@ static void	cd_change_pwd(t_env_list *env)
 	id = ft_get_pwd();
 	change_env(env, "PWD", id);
 	free(id);
-	change_env(env, "EXIT_STATUS", "0");
+	return (0);
 }
 
 size_t	ft_cd(char **argv, t_env_list *env)
 {
 	int		size;
 
-	change_late_cmd(env, "cd", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (cd_print_error(NULL, EMPTY_CMD, env));
 	else if (check_path(argv, env, size))
 		return (cd_print_error(argv[1], ERROR_OCCURED, env));
-	cd_change_pwd(env);
-	return (0);
+	return (cd_change_pwd(env));
 }

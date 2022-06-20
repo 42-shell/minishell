@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:26:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 23:57:03 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:41:01 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "string_buffer.h"
 
 // prefix-> cmd; parameter-> argv or param; msg-> cause
-int	print_error(char *prefix, char *parameter, char *msg)
+int	print_error(char *prefix, char *parameter, char *msg, int return_value)
 {
 	t_str_buf	*sb;
 
@@ -43,5 +43,5 @@ int	print_error(char *prefix, char *parameter, char *msg)
 	msg = str_dispose(sb);
 	puterr_safe(msg);
 	free(msg);
-	return (-1);
+	return (return_value);
 }

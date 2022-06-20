@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:47:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:23:28 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:24:19 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 static size_t	env_print_error(int key, t_env_list *env)
 {
-	change_env(env, "EXIT_STATUS", "1");
 	if (key == EMPTY_CMD)
-		return (print_error("env", "parameter", "empty cmd"));
+		return (print_error("env", "parameter", "empty cmd", 1));
 	else if (key == ERROR_OCCURED)
-		return (print_error("env", "parameter", "options or arguments found"));
+		return (print_error("env", "parameter", \
+		"options or arguments found", 1));
 	return (-1);
 }
 
@@ -27,13 +27,11 @@ size_t	ft_env(char **argv, t_env_list *env)
 {
 	size_t	size;
 
-	change_late_cmd(env, "env", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (env_print_error(EMPTY_CMD, env));
 	else if (ft_getarr_size(argv) != 1)
 		return (env_print_error(ERROR_OCCURED, env));
 	print_env(env, NON_VISIBLE);
-	change_env(env, "EXIT_STATUS", "0");
 	return (0);
 }

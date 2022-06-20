@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:45:21 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 03:34:06 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:27:55 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static void	str_manage(t_str_buf *sb)
 	free(str);
 }
 
-//quote = key && (!head->content.visible || !head->content.content);
 void	print_env(t_env_list *head, int key)
 {
 	t_str_buf	*sb;

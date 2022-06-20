@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 00:11:59 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:34:08 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,12 @@
 #include "string_buffer.h"
 #include "safe_io.h"
 
-static size_t	export_check_error(t_env_list *env, size_t check_error)
-{
-	change_late_cmd(env, "export", BUILT_IN);
-	if (check_error)
-	{
-		change_env(env, "EXIT_STATUS", "1");
-		return (-1);
-	}
-	else
-	{
-		change_env(env, "EXIT_STATUS", "0");
-		return (0);
-	}
-}
-
 static size_t	export_print_error(int key, char *argv, t_env_list *env)
 {
 	if (key == EMPTY_CMD)
-	{
-		change_env(env, "EXIT_STATUS", "1");
-		return (print_error("export", "parameter", "empty cmd"));
-	}
+		return (print_error("export", "parameter", "empty cmd", 1));
 	else if (key == ERROR_OCCURED)
-	{
-		print_error("export", argv, "not a valid identifier");
-	}
+		print_error("export", argv, "not a valid identifier", 1);
 	return (-1);
 }
 
@@ -81,7 +61,6 @@ static size_t	sort_print_env(t_env_list *env)
 	}
 	print_env(cpy, ON_VISIBLE);
 	clear_env(&cpy);
-	change_env(env, "EXIT_STATUS", "0");
 	return (0);
 }
 
@@ -91,7 +70,6 @@ size_t	ft_export(char **argv, t_env_list *env)
 	size_t	size;
 	size_t	check_error;
 
-	change_late_cmd(env, "export", BUILT_IN);
 	size = ft_getarr_size(argv);
 	if (!size)
 		return (export_print_error(EMPTY_CMD, NULL, env));
@@ -110,5 +88,5 @@ size_t	ft_export(char **argv, t_env_list *env)
 			export_work(argv[size], env);
 		size++;
 	}
-	return (export_check_error(env, check_error));
+	return (check_error > 0);
 }

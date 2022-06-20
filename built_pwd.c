@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:58:26 by yongmkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/20 16:36:11 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ char	*ft_get_pwd(void)
 
 static size_t	pwd_print_error(int key, t_env_list *env)
 {
-	change_env(env, "EXIT_STATUS", "1");
 	if (key == EMPTY_CMD)
-		return (print_error("pwd", "parameter", "empty cmd"));
+		return (print_error("pwd", "parameter", "empty cmd", 1));
 	else if (key == ERROR_OCCURED)
-		return (print_error("pwd", NULL, "failure"));
+		return (print_error("pwd", NULL, "failure", 1));
 	return (-1);
 }
 
@@ -37,7 +36,6 @@ size_t	ft_pwd(char **argv, t_env_list *env)
 	char		*buf;
 	t_str_buf	*sb;
 
-	change_late_cmd(env, "pwd", BUILT_IN);
 	if (!ft_getarr_size(argv))
 		return (pwd_print_error(EMPTY_CMD, env));
 	buf = getcwd(NULL, 0);
@@ -50,7 +48,6 @@ size_t	ft_pwd(char **argv, t_env_list *env)
 		buf = str_dispose(sb);
 		putstr_safe(buf);
 		free(buf);
-		change_env(env, "EXIT_STATUS", "0");
 		return (0);
 	}
 	else
