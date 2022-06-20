@@ -6,12 +6,13 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:54:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 01:06:33 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 18:27:46 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
+// exit_status should change to mini_info
 void	expand_other_case(\
 t_exp_info *info, char *str, t_env_list *env, size_t *ret)
 {

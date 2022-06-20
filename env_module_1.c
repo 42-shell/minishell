@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 01:37:34 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 18:26:17 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ t_env_list	*set_env(char **env)
 			break ;
 		env++;
 	}
-	add_env(head, "EXIT_STATUS", "0", HIDE_VISIBLE);
 	add_env(head, "MINISHELL_INIT_PATH", get_env(head, "PWD"), HIDE_VISIBLE);
 	return (head);
 }
