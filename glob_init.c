@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 02:24:01 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 12:05:18 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	count_pattern_size(t_glob_info *info)
 	{
 		temp = info->pattern_split[info->split_size - 1];
 		temp[ft_strlen(temp) - 1] = '\0';
-		if (info->split_text_cnt != 1)
+		if (info->split_text_cnt > 1)
 			info->split_text_cnt -= 1;
 	}
 }
