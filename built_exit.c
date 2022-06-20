@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 16:27:41 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:49:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static int	exit_print_error(int key, t_env_list *env)
 		return (print_error("exit", "parameter", "empty cmd", 1));
 	else if (key == ERROR_OCCURED)
 		return (print_error("exit", NULL, "too many arguments", 1));
+	else if (key == FAST_DONE)
+		return (print_error("exit", argv[1], "numeric argument required", 255));
 	return (-1);
 }
 
@@ -53,5 +55,5 @@ int	ft_exit(char **argv, t_env_list *env)
 			return (exit_print_error(ERROR_OCCURED, env));
 	}
 	else
-		return (print_error("exit", argv[1], "numeric argument required", 2));
+		return (exit_print_error(FAST_DONE, env));
 }

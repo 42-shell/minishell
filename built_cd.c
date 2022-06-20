@@ -6,7 +6,7 @@
 /*   By: yongmkim <yongmkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 15:59:21 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:48:41 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static size_t	check_path(char **argv, t_env_list *env, int size)
 	return (0);
 }
 
+// exec 전에 pwd, oldpwd 수정?
 static size_t	cd_change_pwd(t_env_list *env)
 {
 	char	*id;
