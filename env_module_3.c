@@ -6,16 +6,34 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:33:16 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 23:14:30 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
 #include "libft.h"
 #include "string_buffer.h"
+#include "string_vector.h"
 #include "minishell.h"
 #include "built_in.h"
 #include <dirent.h>
+
+char	**env_to_strv(t_env_list *env)
+{
+	t_str_vec	*sv;
+	t_str_buf	*sb;
+
+	sv = NULL;
+	while (env)
+	{
+		sb = NULL;
+		sb = str_append(sb, env->content->id);
+		sb = str_append(sb, "=");
+		sb = str_append(sb, env->content->content);
+		sv = strv_append(sv, str_dispose(sb));
+	}
+	return (strv_dispose(sv));
+}
 
 int	dirent_print_error(int key)
 {
