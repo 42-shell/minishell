@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:18:12 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 03:10:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/20 17:27:59 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,27 @@ static int	_do_redirection(t_list_redirect *r)
 {
 	t_redirect *const	redir = &r->redirect;
 	int					fd;
+	int					res;
 
 	fd = _redir_open(redir);
 	if (fd < 0)
 		return (-1);
-	if (dup2(fd, redir->redirectee) < 0)
+	res = dup2(fd, redir->redirectee) < 0;
+	close(fd);
+	if (res < 0)
 		return (-2);
 	return (0);
 }
 
 int	do_redirections(t_list_redirect *r_list)
 {
-	return (list_walk((void *)r_list, _do_redirection));
+	int	res;
+
+	res = list_walk((void *)r_list, _do_redirection);
+	if (res < 0)
+	{
+		printf("Redirection failure %d\n", res);
+		exit(EXIT_FAILURE);
+	}
+	return (res);
 }
