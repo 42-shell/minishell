@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 07:42:09 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "string_buffer.h"
 #include "string_vector.h"
 #include "safe_io.h"
+#include "generic_list.h"
 
 static size_t	export_print_error(int key, char *argv)
 {
@@ -49,6 +50,14 @@ static void	export_work(char *id, t_env_list *env)
 	}
 }
 
+static int	_clear_env(t_env_list *ptr)
+{
+	free(ptr->id);
+	free(ptr->content);
+	free(ptr);
+	return (0);
+}
+
 static size_t	sort_print_env(t_env_list *env)
 {
 	t_env_list	*cpy;
@@ -61,7 +70,7 @@ static size_t	sort_print_env(t_env_list *env)
 		env = env->next;
 	}
 	print_env(cpy, ON_VISIBLE);
-	clear_env(&cpy);
+	list_walk((void *)&cpy, _clear_env);
 	return (0);
 }
 
