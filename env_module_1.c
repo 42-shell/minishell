@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:49:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 07:23:05 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 07:32:13 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h" // strchr, strcmp, strdup
 #include <stdlib.h> // free
 #include "minishell.h"
+#include "string_buffer.h"
 
 int	env_syntax_check(char *str, int skip_equal)
 {
@@ -81,4 +82,25 @@ t_env_list	*set_env(char **env)
 	}
 	add_env(head, "MINISHELL_INIT_PATH", get_env(head, "PWD"), HIDE_VISIBLE);
 	return (head);
+}
+
+void	change_late_cmd(t_env_list *env, char *cmd, int is_built_in)
+{
+	t_str_buf	*sb;
+	char		*temp;
+
+	temp = NULL;
+	if (is_built_in == BUILT_IN)
+	{
+		sb = NULL;
+		sb = str_append(sb, get_env(env, "MINISHELL_INIT_PATH"));
+		sb = str_append(sb, "/");
+		sb = str_append(sb, cmd);
+		temp = str_dispose(sb);
+	}
+	else if (is_built_in == NON_BUILT_IN)
+		temp = path_finder(cmd, env);
+	del_env("_", &env);
+	add_env(env, "_", temp, ON_VISIBLE);
+	free(temp);
 }

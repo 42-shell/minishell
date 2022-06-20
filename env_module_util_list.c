@@ -1,19 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_module_util_list_2.c                           :+:      :+:    :+:   */
+/*   env_module_util_list.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/13 17:32:54 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
+/*   Created: 2022/06/13 00:30:54 by yongmkim          #+#    #+#             */
+/*   Updated: 2022/06/21 07:32:55 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env_module.h"
 #include "libft.h"
 #include "safe_mem.h"
-#include <stdlib.h> // malloc
+#include <stdlib.h> // malloc, free
+
+static void	ft_lstadd_back(t_env_list **lst, t_env_list *new_lst)
+{
+	t_env_list	*last;
+
+	if (new_lst)
+	{
+		if (*lst)
+		{
+			last = *lst;
+			while (last->next)
+				last = last->next;
+			last->next = new_lst;
+		}
+		else
+			*lst = new_lst;
+	}
+}
+
+t_env_list	*ft_lstnew(char *id, char *content, t_env_list **head, int key)
+{
+	t_env_list	*temp;
+
+	temp = (t_env_list *)malloc_safe(sizeof(t_env_list));
+	temp->id = ft_strdup(id);
+	temp->content = ft_strdup(content);
+	temp->visible = key;
+	temp->next = NULL;
+	ft_lstadd_back(head, temp);
+	return (temp);
+}
 
 static size_t	ft_compare(char *s1, char *s2)
 {

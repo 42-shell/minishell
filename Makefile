@@ -30,7 +30,7 @@ SOURCE = shell.c \
 			execute_command_jobs.c \
 			expander.c here_document.c \
 			minishell_utils.c env_module_1.c env_module_2.c env_module_3.c \
-			env_module_util_list_1.c env_module_util_list_2.c \
+			env_module_util_list.c \
 			built_cd.c built_echo.c built_env.c built_exit.c built_export.c \
 			built_pwd.c built_unset.c \
 			expander_util.c glob_init.c glob_workhorse.c glob_workhorse_shoe.c
@@ -51,7 +51,7 @@ OBJS = $(OBJECT) $(OBJECT_LIBFT) $(OBJECT_GENERAL)
 
 LDFLAGS += -lreadline
 
-C_SANITIZER_FLAGS = #address undefined
+C_SANITIZER_FLAGS = address undefined
 CFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 LDFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 
