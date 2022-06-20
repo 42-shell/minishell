@@ -6,7 +6,7 @@
 /*   By: yongmkim <codeyoma@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 15:42:04 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/20 23:09:38 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@
 #include "minishell.h"
 #include "built_in.h"
 #include <dirent.h>
+
+char	**env_to_strv(t_env_list *env)
+{
+	t_str_vec	*sv;
+	t_str_buf	*sb;
+
+	sv = NULL;
+	while (env)
+	{
+		sb = NULL;
+		sb = str_append(sb, env->content->id);
+		sb = str_append(sb, "=");
+		sb = str_append(sb, env->content->content);
+		sv = strv_append(sv, str_dispose(sb));
+		env = env->next;
+	}
+	return (strv_dispose(sv));
+}
+
 
 int	dirent_print_error(int key, t_env_list *env)
 {
