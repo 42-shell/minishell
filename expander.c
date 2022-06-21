@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:28:26 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 17:26:55 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	attach_quote(t_exp_info *info, t_env_list *env, char **str, int key)
 	}
 }
 
-static char	*subst_ast(t_exp_info *info, t_env_list *env, char *str)
+char	*subst_ast(t_exp_info *info, t_env_list *env, char *str, int key)
 {
 	char	*temp;
 
@@ -81,8 +81,10 @@ static char	*subst_ast(t_exp_info *info, t_env_list *env, char *str)
 		}
 		else
 		{
-			if (*temp == '*')
+			if (key & 1 && *temp == '*')
 				*temp = SOH;
+			else if (key & 2 && *temp == SOH)
+				*temp = '*';
 			temp++;
 		}
 	}
@@ -108,7 +110,7 @@ static char	*subst_env(t_exp_info *info, t_env_list *env, char *str)
 			str++;
 		}
 	}
-	return (subst_ast(info, env, str_dispose(info->sb)));
+	return (subst_ast(info, env, str_dispose(info->sb), 1));
 }
 
 static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
@@ -150,10 +152,7 @@ char	**check_expand(t_shell *sh, char **argv, t_env_list *env)
 		info.sb = str_append(NULL, "");
 		temp = expand_workhorse(&info, env, temp);
 		if (info.cur_pos && ft_strchr(temp, SOH))
-		{
-			info.sv = expand_glob(temp, info.sv, env);
-			free(temp);
-		}
+			info.sv = expand_glob(temp, &info, info.sv, env);
 		else
 			info.sv = strv_append(info.sv, temp);
 		info.cur_pos++;

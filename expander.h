@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:11:48 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 17:35:16 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_exp_info
 ** main_function
 */
 char	**check_expand(t_shell *sh, char **argv, t_env_list *env);
+char	*subst_ast(t_exp_info *info, t_env_list *env, char *str, int key);
 
 size_t	_dollar(t_exp_info *info, t_env_list *env, char *str);
 size_t	_s_quote(t_exp_info *info, char *str, int key);

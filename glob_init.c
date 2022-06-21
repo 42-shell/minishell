@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:45:32 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 17:23:09 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ static void	count_pattern_size(t_glob_info *info)
 	}
 }
 
-static void	glob_init(\
-char *str, t_glob_info *info, t_str_vec *str_vec, t_env_list *env)
+static void	glob_init(char *str, t_glob_info *info, t_env_list *env)
 {
-	info->glob_matched = str_vec;
+	info->glob_matched = NULL;
 	info->pwd = get_env(env, "PWD");
 	if (str[0] == GLOB_ASTERISK)
 		info->glob_flag.l_type = GLOB_ASTERISK;
@@ -57,17 +56,23 @@ char *str, t_glob_info *info, t_str_vec *str_vec, t_env_list *env)
 	info->pattern_split = ft_split(str, GLOB_ASTERISK);
 }
 
-// if return -> NULL -> print "pattern"
-t_str_vec	*expand_glob(char *pattern, t_str_vec *str_vec, t_env_list *env)
+t_str_vec	*expand_glob(char *pattern, t_exp_info *exp_info,
+								t_str_vec *str_vec, t_env_list *env)
 {
 	t_glob_info	info;
 
 	if (!pattern || *pattern == '\0')
 		return (NULL);
-	glob_init(pattern, &info, str_vec, env);
+	glob_init(pattern, &info, env);
 	count_pattern_size(&info);
 	if (glob_workhorse(&info))
 		return (ft_free_pm(&info, RM_PATTERN_SPLIT | RM_STR_VEC));
 	ft_free_pm(&info, RM_PATTERN_SPLIT);
-	return (info.glob_matched);
+	if (!info.glob_matched)
+	{
+		subst_ast(exp_info, NULL, pattern, 2);
+		return (strv_append(str_vec, pattern));
+	}
+	free(pattern);
+	return (strv_append_bulk(str_vec, strv_dispose(info.glob_matched)));
 }

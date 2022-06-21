@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 14:23:25 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 17:25:55 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stddef.h>
 # include "string_vector.h"
 # include "env_module.h"
+# include "expander.h"
 
 enum e_glob_hand_side
 {
@@ -69,7 +70,8 @@ typedef struct s_glob_info
 /*
 ** Pattern_match function
 */
-t_str_vec	*expand_glob(char *pattern, t_str_vec *str_vec, t_env_list *env);
+t_str_vec	*expand_glob(char *pattern, t_exp_info *exp_info,
+				t_str_vec *str_vec, t_env_list *env);
 int			glob_workhorse(t_glob_info *info);
 int			check_string(t_glob_info *info, char *name, int file_type);
 
