@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 13:14:11 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 13:44:20 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,6 @@ int	dirent_print_error(int key)
 	else if (key == ERROR_OCCURED)
 		return (print_error("glob", "closedir", "failure", 1));
 	return (-1);
-}
-
-static void	clear_path_finder(char **all_path)
-{
-	size_t	idx;
-
-	idx = 0;
-	while (all_path && all_path[idx])
-	{
-		free(all_path[idx]);
-		idx++;
-	}
-	free(all_path);
 }
 
 /*
@@ -121,18 +108,18 @@ static int	check_path_stat(char *cmd, int key)
 {
 	struct stat	stat_info;
 
-	if (stat(cmd, &stat_info))
+	if (stat(cmd, &stat_info) < 0)
 	{
 		if (key == ON_VISIBLE)
-			return (print_error(cmd, NULL, "command not found", 127));
+			return (print_error(cmd, NULL, "command not found", EX_NOTFOUND));
 		else
-			return (127);
+			return (EX_NOTFOUND);
 	}
-	if (key == ON_VISIBLE)
+	if (stat_info.st_mode & S_IFDIR)
 	{
-		if (stat_info.st_mode & S_IFDIR)
-			return (print_error(cmd, NULL, "is a directory", 126));
-		return (126);
+		if (key == ON_VISIBLE)
+			return (print_error(cmd, NULL, "is a directory", EX_NOEXEC));
+		return (EX_NOEXEC);
 	}
 	return (0);
 }
@@ -147,27 +134,28 @@ static char	*check_path_abs(char *path)
 
 char	*path_finder(char *cmd, t_env_list *env)
 {
-	t_str_buf	*sb;
 	char		**all_path;
 	char		*temp;
+	char		*result;
+	size_t		i;
 
 	if (cmd && cmd[0] == '/')
 		return (check_path_abs(cmd));
 	all_path = ft_split(get_env(env, "PATH"), ':');
 	errno = 0;
-	while (all_path && *all_path)
+	i = 0;
+	result = NULL;
+	while (all_path[i])
 	{
-		sb = NULL;
-		sb = str_append(sb, *all_path);
-		sb = str_append(sb, cmd);
-		temp = str_dispose(sb);
+		temp = str_dispose(str_append(str_append(str_append(NULL, all_path[i]), "/"), cmd));
 		if (!check_path_stat(temp, NON_VISIBLE))
 		{
-			clear_path_finder(all_path);
-			return (temp);
+			result = temp;
+			break ;
 		}
 		free(temp);
+		i++;
 	}
-	clear_path_finder(all_path);
-	return (NULL);
+	free_strvec(all_path);
+	return (result);
 }

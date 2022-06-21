@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/21 08:15:43 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 08:28:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 	pid_t			pid;
 	int				status;
 
-	built_in = get_built_in(val->word_list->word.str);
+	if (val->word_list)
+		built_in = get_built_in(val->word_list->word.str);
+	else
+		built_in = NULL;
 	if (built_in || no_fork)
 		pid = 0;
 	else

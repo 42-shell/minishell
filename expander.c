@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 13:03:46 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 13:53:51 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,21 @@ char	*__todo_heredoc_expand(t_word *word, size_t *len_ptr)
 	char	*ptr;
 
 	len = 0;
-	while (word->str[len])
-		len++;
-	*len_ptr = len;
-	ptr = malloc(len + 1);
-	if (ptr)
+	ptr = NULL;
+	if (word->str)
 	{
-		len = 0;
 		while (word->str[len])
-		{
-			ptr[len] = word->str[len];
 			len++;
+		*len_ptr = len;
+		ptr = malloc(len + 1);
+		if (ptr)
+		{
+			len = 0;
+			while (word->str[len])
+			{
+				ptr[len] = word->str[len];
+				len++;
+			}
 		}
 	}
 	return (ptr);
@@ -134,9 +138,9 @@ char	**check_expand(t_shell *sh, char **argv, t_env_list *env)
 	info.last_exit_status = sh->exit_status;
 	while (argv && argv[info.cur_pos])
 	{
-		info.sb = NULL;
-		info.sb = str_append(info.sb, "");
+		info.sb = str_append(NULL, "");
 		temp = subst_env_and_ast(&info, env, argv[info.cur_pos]);
+		info.sb = str_append(NULL, "");
 		temp = expand_workhorse(&info, env, argv[info.cur_pos]);
 		if (info.cur_pos && ft_strchr(temp, SOH))
 		{
