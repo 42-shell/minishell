@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_unset.c                                      :+:      :+:    :+:   */
+/*   built_in_unset.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 15:24:04 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 08:01:06 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:25:30 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "string_vector.h"
+
+asd
 
 static int	unset_print_error(int key, char *arg)
 {
@@ -30,16 +32,14 @@ int	ft_unset(char **argv, t_env_list **env)
 	int		err;
 
 	size = length_strvec(argv);
-	if (!size)
-		return (unset_print_error(EMPTY_CMD, NULL));
-	else if (size == 1)
+	if (size == 1)
 		return (unset_print_error(FAST_DONE, NULL));
 	size = 1;
 	err = 0;
 	while (argv[size])
 	{
 		del_env(argv[size], env);
-		if (env_syntax_check(argv[size], SKIP_ON))
+		if (env_syntax_check(argv[size], 1))
 		{
 			err |= 1;
 			unset_print_error(ERROR_OCCURED, argv[size]);

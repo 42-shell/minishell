@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:01:45 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:03:37 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ char	**check_expand(t_shell *sh, char **argv, t_env_list *env)
 		info.sb = str_append(NULL, "");
 		temp = subst_env_and_ast(&info, env, argv[info.cur_pos]);
 		info.sb = str_append(NULL, "");
-		temp = expand_workhorse(&info, env, argv[info.cur_pos]);
+		temp = expand_workhorse(&info, env, temp);
 		if (info.cur_pos && ft_strchr(temp, SOH))
 		{
 			info.sv = expand_glob(temp, info.sv, env);

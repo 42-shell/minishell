@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_export.c                                     :+:      :+:    :+:   */
+/*   built_in_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 08:12:29 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:21:12 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "string_vector.h"
 #include "safe_io.h"
 #include "generic_list.h"
+
+asd
 
 static int	export_print_error(int key, char *argv)
 {
@@ -89,7 +91,7 @@ int	ft_export(char **argv, t_env_list **env)
 	size = 1;
 	while (argv[size])
 	{
-		if (env_syntax_check(argv[size], SKIP_OFF))
+		if (env_syntax_check(argv[size], 0))
 		{
 			check_error++;
 			export_print_error(ERROR_OCCURED, argv[size]);

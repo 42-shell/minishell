@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 14:58:16 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:21:16 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ char	**env_to_strvec(t_env_list *env)
 
 	while (env)
 	{
-		sv = strv_append(NULL, str_dispose(
-		str_append(str_append(str_append(NULL, env->id), "="), env->content)));
+		sv = strv_append(sv, str_dispose(str_append(str_append(str_append(
+								NULL, env->id), "="), env->content)));
 		env = env->next;
 	}
 	return (strv_dispose(sv));
@@ -88,8 +88,8 @@ char	*path_finder(char *cmd, t_env_list *env)
 	result = NULL;
 	while (all_path[i])
 	{
-		temp = str_dispose(
-		str_append(str_append(str_append(NULL, all_path[i]), "/"), cmd));
+		temp = str_dispose(str_append(str_append(str_append(
+							NULL, all_path[i]), "/"), cmd));
 		if (!check_path_stat(temp, NON_VISIBLE))
 		{
 			result = temp;
