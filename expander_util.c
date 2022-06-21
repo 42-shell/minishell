@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:54:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 06:41:18 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 13:07:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_str_buf	*_str_append_number(t_str_buf *sb, int n)
 	return (str_append_raw(sb, buf + i, count - i));
 }
 
-void	expand_other_case(t_exp_info *info, char *str, size_t *ret)
+static void	expand_other_case(t_exp_info *info, char *str, size_t *ret)
 {
 	if (*(str + *ret) == '\0')
 		info->sb = str_append_raw(info->sb, "$", 1);
@@ -43,4 +43,81 @@ void	expand_other_case(t_exp_info *info, char *str, size_t *ret)
 	}
 	else
 		*ret += 1;
+}
+
+size_t	_dollar(t_exp_info *info, t_env_list *env, char *str)
+{
+	char	*expand;
+	char	*temp;
+	size_t	ret;
+
+	ret = 1;
+	if (legal_variable_starter(*(str + ret)))
+	{
+		info->sb_dollar = str_append_raw(info->sb_dollar, str + ret, 1);
+		ret++;
+		while (legal_variable_char(*(str + ret)))
+		{
+			info->sb_dollar = str_append_raw(info->sb_dollar, str + ret, 1);
+			ret++;
+		}
+		temp = str_dispose(info->sb_dollar);
+		expand = get_env(env, temp);
+		if (expand)
+			info->sb = str_append(info->sb, expand);
+		free(temp);
+		info->sb_dollar = NULL;
+	}
+	else
+		expand_other_case(info, str, &ret);
+	return (ret);
+}
+
+size_t	_s_quote(t_exp_info *info, char *str)
+{
+	size_t	ret;
+
+	ret = 1;
+	while (1)
+	{
+		if (*(str + ret) == '\0')
+			break ;
+		if ((*(str + ret) == '\'') || (*(str + ret) == '`'))
+		{
+			ret++;
+			break ;
+		}
+		else
+			info->sb = str_append_raw(info->sb, str + ret, 1);
+		ret++;
+	}
+	return (ret);
+}
+
+size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str, int key)
+{
+	size_t	ret;
+
+	ret = 1;
+	while (1)
+	{
+		if (*(str + ret) == '\0')
+			break ;
+		else if (*(str + ret) == '\"')
+		{
+			ret++;
+			break ;
+		}
+		else
+		{
+			if (key == EXP_SUBST && *(str + ret) == '$')
+				ret += _dollar(info, env, str + ret);
+			else
+			{
+				info->sb = str_append_raw(info->sb, str + ret, 1);
+				ret++;
+			}
+		}
+	}
+	return (ret);
 }
