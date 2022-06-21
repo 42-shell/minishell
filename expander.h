@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 06:41:27 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 13:00:42 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 # include "minishell.h"
 # include "util_flag.h"
 # include "glob.h"
+
+# define SOH 1
+
+enum	e_sub_flag
+{
+	EXP_DEQUO = 0,
+	EXP_SUBST = 1,
+};
 
 typedef struct s_exp_info
 {
@@ -35,6 +43,9 @@ typedef struct s_exp_info
 ** main_function
 */
 char	**check_expand(t_shell *sh, char **argv, t_env_list *env);
-void	expand_other_case(t_exp_info *info, char *str, size_t *ret);
+
+size_t	_dollar(t_exp_info *info, t_env_list *env, char *str);
+size_t	_s_quote(t_exp_info *info, char *str);
+size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str, int key);
 
 #endif
