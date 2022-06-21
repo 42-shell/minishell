@@ -1,20 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   glob_workhorse.c                                   :+:      :+:    :+:   */
+/*   expander_glob_workhorse.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:56:46 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 18:38:50 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "glob.h"
-#include "libft.h"
-#include "string_vector.h"
-#include "string_buffer.h"
-#include "minishell.h"
+#include "expander.h"
 #include <dirent.h>	// DT macro
 #include <stdlib.h>	 // free
 

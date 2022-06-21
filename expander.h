@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 17:35:16 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 18:39:05 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,33 @@
 # include "string_vector.h"
 # include "minishell.h"
 # include "util_flag.h"
-# include "glob.h"
+# include "expander.h"
+# include <stddef.h>
 
 # define SOH 1
 
-enum	e_sub_flag
+enum e_glob_hand_side
+{
+	GLOB_LHS	= 1,
+	GLOB_RHS	= -1,
+};
+
+enum e_free_type
+{
+	RM_PATTERN_SPLIT	= 1,
+	RM_STR_VEC			= 2,
+};
+
+enum e_pattern_match_value
+{
+	GLOB_EOF		= -1,
+	GLOB_WORD		= 0,
+	GLOB_ASTERISK	= 1,
+	GLOB_SLASH		= '/',
+	GLOB_DOT		= '.',
+};
+
+enum e_sub_flag
 {
 	EXP_DEQUO = 0,
 	EXP_SUBST = 1,
@@ -40,14 +62,53 @@ typedef struct s_exp_info
 	int			last_exit_status;
 }				t_exp_info;
 
+typedef struct s_check_info
+{
+	size_t		name_pos;
+	size_t		l_pt_pos;
+	size_t		r_pt_pos;
+	int			return_value;
+	char		cut_char;
+	size_t		cut_pos;
+}				t_check_info;
+
+typedef struct s_glob_flag
+{
+	int		l_type;
+	int		r_type;
+}			t_glob_flag;
+
+typedef struct s_glob_info
+{
+	char			*pwd;
+	char			**pattern_split;
+	size_t			malloc_size;
+	size_t			split_text_cnt;
+	size_t			split_size;
+	t_str_vec		*glob_matched;
+	t_glob_flag		glob_flag;
+	t_check_info	check_info;
+}					t_glob_info;
+
+
 /*
 ** main_function
 */
-char	**check_expand(t_shell *sh, char **argv, t_env_list *env);
-char	*subst_ast(t_exp_info *info, t_env_list *env, char *str, int key);
+char		**check_expand(t_shell *sh, char **argv, t_env_list *env);
+char		*subst_ast(t_exp_info *info, t_env_list *env, char *str, int key);
 
-size_t	_dollar(t_exp_info *info, t_env_list *env, char *str);
-size_t	_s_quote(t_exp_info *info, char *str, int key);
-size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str, int key);
+size_t		_dollar(t_exp_info *info, t_env_list *env, char *str);
+size_t		_s_quote(t_exp_info *info, char *str, int key);
+size_t		_d_quote(t_exp_info *info, t_env_list *env, char *str, int key);
+
+/*
+** Pattern_match function
+*/
+t_str_vec	*expand_glob(char *pattern, t_exp_info *exp_info,
+				t_str_vec *str_vec, t_env_list *env);
+int			glob_workhorse(t_glob_info *info);
+int			check_string(t_glob_info *info, char *name, int file_type);
+
+t_str_vec	*ft_free_pm(t_glob_info *info, int key);
 
 #endif

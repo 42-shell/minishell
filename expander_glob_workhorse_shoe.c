@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   glob_workhorse_shoe.c                              :+:      :+:    :+:   */
+/*   expander_workhorse_shoe.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:15:25 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:28:22 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 18:38:41 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "glob.h"
-#include "libft.h"
+#include "expander.h"
 #include <dirent.h> //DT macro
 
 static void	init_check_info(t_glob_info *info, char *name)

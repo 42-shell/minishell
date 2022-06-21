@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   glob_init.c                                        :+:      :+:    :+:   */
+/*   expander_glob_init.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 17:23:09 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 18:38:54 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "glob.h"
-#include "libft.h"
+#include "expander.h"
 
 static void	count_pattern_size(t_glob_info *info)
 {
