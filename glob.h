@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:14:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:44:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 14:23:25 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ enum e_pattern_match_value
 {
 	GLOB_EOF		= -1,
 	GLOB_WORD		= 0,
-	GLOB_ASTERISK	= '*',
+	GLOB_ASTERISK	= 1,
 	GLOB_SLASH		= '/',
 	GLOB_DOT		= '.',
 };

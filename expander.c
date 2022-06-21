@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 13:53:51 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 15:00:30 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static char	*_subst_ast_to_soh(t_exp_info *info)
 	idx = 0;
 	while (temp[idx])
 	{
-		if (temp[idx] == '*')
-			temp[idx] = SOH;
+		// quote pass
+		temp[idx] = SOH;
 		idx++;
 	}
 	return (temp);
@@ -61,27 +61,23 @@ static char	*_subst_ast_to_soh(t_exp_info *info)
 
 static void	attach_quote(t_exp_info *info, t_env_list *env, char **str, int key)
 {
+	size_t	idx;
+
 	if (key == 1)
 	{
 		info->sb = str_append_raw(info->sb, *str, 1);
-		(*str)++;
-		(*str) += _d_quote(info, env, *str, EXP_DEQUO);
-		if (**str != '\0')
-		{
-			info->sb = str_append_raw(info->sb, *str, 1);
-			(*str)++;
-		}
+		idx = _d_quote(info, env, *str, EXP_DEQUO);
+		if ((*str)[idx - 1] == '"')
+			info->sb = str_append_raw(info->sb, "\"", 1);
+		(*str) += idx;
 	}
 	else
 	{
 		info->sb = str_append_raw(info->sb, *str, 1);
-		(*str)++;
-		*str += _s_quote(info, *str);
-		if (**str != '\0')
-		{
-			info->sb = str_append_raw(info->sb, *str, 1);
-			(*str)++;
-		}
+		idx = _s_quote(info, *str);
+		if ((*str)[idx - 1] == '\'')
+			info->sb = str_append_raw(info->sb, "\'", 1);
+		(*str) += idx;
 	}
 }
 
