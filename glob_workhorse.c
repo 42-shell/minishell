@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/20 22:45:17 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:39:29 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	glob_workhorse(t_glob_info *info)
 
 	current_dir = opendir(info->pwd);
 	if (!current_dir)
-		return (dirent_print_error(FAST_DONE));
+		exit(EXIT_FAILURE); //???
 	entity_dir = readdir(current_dir);
 	while (entity_dir)
 	{
@@ -91,7 +91,6 @@ int	glob_workhorse(t_glob_info *info)
 		}
 		entity_dir = readdir(current_dir);
 	}
-	if (closedir(current_dir))
-		return (dirent_print_error(ERROR_OCCURED));
+	closedir(current_dir);
 	return (0);
 }

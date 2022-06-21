@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:21:12 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:45:43 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,7 @@
 #include "safe_io.h"
 #include "generic_list.h"
 
-asd
-
-static int	export_print_error(int key, char *argv)
-{
-	if (key == EMPTY_CMD)
-		return (print_error("export", "parameter", "empty cmd", 1));
-	else if (key == ERROR_OCCURED)
-		print_error("export", argv, "not a valid identifier", 1);
-	return (-1);
-}
+// asd
 
 static void	export_work(char *id, t_env_list *env)
 {
@@ -83,9 +74,7 @@ int	ft_export(char **argv, t_env_list **env)
 	size_t	check_error;
 
 	size = length_strvec(argv);
-	if (!size)
-		return (export_print_error(EMPTY_CMD, NULL));
-	else if (size == 1)
+	if (size == 1)
 		return (sort_print_env(*env));
 	check_error = 0;
 	size = 1;
@@ -94,7 +83,8 @@ int	ft_export(char **argv, t_env_list **env)
 		if (env_syntax_check(argv[size], 0))
 		{
 			check_error++;
-			export_print_error(ERROR_OCCURED, argv[size]);
+			built_in_print_error("export", argv[size], "not a valid identifier");
+			//return (EXIT_FAILURE); // Save to last command exit status
 		}
 		else
 			export_work(argv[size], *env);

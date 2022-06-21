@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 23:06:56 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:23:59 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:46:09 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 int	ft_pwd(char **argv, t_env_list **env)
 {
 	char *const	cwd = getcwd(NULL, 0);
-	const		*temp;
+	char		*temp;
 	t_str_buf	*sb;
 
+	(void)argv;
 	(void)env;
 	if (!cwd)
 		exit(EXIT_FAILURE);

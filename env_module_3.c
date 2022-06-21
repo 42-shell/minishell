@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:21:16 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:42:07 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,45 +32,25 @@ char	**env_to_strvec(t_env_list *env)
 	return (strv_dispose(sv));
 }
 
-int	dirent_print_error(int key)
-{
-	if (key == FAST_DONE)
-	{
-		return (print_error("glob", "opendir", \
-		"filename cannot be accessed, or cannot malloc enough memory", 1));
-	}
-	else if (key == ERROR_OCCURED)
-		return (print_error("glob", "closedir", "failure", 1));
-	return (-1);
-}
-
-//return (print_error(cmd, NULL, "permission denied", 126));
-static int	check_path_stat(char *cmd, int key)
+//permission denied
+//command not found
+//is a directory
+static int	check_path_stat(char *cmd)
 {
 	struct stat	stat_info;
 
 	if (stat(cmd, &stat_info) < 0)
-	{
-		if (key == ON_VISIBLE)
-			return (print_error(cmd, NULL, "command not found", EX_NOTFOUND));
-		else
-			return (EX_NOTFOUND);
-	}
+		return (EX_NOTFOUND);
 	if (stat_info.st_mode & S_IFDIR)
-	{
-		if (key == ON_VISIBLE)
-			return (print_error(cmd, NULL, "is a directory", EX_NOEXEC));
 		return (EX_NOEXEC);
-	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static char	*check_path_abs(char *path)
 {
-	if (check_path_stat(path, ON_VISIBLE))
-		return (NULL);
-	else
+	if (check_path_stat(path) == EXIT_SUCCESS)
 		return (path);
+	return (NULL);
 }
 
 char	*path_finder(char *cmd, t_env_list *env)
@@ -90,7 +70,7 @@ char	*path_finder(char *cmd, t_env_list *env)
 	{
 		temp = str_dispose(str_append(str_append(str_append(
 							NULL, all_path[i]), "/"), cmd));
-		if (!check_path_stat(temp, NON_VISIBLE))
+		if (check_path_stat(temp) == EXIT_SUCCESS)
 		{
 			result = temp;
 			break ;

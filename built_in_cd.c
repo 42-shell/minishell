@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 22:41:38 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:22:03 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:42:29 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	_assert_param(size_t argc, char **argv, t_env_list *env)
 		str = argv[1];
 	else
 		str = "~";
-	if (ft_strcmp(str, "~") == 0 && chdir(get_env(env, "HOME") < 0))
+	if (ft_strcmp(str, "~") == 0 && chdir(get_env(env, "HOME")) < 0)
 		return (0);
 	else if (ft_strcmp(str, "-") == 0 && chdir(get_env(env, "OLDPWD")) < 0)
 		return (0);

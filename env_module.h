@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:01:26 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:36:34 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:40:36 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void		clear_env(t_env_list **env);
 void		print_env(t_env_list *env, int key);
 char		*path_finder(char *cmd, t_env_list *env);
 
-int			dirent_print_error(int key);
 char		**env_to_strvec(t_env_list *env);
 
 /*

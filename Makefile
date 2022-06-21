@@ -29,8 +29,7 @@ SOURCE = shell.c \
 			execute_command_redir.c execute_command_redir_undo.c \
 			execute_command_jobs.c \
 			expander.c here_document.c \
-			minishell_utils.c env_module_1.c env_module_2.c env_module_3.c \
-			env_module_util_list.c \
+			env_module_1.c env_module_2.c env_module_3.c env_module_util_list.c \
 			built_in_cd.c built_in_echo.c built_in_env.c built_in_exit.c \
 			built_in_export.c built_in_pwd.c built_in_unset.c built_in.c \
 			expander_util.c glob_init.c glob_workhorse.c glob_workhorse_shoe.c

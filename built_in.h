@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:50:31 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:27:19 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:29:47 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@
 # include <stddef.h>
 # include "env_module.h"
 # include "minishell.h"
-
-# define EMPTY_CMD 0
-# define ERROR_OCCURED 1
-# define FAST_DONE 2
 
 typedef int	(*t_built_in_func)(char **, t_env_list **);
 
