@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 16:35:44 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:39:29 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 16:56:46 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ static void	glob_append(t_glob_info *info, char *name, int type)
 {
 	t_str_buf	*sb;
 
-	sb = NULL;
-	sb = str_append(sb, name);
+	sb = str_append(NULL, name);
 	if (info->glob_flag.r_type == GLOB_SLASH && type == DT_DIR)
 		sb = str_append(sb, "/");
 	info->glob_matched = strv_append(info->glob_matched, str_dispose(sb));
