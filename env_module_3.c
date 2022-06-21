@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 13:09:27 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 13:14:11 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ int	dirent_print_error(int key)
 	return (-1);
 }
 
-/*
-
-static void	util_path_finder(char **all_path)
+static void	clear_path_finder(char **all_path)
 {
 	size_t	idx;
 
@@ -64,6 +62,7 @@ static void	util_path_finder(char **all_path)
 	free(all_path);
 }
 
+/*
 static int	is_there_cmd_in_path(char *cmd, char *pwd)
 {
 	struct dirent	*entity;
@@ -118,11 +117,11 @@ char	*path_finder(char *cmd, t_env_list *env)
 */
 
 //return (print_error(cmd, NULL, "permission denied", 126));
-static int	check_path_stat(char *path, int key)
+static int	check_path_stat(char *cmd, int key)
 {
 	struct stat	stat_info;
 
-	if (stat(path, &stat_info))
+	if (stat(cmd, &stat_info))
 	{
 		if (key == ON_VISIBLE)
 			return (print_error(cmd, NULL, "command not found", 127));
@@ -131,7 +130,7 @@ static int	check_path_stat(char *path, int key)
 	}
 	if (key == ON_VISIBLE)
 	{
-		if (stat_info.st_mode && S_IFDIR)
+		if (stat_info.st_mode & S_IFDIR)
 			return (print_error(cmd, NULL, "is a directory", 126));
 		return (126);
 	}
@@ -164,11 +163,11 @@ char	*path_finder(char *cmd, t_env_list *env)
 		temp = str_dispose(sb);
 		if (!check_path_stat(temp, NON_VISIBLE))
 		{
-			util_path_finder(*all_path);
+			clear_path_finder(all_path);
 			return (temp);
 		}
 		free(temp);
 	}
-	clear_path_finder(*all_path);
+	clear_path_finder(all_path);
 	return (NULL);
 }
