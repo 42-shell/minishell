@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:54:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:23:08 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:24:32 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ size_t	_s_quote(t_exp_info *info, char *str, int key)
 			ret++;
 			break ;
 		}
-		else if (key == EXP_DEQUO || KEY == EXP_SUBST)
+		else if (key == EXP_DEQUO || key == EXP_SUBST)
 			info->sb = str_append_raw(info->sb, str + ret, 1);
 		ret++;
 	}
