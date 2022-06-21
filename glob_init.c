@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 15:15:36 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 14:44:55 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:01:05 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	count_pattern_size(t_glob_info *info)
 	}
 }
 
-#include <stdio.h>
 static void	glob_init(\
 char *str, t_glob_info *info, t_str_vec *str_vec, t_env_list *env)
 {
@@ -56,13 +55,6 @@ char *str, t_glob_info *info, t_str_vec *str_vec, t_env_list *env)
 	else
 		info->glob_flag.r_type = GLOB_WORD;
 	info->pattern_split = ft_split(str, GLOB_ASTERISK);
-
-	size_t	idx = 0;
-	printf("split ->>>\n");
-	while (info->pattern_split[idx])
-	{
-		printf("%s\n", info->pattern_split[idx]);
-	}
 }
 
 // if return -> NULL -> print "pattern"

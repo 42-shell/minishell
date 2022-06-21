@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:00:30 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:01:45 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static char	*_subst_ast_to_soh(t_exp_info *info)
 	while (temp[idx])
 	{
 		// quote pass
-		temp[idx] = SOH;
+		if (temp[idx] == '*')
+			temp[idx] = SOH;
 		idx++;
 	}
 	return (temp);
