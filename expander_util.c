@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 19:54:30 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 13:07:32 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:23:08 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ size_t	_dollar(t_exp_info *info, t_env_list *env, char *str)
 	return (ret);
 }
 
-size_t	_s_quote(t_exp_info *info, char *str)
+size_t	_s_quote(t_exp_info *info, char *str, int key)
 {
 	size_t	ret;
 
@@ -87,7 +87,7 @@ size_t	_s_quote(t_exp_info *info, char *str)
 			ret++;
 			break ;
 		}
-		else
+		else if (key == EXP_DEQUO || KEY == EXP_SUBST)
 			info->sb = str_append_raw(info->sb, str + ret, 1);
 		ret++;
 	}
@@ -114,7 +114,8 @@ size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str, int key)
 				ret += _dollar(info, env, str + ret);
 			else
 			{
-				info->sb = str_append_raw(info->sb, str + ret, 1);
+				if (key == EXP_DEQUO || key == EXP_SUBST)
+					info->sb = str_append_raw(info->sb, str + ret, 1);
 				ret++;
 			}
 		}

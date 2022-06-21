@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:01:45 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:23:01 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,6 @@ char	*__todo_heredoc_expand(t_word *word, size_t *len_ptr)
 	return (ptr);
 }
 
-static char	*_subst_ast_to_soh(t_exp_info *info)
-{
-	char	*temp;
-	size_t	idx;
-
-	temp = str_dispose(info->sb);
-	idx = 0;
-	while (temp[idx])
-	{
-		// quote pass
-		if (temp[idx] == '*')
-			temp[idx] = SOH;
-		idx++;
-	}
-	return (temp);
-}
-
 static void	attach_quote(t_exp_info *info, t_env_list *env, char **str, int key)
 {
 	size_t	idx;
@@ -75,21 +58,48 @@ static void	attach_quote(t_exp_info *info, t_env_list *env, char **str, int key)
 	else
 	{
 		info->sb = str_append_raw(info->sb, *str, 1);
-		idx = _s_quote(info, *str);
+		idx = _s_quote(info, *str, EXP_DEQUO);
 		if ((*str)[idx - 1] == '\'')
 			info->sb = str_append_raw(info->sb, "\'", 1);
 		(*str) += idx;
 	}
 }
 
+static char	*_subst_ast_to_soh(t_exp_info *info, t_env_list *env, char *str)
+{
+	char	*temp;
+
+	temp = str;
+	while (*temp)
+	{
+		if (has_flag(get_char_flags(*temp), CF_QUOTE))
+		{
+			if (*temp == '\"')
+				temp +=	_d_quote(info, env, temp, EXP_PASS);
+			else if (*temp == '\'')
+				temp +=	_s_quote(info, temp, EXP_PASS);
+		}
+		else
+		{
+			if (*temp == '*')
+				*temp = SOH;
+			str++;
+		}
+	}
+	return (str);
+}
+
 static char	*subst_env_and_ast(t_exp_info *info, t_env_list *env, char *str)
 {
 	while (*str)
 	{
-		if (*str == '\"')
-			attach_quote(info, env, &str, 1);
-		else if (*str == '\'')
-			attach_quote(info, env, &str, 0);
+		if (has_flag(get_char_flags(*temp), CF_QUOTE))
+		{
+			if (*str == '\"')
+				attach_quote(info, env, &str, 1);
+			else if (*str == '\'')
+				attach_quote(info, env, &str, 0);
+		}
 		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
 			str += _dollar(info, env, str);
 		else
@@ -98,7 +108,7 @@ static char	*subst_env_and_ast(t_exp_info *info, t_env_list *env, char *str)
 			str++;
 		}
 	}
-	return (_subst_ast_to_soh(info));
+	return (_subst_ast_to_soh(info, env, str_dispose(info->sb));
 }
 
 static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
@@ -111,7 +121,7 @@ static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
 			if (*str == '\"')
 				str += _d_quote(info, env, str, EXP_SUBST);
 			else if (*str == '\'' || *str == '`')
-				str += _s_quote(info, str);
+				str += _s_quote(info, str, EXP_SUBST);
 		}
 		else if (has_flag(get_char_flags(*str), CF_EXPANSION))
 			str += _dollar(info, env, str);
@@ -138,7 +148,7 @@ char	**check_expand(t_shell *sh, char **argv, t_env_list *env)
 		info.sb = str_append(NULL, "");
 		temp = subst_env_and_ast(&info, env, argv[info.cur_pos]);
 		info.sb = str_append(NULL, "");
-		temp = expand_workhorse(&info, env, argv[info.cur_pos]);
+		temp = expand_workhorse(&info, env, temp);
 		if (info.cur_pos && ft_strchr(temp, SOH))
 		{
 			info.sv = expand_glob(temp, info.sv, env);
