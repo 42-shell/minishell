@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 07:17:04 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/21 09:56:40 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	dirent_print_error(int key)
 	return (-1);
 }
 
+/*
+
 static void	util_path_finder(char **all_path)
 {
 	size_t	idx;
@@ -84,7 +86,9 @@ static int	is_there_cmd_in_path(char *cmd, char *pwd)
 		return (dirent_print_error(ERROR_OCCURED));
 	return (-1);
 }
+*/
 
+/*
 char	*path_finder(char *cmd, t_env_list *env)
 {
 	char		**all_path;
@@ -108,5 +112,62 @@ char	*path_finder(char *cmd, t_env_list *env)
 	}
 	util_path_finder(all_path);
 	print_error(cmd, NULL, "command not found", 127);
+	return (NULL);
+}
+*/
+
+//return (print_error(cmd, NULL, "permission denied", 126));
+static int	check_path_stat(char *path, int key)
+{
+	struct stat	stat_info;
+
+	if (stat(path, &stat_info))
+	{
+		if (key == ON_VISIBLE)
+			return (print_error(cmd, NULL, "command not found", 127));
+		else
+			return (127);
+	}
+	if (key == ON_VISIBLE)
+	{
+		if (stat_info.st_mode && S_IFDIR)
+			return (print_error(cmd, NULL, "is a directory", 126));
+		return (126);
+	}
+	return (0);
+}
+
+static char	*check_path_abs(char *path)
+{
+	if (check_path_stat(path, ON_VISIBLE))
+		return (NULL);
+	else
+		return (path);
+}
+
+char	*path_finder(char *cmd, t_env_list *env)
+{
+	t_str_buf	*sb;
+	char		**all_path;
+	char		*temp;
+
+	if (cmd && cmd[0] == '/')
+		return (check_path_abs(cmd));
+	all_path = ft_split(get_env(env, "PATH"), ':');
+	errno = 0;
+	while (all_path && *all_path)
+	{
+		sb = NULL;
+		sb = str_append(sb, *all_path);
+		sb = str_append(sb, cmd);
+		temp = str_dispose(sb);
+		if (!check_path_stat(temp, NON_VISIBLE))
+		{
+			util_path_finder(*all_path);
+			return (temp);
+		}
+		free(temp);
+	}
+	clear_path_finder(*all_path);
 	return (NULL);
 }
