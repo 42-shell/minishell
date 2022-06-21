@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 09:56:40 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 13:08:59 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "minishell.h"
 #include "built_in.h"
 #include <dirent.h>
+#include <stat.h>
 
 char	**env_to_strvec(t_env_list *env)
 {
