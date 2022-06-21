@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 10:46:57 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 13:07:50 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:11:48 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ enum	e_sub_flag
 {
 	EXP_DEQUO = 0,
 	EXP_SUBST = 1,
+	EXP_PASS = 2,
 };
 
 typedef struct s_exp_info
@@ -45,7 +46,7 @@ typedef struct s_exp_info
 char	**check_expand(t_shell *sh, char **argv, t_env_list *env);
 
 size_t	_dollar(t_exp_info *info, t_env_list *env, char *str);
-size_t	_s_quote(t_exp_info *info, char *str);
+size_t	_s_quote(t_exp_info *info, char *str, int key);
 size_t	_d_quote(t_exp_info *info, t_env_list *env, char *str, int key);
 
 #endif
