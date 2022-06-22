@@ -6,56 +6,13 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 17:31:41 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 22:29:55 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "string_vector.h"
 #include <unistd.h>
-
-#include <stdio.h>
-
-#include <string.h>
-#include "string_buffer.h"
-
-static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
-	int no_fork, int wait)
-{
-	t_str_vec	*sv;
-	t_list_word	*w;
-	pid_t		pid;
-	int			status;
-
-	if (no_fork)
-		pid = 0;
-	else
-		pid = make_child(sh);
-	status = EXIT_SUCCESS;
-	if (pid == 0)
-	{
-		do_redirections(val->redirect_list);
-		sv = NULL;
-		w = val->word_list;
-		if (w)
-		{
-			while (w)
-			{
-				char *str = w->word.str;
-				if (strcmp(str, "$?") == 0)
-					str = str_dispose(str_append_number(NULL, sh->exit_status));
-				sv = strv_append(sv, str);
-				w = w->next;
-			}
-			execve(val->word_list->word.str, strv_dispose(sv), var_list_to_str_vec(sh->var_list));
-		}
-		if (!no_fork)
-			exit(EXIT_SUCCESS);
-	}
-	else if (wait)
-		status = wait_for(sh, pid);
-	return (status);
-}
 
 static int	_execute_simple_command(t_shell *sh, t_command *cmd,
 	int pipe_in, int pipe_out)
@@ -78,7 +35,7 @@ static int	_execute_simple_command(t_shell *sh, t_command *cmd,
 	}
 	else
 		add_undo_redirects(sh);
-	exec_result = _execute_simple_command_internal(sh, cmd->value.simple,
+	exec_result = execute_simple_command_internal(sh, cmd->value.simple,
 			do_fork, pipe_out == NO_PIPE);
 	if (do_fork)
 		exit(exec_result);
@@ -132,7 +89,7 @@ static int	_execute_command_connection(t_shell *sh, t_command *cmd,
 	}
 	else
 	{
-		printf("Unsupported Connector: %d\n", val->connector);
+		print_err("Unsupported Connector: %d\n", val->connector);
 		exit(EXIT_FAILURE);
 	}
 	return (exec_result);
@@ -150,7 +107,7 @@ int	execute_command(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 		exec_result = _execute_command_connection(sh, cmd, pipe_in, pipe_out);
 	else
 	{
-		printf("Unsupported Command %d\n", cmd->type);
+		print_err("Unsupported Command %d\n", cmd->type);
 		exit(EXIT_FAILURE);
 	}
 	if (pipe_out == NO_PIPE)

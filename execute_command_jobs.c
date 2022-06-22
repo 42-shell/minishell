@@ -15,6 +15,7 @@
 #include "safe_mem.h"
 #include "generic_list.h"
 #include <unistd.h>
+#include <sys/wait.h>
 
 static int	_is_regular_fd(int fd)
 {

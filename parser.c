@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 01:56:37 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 21:44:22 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,10 @@ static t_parser_state	_parse_reduce(t_parser *pst, t_parser_state state)
 
 static void	_parse_on_error(t_parser *pst, t_token_kind token)
 {
-	t_str_buf	*sb;
-	char		*str;
+	char *const	tok = get_token_str(token);
 
 	pst->error = PE_SYNTAX_ERROR;
-	sb = NULL;
-	sb = str_append(sb, "syntax error near unexpected token `");
-	sb = str_append(sb, get_token_str(token));
-	sb = str_append(sb, "'\n");
-	str = str_dispose(sb);
-	puterr_safe(str);
-	free(str);
+	print_err("syntax error near unexpected token `%s'\n", tok);
 }
 
 int	parse(t_parser *pst)

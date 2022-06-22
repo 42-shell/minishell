@@ -6,13 +6,14 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 17:18:02 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 22:25:25 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #include "libft.h"
+#include "safe_io.h"
 #include "safe_mem.h"
 
 void	__todo_stack_capacity(t_parser *pst)
@@ -48,7 +49,7 @@ int	main(int argc, char *argv[])
 		rl = readline("$ ");
 		if (!rl)
 		{
-			printf("exit\n");
+			puterr_safe("exit\n");
 			break ;
 		}
 		pst.str = rl;
@@ -65,6 +66,6 @@ int	main(int argc, char *argv[])
 		free(rl);
 	}
 	free(pst.stack_base);
-	//TODO: free env_list
+	dispose_var_list(sh.var_list);
 	return (sh.exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 19:17:17 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 22:45:07 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "libft.h"
 #include "string_buffer.h"
 #include "string_vector.h"
+#include "generic_list.h"
 
 extern char	**environ;
 
@@ -23,7 +24,7 @@ static char	*_make_pair(const char *s, char **val_ptr, char delim)
 {
 	const size_t	len = ft_strlen(s) + 1;
 	char *const		dup = ft_memcpy(calloc_safe(len, sizeof(char)), s, len);
-	char *const		val = ft_strchr(dup, '=');
+	char *const		val = ft_strchr(dup, delim);
 
 	if (!val)
 	{
@@ -32,7 +33,7 @@ static char	*_make_pair(const char *s, char **val_ptr, char delim)
 		return (NULL);
 	}
 	*val = '\0';
-	*val_ptr = val;
+	*val_ptr = val + 1;
 	return (dup);
 }
 
@@ -62,20 +63,30 @@ t_list_var	*new_env_var_list(void)
 
 char	**var_list_to_str_vec(t_list_var *list)
 {
-	t_str_vec	*sv;
-	t_str_buf	*sb;
+	t_str_vec	*vec;
+	t_str_buf	*buf;
 
-	sv = NULL;
+	vec = NULL;
 	while (list)
 	{
 		if (!list->value)
 			continue ;
-		sb = NULL;
-		sb = str_append(sb, list->name);
-		sb = str_append(sb, "=");
-		sb = str_append(sb, list->value);
-		sv = strv_append(sv, str_dispose(sb));
+		buf = str_append_format(NULL, "%s=%s", list->name, list->value);
+		vec = strv_append(vec, str_dispose(buf));
 		list = list->next;
 	}
-	return (strv_dispose(sv));
+	return (strv_dispose(vec));
+}
+
+static int	_clear_v_list(t_list_var *elem)
+{
+	free(elem->name);
+	free(elem->value);
+	free(elem);
+	return (0);
+}
+
+void	dispose_var_list(t_list_var *list)
+{
+	list_walk((void *)list, _clear_v_list);
 }

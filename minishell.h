@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 19:18:17 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 00:25:12 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,8 @@ typedef struct s_shell
 	t_list_var		*var_list;
 }	t_shell;
 
+void					print_err(const char *format, ...);
+
 t_char_flags			get_char_flags(int c);
 int						legal_variable_starter(int c);
 int						legal_variable_char(int c);
@@ -338,6 +340,8 @@ t_token_kind			parser_reduce_19(t_parser *pst);
 
 int						execute_command(t_shell *sh, t_command *cmd,
 							int pipe_in, int pipe_out);
+int						execute_simple_command_internal(t_shell *sh,
+							t_simple_command *val, int no_fork, int wait);
 int						execute_pipeline(t_shell *sh, t_command *cmd,
 							int pipe_in, int pipe_out);
 
@@ -356,5 +360,8 @@ void					unset_var(t_list_var **list_ptr, char *name);
 
 t_list_var				*new_env_var_list(void);
 char					**var_list_to_str_vec(t_list_var *list);
+void					dispose_var_list(t_list_var *list);
+
+char					*find_command(t_shell *sh, char *name);
 
 #endif

@@ -82,11 +82,14 @@ static void	_resize_buffer(t_str_buf *buf, size_t n)
 
 t_str_buf	*str_append_raw(t_str_buf *buf, const char *s, size_t n)
 {
-	if (buf == NULL)
-		buf = calloc_safe(1, sizeof(t_str_buf));
-	_resize_buffer(buf, n);
-	_memcpy(&buf->str[buf->length], s, n);
-	buf->length += n;
+	if (n)
+	{
+		if (buf == NULL)
+			buf = calloc_safe(1, sizeof(t_str_buf));
+		_resize_buffer(buf, n);
+		_memcpy(&buf->str[buf->length], s, n);
+		buf->length += n;
+	}
 	return (buf);
 }
 

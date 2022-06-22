@@ -6,14 +6,13 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:18:12 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 17:27:59 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 22:24:53 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "safe_io.h"
 #include "generic_list.h"
-#include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -51,7 +50,7 @@ static int	_redir_open(t_redirect *redir)
 		return (_document_fd(redir));
 	else
 	{
-		printf("Unsupported redirect instruction %d\n", redir->instruction);
+		print_err("Unsupported redirect instruction %d\n", redir->instruction);
 		exit(EXIT_FAILURE);
 	}
 	return (open(__todo_redirection_expand(&redir->word), flags, 0666));
@@ -80,7 +79,7 @@ int	do_redirections(t_list_redirect *r_list)
 	res = list_walk((void *)r_list, _do_redirection);
 	if (res < 0)
 	{
-		printf("Redirection failure %d\n", res);
+		print_err("Redirection failure %d\n", res);
 		exit(EXIT_FAILURE);
 	}
 	return (res);

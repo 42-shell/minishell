@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 19:22:42 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 22:09:00 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,20 @@ void	push_here_document(t_parser *pst, t_list_redirect *r)
 
 static char	*_read_document(char *eof)
 {
-	t_str_buf	*sb;
+	t_str_buf	*buf;
 	char		*str;
+	int			line;
 
-	sb = NULL;
+	buf = NULL;
+	line = 0;
 	while (1)
 	{
 		str = readline("> ");
+		line++;
 		if (!str)
 		{
-			puterr_safe("delimited by end-of-file\n");
-			free(str);
+			print_err("here-document at line %d "
+				"delimited by end-of-file (wanted `%s')\n", line, eof);
 			break ;
 		}
 		if (ft_strcmp(str, eof) == 0)
@@ -46,11 +49,10 @@ static char	*_read_document(char *eof)
 			free(str);
 			break ;
 		}
-		sb = str_append(sb, str);
-		sb = str_append(sb, "\n");
+		buf = str_append_format(buf, "%s\n", str);
 		free(str);
 	}
-	return (str_dispose(sb));
+	return (str_dispose(buf));
 }
 
 static void	_make_here_document(t_list_redirect *r)
