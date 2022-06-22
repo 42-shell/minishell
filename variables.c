@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 17:15:15 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 19:18:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,17 @@ static int	_compare_var_name(t_list_var *item, char *name)
 	return (ft_strcmp(item->name, name));
 }
 
-char	*get_var(t_list_var *list, char *name)
+char	*get_var(t_list_var *list, char *name, int dup)
 {
 	while (list)
 	{
 		if (_compare_var_name(list, name) == 0)
-			return (list->value);
+		{
+			if (dup)
+				return (_strdup(list->value));
+			else
+				return (list->value);
+		}
 		list = list->next;
 	}
 	return (NULL);

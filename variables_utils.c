@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 17:26:30 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 19:17:17 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,22 @@
 
 extern char	**environ;
 
-static char	*_make_pair(const char *s, char **val, char delim)
+static char	*_make_pair(const char *s, char **val_ptr, char delim)
 {
 	const size_t	len = ft_strlen(s) + 1;
 	char *const		dup = ft_memcpy(calloc_safe(len, sizeof(char)), s, len);
-	size_t			i;
+	char *const		val = ft_strchr(dup, '=');
 
-	i = 0;
-	while (dup[i] && dup[i] != delim)
-		i++;
-	if (!dup[i])
+	if (!val)
 	{
-		*val = NULL;
+		free(dup);
+		*val_ptr = NULL;
 		return (NULL);
 	}
-	dup[i] = '\0';
-	*val = &dup[i + 1];
+	*val = '\0';
+	*val_ptr = val;
 	return (dup);
 }
-
-#include <stdio.h>
 
 t_list_var	*new_env_var_list(void)
 {

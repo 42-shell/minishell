@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 01:45:46 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 19:22:42 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*_read_document(char *eof)
 		str = readline("> ");
 		if (!str)
 		{
-			printf("???\n");
+			puterr_safe("delimited by end-of-file\n");
 			free(str);
 			break ;
 		}

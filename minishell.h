@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 17:04:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 19:18:17 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,7 +349,7 @@ int						do_redirections(t_list_redirect *r_list);
 void					add_undo_redirects(t_shell *sh);
 void					cleanup_redirects(t_shell *sh);
 
-char					*get_var(t_list_var *list, char *name);
+char					*get_var(t_list_var *list, char *name, int dup);
 void					put_var(t_list_var **list_ptr, char *name, char *value,
 							t_var_flags attr);
 void					unset_var(t_list_var **list_ptr, char *name);
