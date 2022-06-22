@@ -6,7 +6,7 @@
 #    By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/20 18:42:42 by jkong             #+#    #+#              #
-#    Updated: 2022/06/21 18:42:00 by yongmkim         ###   ########.fr        #
+#    Updated: 2022/06/22 11:48:46 by yongmkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SOURCE = shell.c \
 			execute_command.c execute_command_pipeline.c \
 			execute_command_redir.c execute_command_redir_undo.c \
 			execute_command_jobs.c \
-			expander.c expander_util.c expander_glob_init.c \
+			expander.c expander_util.c expander_glob.c \
 			expander_glob_workhorse.c expander_glob_workhorse_shoe.c \
 			here_document.c \
 			env_module_1.c env_module_2.c env_module_3.c env_module_util_list.c \

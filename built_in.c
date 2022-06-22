@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 08:02:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/21 16:27:08 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 11:50:31 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	built_in_print_error(char *cmd, char *param, char *cause)
 		sb = str_append(str_append(sb, param), ": ");
 	if (errno != 0)
 	{
-		cause = strerror(errno);
+		if (cause || !cause)
+			cause = strerror(errno);
 		errno = 0;
 	}
 	sb = str_append(str_append(sb, temp), "\n");
