@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 17:34:33 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 17:04:07 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@
 
 # define HERE_DOCUMENT_MAX 16
 # define NO_PIPE (-1)
+
+# define EX_BADUSAGE 2
+
+# define EX_MISCERROR 2
+
+# define EX_RETRYFAIL 124
+# define EX_WEXPCOMSUB 125
+# define EX_BINARY_FILE 126
+# define EX_NOEXEC 126
+# define EX_NOINPUT 126
+# define EX_NOTFOUND 127
+
+# define EX_SHERRBASE 256
+
+# define EX_BADSYNTAX 257
+# define EX_USAGE 258
+# define EX_REDIRFAIL 259
+# define EX_BADASSIGN 260
+# define EX_EXPFAIL 261
+# define EX_DISKFALLBACK 262
 
 enum	e_char_flag_index
 {
@@ -235,12 +255,28 @@ typedef struct s_list_process
 	pid_t					pid;
 }	t_list_process;
 
+enum	e_var_flag_index
+{
+	VF_EXPORTED,
+};
+
+typedef int							t_var_flags;
+
+typedef struct s_list_var
+{
+	struct s_list_var	*next;
+	char				*name;
+	char				*value;
+	t_var_flags			attr;
+}	t_list_var;
+
 typedef struct s_shell
 {
 	int				next_pipe;
 	int				redir_undo[3];
 	int				exit_status;
 	t_list_process	*pid_list;
+	t_list_var		*var_list;
 }	t_shell;
 
 t_char_flags			get_char_flags(int c);
@@ -312,5 +348,13 @@ int						wait_for(t_shell *sh, pid_t pid);
 int						do_redirections(t_list_redirect *r_list);
 void					add_undo_redirects(t_shell *sh);
 void					cleanup_redirects(t_shell *sh);
+
+char					*get_var(t_list_var *list, char *name);
+void					put_var(t_list_var **list_ptr, char *name, char *value,
+							t_var_flags attr);
+void					unset_var(t_list_var **list_ptr, char *name);
+
+t_list_var				*new_env_var_list(void);
+char					**var_list_to_str_vec(t_list_var *list);
 
 #endif

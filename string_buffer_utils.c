@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_vector_utils.c                              :+:      :+:    :+:   */
+/*   string_buffer_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 13:56:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 14:50:29 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "string_vector.h"
+#include "string_buffer.h"
 
-size_t	length_strvec(char **arr)
+t_str_buf	*str_append_number(t_str_buf *buf, int n)
 {
-	size_t	i;
+	const int		sign = n < 0;
+	char			arr[11];
+	const size_t	count = sizeof(arr) / sizeof(*arr);
+	size_t			i;
 
-	if (!arr)
-		return (0);
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
-}
-
-void	free_strvec(char **arr)
-{
-	char **const	vec = arr;
-
-	if (arr)
-		while (*arr)
-			free(*arr++);
-	free(vec);
+	i = count;
+	if (!n)
+		arr[--i] = '0';
+	while (n)
+	{
+		arr[--i] = '0' + (1 - (sign << 1)) * (n % 10);
+		n /= 10;
+	}
+	if (sign)
+		arr[--i] = '-';
+	return (str_append_raw(buf, arr + i, count - i));
 }

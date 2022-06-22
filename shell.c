@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 21:35:35 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 17:18:02 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char *argv[])
 	ft_memset(&sh, 0, sizeof(sh));
 	ft_memset(&pst, 0, sizeof(pst));
 	__todo_stack_capacity(&pst);
+	sh.var_list = new_env_var_list();
 	while (1)
 	{
 		rl = readline("$ ");
@@ -64,5 +65,6 @@ int	main(int argc, char *argv[])
 		free(rl);
 	}
 	free(pst.stack_base);
+	//TODO: free env_list
 	return (sh.exit_status);
 }

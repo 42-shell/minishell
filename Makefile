@@ -28,7 +28,8 @@ SOURCE = shell.c \
 			execute_command.c execute_command_pipeline.c \
 			execute_command_redir.c execute_command_redir_undo.c \
 			execute_command_jobs.c \
-			expander.c here_document.c
+			expander.c here_document.c \
+			variables.c variables_utils.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 
 HEADER_LIBFT = libft.h
@@ -36,7 +37,8 @@ SOURCE_LIBFT = libft_memory.c libft_string.c
 OBJECT_LIBFT = $(addprefix $(OBJECTS_DIR), $(SOURCE_LIBFT:.c=.o))
 
 SOURCE_GENERAL = util_flag.c safe_io.c safe_io_utils.c safe_mem.c \
-					string_buffer.c string_vector.c string_vector_utils.c \
+					string_buffer.c string_buffer_utils.c \
+					string_vector.c string_vector_utils.c \
 					generic_list.c
 OBJECT_GENERAL = $(addprefix $(OBJECTS_DIR), $(SOURCE_GENERAL:.c=.o))
 

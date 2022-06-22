@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 21:44:21 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 17:31:41 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include <unistd.h>
 
 #include <stdio.h>
-
-extern char	**environ;
 
 #include <string.h>
 #include "string_buffer.h"
@@ -45,31 +43,11 @@ static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 			{
 				char *str = w->word.str;
 				if (strcmp(str, "$?") == 0)
-				{
-					t_str_buf *sb = NULL;
-					int n = sh->exit_status;
-					const int		sign = n < 0;
-					char			buf[11];
-					const size_t	count = sizeof(buf) / sizeof(*buf);
-					size_t			i;
-
-					i = count;
-					if (!n)
-						buf[--i] = '0';
-					while (n)
-					{
-						buf[--i] = '0' + (1 - (sign << 1)) * (n % 10);
-						n /= 10;
-					}
-					if (sign)
-						buf[--i] = '-';
-					sb = str_append_raw(sb, buf + i, count - i);
-					str = str_dispose(sb);
-				}
+					str = str_dispose(str_append_number(NULL, sh->exit_status));
 				sv = strv_append(sv, str);
 				w = w->next;
 			}
-			execve(val->word_list->word.str, strv_dispose(sv), environ);
+			execve(val->word_list->word.str, strv_dispose(sv), var_list_to_str_vec(sh->var_list));
 		}
 		if (!no_fork)
 			exit(EXIT_SUCCESS);

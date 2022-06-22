@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 19:48:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 13:58:25 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,17 @@ t_str_buf	*str_append(t_str_buf *buf, const char *s)
 char	*str_dispose(t_str_buf *buf)
 {
 	char	*result;
+	size_t	len;
 
-	if (!buf)
-		return (NULL);
-	result = calloc_safe(buf->length + 1, sizeof(*buf->str));
-	_memcpy(result, buf->str, buf->length * sizeof(*buf->str));
-	free(buf->str);
+	len = 0;
+	if (buf)
+		len = buf->length;
+	result = calloc_safe(len + 1, sizeof(*buf->str));
+	if (buf)
+	{
+		_memcpy(result, buf->str, len * sizeof(*buf->str));
+		free(buf->str);
+	}
 	free(buf);
 	return (result);
 }

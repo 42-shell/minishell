@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/17 19:49:20 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 13:58:17 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,17 @@ t_str_vec	*strv_append_bulk(t_str_vec *vec, char **arr)
 char	**strv_dispose(t_str_vec *vec)
 {
 	char	**result;
+	size_t	len;
 
-	if (!vec)
-		return (NULL);
-	result = calloc_safe(vec->length + 1, sizeof(*vec->arr));
-	_memcpy(result, vec->arr, vec->length * sizeof(*vec->arr));
-	free(vec->arr);
+	len = 0;
+	if (vec)
+		len = vec->length;
+	result = calloc_safe(len + 1, sizeof(*vec->arr));
+	if (vec)
+	{
+		_memcpy(result, vec->arr, len * sizeof(*vec->arr));
+		free(vec->arr);
+	}
 	free(vec);
 	return (result);
 }

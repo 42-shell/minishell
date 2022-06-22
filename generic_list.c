@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 16:50:49 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/19 00:41:56 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 14:08:08 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_generic_list	*list_remove(t_generic_list **list, t_gl_func *cmp, void *arg)
 	t = *list;
 	while (t)
 	{
-		if ((*cmp)(t, arg))
+		if ((*cmp)(t, arg) == 0)
 		{
 			if (prev)
 				prev->next = t->next;

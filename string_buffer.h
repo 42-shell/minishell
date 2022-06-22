@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/05/25 16:41:46 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/22 14:46:01 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ typedef struct s_str_buf
 t_str_buf	*str_append_raw(t_str_buf *buf, const char *s, size_t n);
 t_str_buf	*str_append(t_str_buf *buf, const char *s);
 char		*str_dispose(t_str_buf *buf);
+t_str_buf	*str_append_number(t_str_buf *buf, int n);
 
 #endif
