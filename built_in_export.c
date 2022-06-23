@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/23 13:39:10 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/23 14:13:23 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_export(char **argv, t_env_list **env)
 	{
 		if (env_syntax_check(argv[size], 0))
 		{
-			check_error++;
+			check_error |= 1;;
 			built_in_print_error("export", argv[size], "not a valid identifier");
 			//return (EXIT_FAILURE); // Save to last command exit status
 		}
