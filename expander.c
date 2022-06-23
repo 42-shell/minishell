@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 21:49:02 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 17:26:55 by yongmkim         ###   ########.fr       */
+/*   Updated: 2022/06/23 13:11:50 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,13 @@ static char	*expand_workhorse(t_exp_info *info, t_env_list *env, char *str)
 	return (str_dispose(info->sb));
 }
 
+
+
+
+
+
+
+
 char	**check_expand(t_shell *sh, char **argv, t_env_list *env)
 {
 	t_exp_info	info;
@@ -147,10 +154,13 @@ char	**check_expand(t_shell *sh, char **argv, t_env_list *env)
 	info.last_exit_status = sh->exit_status;
 	while (argv && argv[info.cur_pos])
 	{
+		// subst_env -> subst_ast -> subst_dequote -> glob ->
 		info.sb = str_append(NULL, "");
 		temp = subst_env(&info, env, argv[info.cur_pos]);
 		info.sb = str_append(NULL, "");
 		temp = expand_workhorse(&info, env, temp);
+
+
 		if (info.cur_pos && ft_strchr(temp, SOH))
 			info.sv = expand_glob(temp, &info, info.sv, env);
 		else

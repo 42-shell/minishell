@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 14:36:23 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:45:43 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 13:39:10 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "string_vector.h"
 #include "safe_io.h"
 #include "generic_list.h"
+#include <stdlib.h>
 
 // asd
 
@@ -45,9 +46,12 @@ static void	export_work(char *id, t_env_list *env)
 
 static int	_clear_env(t_env_list *ptr)
 {
-	free(ptr->id);
-	free(ptr->content);
-	free(ptr);
+	if (ptr)
+	{
+		free(ptr->id);
+		free(ptr->content);
+		free(ptr);
+	}
 	return (0);
 }
 

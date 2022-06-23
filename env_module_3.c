@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 19:19:03 by yongmkim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:42:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 13:19:57 by yongmkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	**env_to_strvec(t_env_list *env)
 {
 	t_str_vec	*sv;
 
+	sv = NULL;
 	while (env)
 	{
 		sv = strv_append(sv, str_dispose(str_append(str_append(str_append(
