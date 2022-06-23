@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 20:18:58 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 22:32:34 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	push_here_document(t_parser *pst, t_list_redirect *r)
 {
 	if (pst->here_document_index >= HERE_DOCUMENT_MAX)
 	{
-		puterr_safe("maximum here-document count exceeded\n");
+		print_err("maximum here-document count exceeded\n");
 		exit(EXIT_FAILURE);
 	}
 	pst->here_document[pst->here_document_index++] = r;
 }
 
-static char	*_read_document(char *eof)
+char	*read_document(char *eof)
 {
 	t_str_buf	*buf;
 	char		*str;
@@ -55,7 +55,7 @@ static char	*_read_document(char *eof)
 	return (str_dispose(buf));
 }
 
-static void	_make_here_document(t_list_redirect *r)
+static int	_make_here_document(t_list_redirect *r)
 {
 	t_word		word;
 	t_word		document;
@@ -64,25 +64,32 @@ static void	_make_here_document(t_list_redirect *r)
 	ft_memset(&document, 0, sizeof(document));
 	swap_word(&word, &r->redirect.word);
 	expand_heredoc_eof(&word);
-	document.str = _read_document(word.str);
+	document.str = read_document_pipe(word.str);
 	document.flags = word.flags;
 	swap_word(&r->redirect.word, &document);
 	dispose_word(&word);
 	dispose_word(&document);
+	return (!document.str);
 }
 
-void	gather_here_document(t_parser *pst)
+int	gather_here_document(t_parser *pst)
 {
 	size_t	i;
 	size_t	n;
+	int		res;
 
 	n = pst->here_document_index;
 	i = 0;
+	res = 0;
 	while (i < n)
 	{
-		_make_here_document(pst->here_document[i]);
+		if (res == 0)
+			res |= _make_here_document(pst->here_document[i]);
+		else
+			dispose_word(&pst->here_document[i]->redirect.word);
 		pst->here_document[i] = NULL;
 		i++;
 	}
 	pst->here_document_index = 0;
+	return (res);
 }

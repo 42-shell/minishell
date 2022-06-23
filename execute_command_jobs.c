@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:33:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 21:27:34 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 23:00:57 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,9 @@ pid_t	make_child(t_shell *sh)
 	}
 	if (pid == 0)
 	{
-		while (sh->pid_list)
-		{
-			next = sh->pid_list->next;
-			free(sh->pid_list);
-			sh->pid_list = next;
-		}
+		list_walk((void *)sh->pid_list, free_safe);
+		sh->pid_list = NULL;
+		set_signal_handler(-1);
 	}
 	else
 	{
@@ -79,23 +76,17 @@ pid_t	make_child(t_shell *sh)
 	return (pid);
 }
 
-static int	_get_exit_status(int status)
-{
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	else
-		return (WEXITSTATUS(status));
-}
-
 int	wait_for(t_shell *sh, pid_t pid)
 {
 	pid_t			got_pid;
 	t_list_process	*next;
 	int				status;
 
-	status = -1;
+	status = 0;
 	sh->pid_list = (void *)list_reverse((void *)sh->pid_list);
-	while (sh->pid_list)
+	set_signal_handler(0);
+	got_pid = 0;
+	while (sh->pid_list && got_pid != pid)
 	{
 		next = sh->pid_list->next;
 		got_pid = waitpid(sh->pid_list->pid, &status, 0);
@@ -106,11 +97,9 @@ int	wait_for(t_shell *sh, pid_t pid)
 		}
 		free(sh->pid_list);
 		sh->pid_list = next;
-		if (got_pid == pid)
-		{
-			status = _get_exit_status(status);
-			break ;
-		}
 	}
-	return (status);
+	if (pid != -1 && WIFSIGNALED(status))
+		on_signal();
+	set_signal_handler(1);
+	return (get_exit_status(status));
 }

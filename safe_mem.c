@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 21:25:54 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/13 16:50:08 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 22:48:50 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,10 @@ void	*calloc_safe(size_t count, size_t size)
 	const size_t	final_size = count * size;
 
 	return (_fill_zero(malloc_safe(final_size), final_size));
+}
+
+int	free_safe(void *ptr)
+{
+	free(ptr);
+	return (0);
 }

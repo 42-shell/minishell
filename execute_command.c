@@ -6,13 +6,22 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 20:21:08 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 22:48:08 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "string_vector.h"
 #include <unistd.h>
+#include <sys/wait.h>
+
+int	get_exit_status(int status)
+{
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	else
+		return (WEXITSTATUS(status));
+}
 
 static int	_execute_simple_command(t_shell *sh, t_command *cmd,
 	int pipe_in, int pipe_out)

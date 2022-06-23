@@ -28,9 +28,10 @@ SOURCE = shell.c minishell_utils.c \
 			execute_command.c execute_command_pipeline.c \
 			execute_command_redir.c execute_command_redir_undo.c \
 			execute_command_simple.c execute_command_jobs.c \
-			here_document.c find_command.c glob.c \
+			here_document.c here_document_pipe.c find_command.c glob.c \
 			variables.c variables_utils.c \
-			expander.c expander_tear.c expander_fuse.c
+			expander.c expander_tear.c expander_fuse.c \
+			signals.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 
 HEADER_LIBFT = libft.h
@@ -46,7 +47,7 @@ OBJECT_GENERAL = $(addprefix $(OBJECTS_DIR), $(SOURCE_GENERAL:.c=.o))
 TARGET = minishell
 OBJS = $(OBJECT) $(OBJECT_LIBFT) $(OBJECT_GENERAL)
 
-LDFLAGS += -lreadline
+LDFLAGS += -L../readline -lreadline -lhistory -lncurses
 
 C_SANITIZER_FLAGS = address undefined
 CFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
@@ -69,7 +70,7 @@ $(OBJECTS_DIR):
 $(OBJS): | $(OBJECTS_DIR)
 
 $(addprefix $(OBJECTS_DIR), %.o): %.c
-	$(CC) -c $< -o $@ $(CFLAGS)
+	$(CC) -I.. -c $< -o $@ $(CFLAGS)
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)

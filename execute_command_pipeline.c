@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:03 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/20 21:28:10 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 21:53:16 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	execute_pipeline(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 	{
 		if (pipe(fildes) < 0)
 		{
-			puterr_safe("pipe error");
+			puterr_safe("pipe error\n");
 			exit(EXIT_FAILURE);
 		}
 		sh->next_pipe = fildes[STDIN_FILENO];

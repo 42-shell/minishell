@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 17:46:12 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 23:05:57 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int argc, char *argv[])
 	ft_memset(&pst, 0, sizeof(pst));
 	__todo_stack_capacity(&pst);
 	sh.var_list = new_env_var_list();
+	set_signal_handler(1);
 	while (1)
 	{
 		rl = readline("$ ");
@@ -57,10 +58,9 @@ int	main(int argc, char *argv[])
 		pst.str = rl;
 		pst.begin = pst.str;
 		pst.error = PE_SUCCESS;
-		if (parse(&pst))
+		if (parse(&pst) && gather_here_document(&pst) == 0)
 		{
 			sh.next_pipe = NO_PIPE;
-			gather_here_document(&pst);
 			execute_command(&sh, &pst.now->command, NO_PIPE, NO_PIPE);
 			add_history(rl);
 		}

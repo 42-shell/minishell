@@ -6,15 +6,20 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 20:19:32 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 22:47:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <unistd.h>
+# include <stdio.h>
+# include <sys/types.h>
+
 # include <readline/readline.h>
 # include <readline/history.h>
+
 # include <stdlib.h>
 # include <stddef.h>
 # include <signal.h>
@@ -317,7 +322,9 @@ void					dispose_redirect(t_redirect *item);
 void					dispose_command(t_command *item);
 
 void					push_here_document(t_parser *pst, t_list_redirect *r);
-void					gather_here_document(t_parser *pst);
+int						gather_here_document(t_parser *pst);
+char					*read_document(char *eof);
+char					*read_document_pipe(char *eof);
 
 char					*get_token_str(t_token_kind token);
 void					swap_word(t_word *a, t_word *b);
@@ -345,6 +352,8 @@ t_token_kind			parser_reduce_16(t_parser *pst);
 t_token_kind			parser_reduce_17(t_parser *pst);
 t_token_kind			parser_reduce_18(t_parser *pst);
 t_token_kind			parser_reduce_19(t_parser *pst);
+
+int						get_exit_status(int status);
 
 int						execute_command(t_shell *sh, t_command *cmd,
 							int pipe_in, int pipe_out);
@@ -387,5 +396,8 @@ char					*expand_redir(t_shell *sh, t_word *word, int glob);
 void					expand_heredoc_eof(t_word *word);
 char					*expand_heredoc(t_shell *sh, t_word *word,
 							size_t *len_ptr);
+
+void					set_signal_handler(int state);
+void					on_signal(void);
 
 #endif
