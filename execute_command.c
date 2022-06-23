@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 17:44:24 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 20:21:08 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static int	_execute_subshell(t_shell *sh, t_command *cmd,
 	if (pid == 0)
 	{
 		do_piping(pipe_in, pipe_out, sh->next_pipe);
-		do_redirections(val->redirect_list);
+		if (do_redirections(val->redirect_list, sh) < 0)
+			exit(EXIT_FAILURE);
 		exit(execute_command(sh, &val->container, NO_PIPE, NO_PIPE));
 	}
 	else

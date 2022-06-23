@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 18:58:08 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 20:19:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,7 +357,7 @@ void					do_piping(int pipe_in, int pipe_out, int pipe_next);
 pid_t					make_child(t_shell *sh);
 int						wait_for(t_shell *sh, pid_t pid);
 
-int						do_redirections(t_list_redirect *r_list);
+int						do_redirections(t_list_redirect *r_list, t_shell *sh);
 void					add_undo_redirects(t_shell *sh);
 void					cleanup_redirects(t_shell *sh);
 
@@ -371,11 +371,21 @@ char					**var_list_to_strvec(t_list_var *list);
 void					dispose_var_list(t_list_var *list);
 
 t_list_word				*new_expand_word_list(t_word *word);
+void					delete_expand_word_list(t_list_word *list);
 char					*join_expand_word_list(t_list_word *w_list,
 							t_list_var *v_list, int glob);
 t_str_vec				*file_expand(t_str_vec *vec, char *path, char *str);
 
 char					*find_command(t_shell *sh, char *name);
 char					**glob_to_strvec(const char *path, const char *pattern);
+
+t_str_vec				*expand(t_str_vec *vec, t_shell *sh, t_word *word,
+							int glob);
+t_str_vec				*expand_list(t_str_vec *vec, t_shell *sh,
+							t_list_word *w_list, int glob);
+char					*expand_redir(t_shell *sh, t_word *word, int glob);
+void					expand_heredoc_eof(t_word *word);
+char					*expand_heredoc(t_shell *sh, t_word *word,
+							size_t *len_ptr);
 
 #endif

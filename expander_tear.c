@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 18:55:52 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 20:17:03 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ static void	_append_word(t_list_word **list_ptr, char *str, size_t len,
 	if (!quote || quote == '\"')
 		set_flag(&elem->word.flags, WF_HAS_DOLLAR);
 	if (!quote)
-	{
-		set_flag(&elem->word.flags, WF_UNQUOTED);
 		set_flag(&elem->word.flags, WF_GLOB);
-	}
 	list_append((void *)list_ptr, (void *)elem);
 }
 
@@ -62,4 +59,16 @@ t_list_word	*new_expand_word_list(t_word *word)
 		}
 	}
 	return (w_list);
+}
+
+static int	_clear_w_list(t_list_word *elem)
+{
+	dispose_word(&elem->word);
+	free(elem);
+	return (0);
+}
+
+void	delete_expand_word_list(t_list_word *list)
+{
+	list_walk((void *)list, _clear_w_list);
 }

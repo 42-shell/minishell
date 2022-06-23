@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 22:09:00 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 20:18:58 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ static void	_make_here_document(t_list_redirect *r)
 	ft_memset(&word, 0, sizeof(word));
 	ft_memset(&document, 0, sizeof(document));
 	swap_word(&word, &r->redirect.word);
+	expand_heredoc_eof(&word);
 	document.str = _read_document(word.str);
+	document.flags = word.flags;
 	swap_word(&r->redirect.word, &document);
 	dispose_word(&word);
 	dispose_word(&document);
