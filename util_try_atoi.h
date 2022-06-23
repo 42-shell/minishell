@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   util_try_atoi.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 05:27:27 by jkong            ###   ########.fr       */
+/*   Created: 2022/03/14 18:51:56 by jkong             #+#    #+#             */
+/*   Updated: 2022/06/24 05:37:53 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include <stdio.h>
+#ifndef UTIL_TRY_ATOI_H
+# define UTIL_TRY_ATOI_H
 
-t_builtin_res	ft_pwd(t_builtin_argv argv, t_builtin_envp envp)
-{
-	char *const	cwd = getcwd(NULL, 0);
+int	try_atoi(const char *str, int *out);
 
-	(void)&argv;
-	(void)&envp;
-	if (!cwd)
-		exit(EXIT_FAILURE);
-	printf("%s\n", cwd);
-	free(cwd);
-	return (EXIT_SUCCESS);
-}
+#endif

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 04:58:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 05:18:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,10 @@ enum	e_var_flag_index
 	VF_EXPORTED,
 };
 
-typedef int							t_var_flags;
+typedef enum e_var_flag
+{
+	VFV_EXPORTED = 1 << VF_EXPORTED,
+}	t_var_flags;
 
 enum	e_file_flag_index
 {

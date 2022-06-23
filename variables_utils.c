@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 15:41:32 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 05:44:15 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_list_var	*new_env_var_list(void)
 	char		**vec;
 	char		*temp;
 	char		*value;
-	t_var_flags	attr;
+	int			attr;
 
 	list = NULL;
 	vec = environ;

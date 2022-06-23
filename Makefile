@@ -41,7 +41,7 @@ OBJECT_LIBFT = $(addprefix $(OBJECTS_DIR), $(SOURCE_LIBFT:.c=.o))
 SOURCE_GENERAL = util_flag.c safe_io.c safe_io_utils.c safe_mem.c \
 					string_buffer.c string_buffer_utils.c \
 					string_vector.c string_vector_utils.c \
-					generic_list.c
+					generic_list.c util_try_atoi.c
 OBJECT_GENERAL = $(addprefix $(OBJECTS_DIR), $(SOURCE_GENERAL:.c=.o))
 
 SOURCE_BUILTIN = builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c \
@@ -88,6 +88,7 @@ $(SOURCE_LIBFT): $(HEADER_LIBFT)
 
 $(addprefix $(OBJECTS_DIR), $(OBJECT_BUILTIN)): builtins.h
 $(addprefix $(OBJECTS_DIR), util_flag.o): util_flag.h
+$(addprefix $(OBJECTS_DIR), util_try_atoi.o): util_try_atoi.h
 $(addprefix $(OBJECTS_DIR), safe_io.o safe_io_utils.o): safe_io.h
 $(addprefix $(OBJECTS_DIR), safe_mem.o): safe_mem.h
 $(addprefix $(OBJECTS_DIR), string_buffer.o string_buffer_utils.o): string_buffer.h
