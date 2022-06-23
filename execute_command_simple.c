@@ -6,13 +6,15 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 00:36:10 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 03:49:39 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "string_vector.h"
 #include <unistd.h>
+#include <errno.h>
+#include <string.h>
 #include "builtins.h"
 
 static int	_execute_disk_command(t_shell *sh, char *file, char **argv,
@@ -21,7 +23,6 @@ static int	_execute_disk_command(t_shell *sh, char *file, char **argv,
 	const int	no_fork = flags & 1;
 	const int	last_pipe = flags & 2;
 	pid_t		pid;
-	int			exec_res;
 
 	if (no_fork)
 		pid = 0;
@@ -29,9 +30,17 @@ static int	_execute_disk_command(t_shell *sh, char *file, char **argv,
 		pid = make_child(sh);
 	if (pid == 0)
 	{
-		exec_res = execve(file, argv, var_list_to_strvec(sh->var_list));
-		//exec 실패?!
-		exit(EXIT_FAILURE);
+		if (!file)
+		{
+			print_err("%s: command not found\n", argv[0]);
+			exit(EX_NOTFOUND);
+		}
+		execve(file, argv, var_list_to_strvec(sh->var_list));
+		print_err("%s: %s (%d)\n", argv[0], strerror(errno), errno);
+		if (errno == ENOENT)
+			exit(EX_NOTFOUND);
+		else
+			exit(EX_NOEXEC);
 	}
 	else if (last_pipe)
 		return (wait_for(sh, pid));

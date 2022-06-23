@@ -52,10 +52,11 @@ OBJECT_BUILTIN = $(addprefix $(OBJECTS_DIR), $(SOURCE_BUILTIN:.c=.o))
 TARGET = minishell
 OBJS = $(OBJECT) $(OBJECT_LIBFT) $(OBJECT_GENERAL) $(OBJECT_BUILTIN)
 
-LDFLAGS += -L../readline -lreadline -lhistory -lncurses
-INCLUDE_PATH = ..
+READLINE_PATH = ..
+INCLUDE += -I$(READLINE_PATH)
+LDFLAGS += -L$(READLINE_PATH)/readline -lreadline -lhistory -lncurses
 
-C_SANITIZER_FLAGS = address undefined
+C_SANITIZER_FLAGS = #address undefined
 CFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 LDFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 
@@ -76,7 +77,7 @@ $(OBJECTS_DIR):
 $(OBJS): | $(OBJECTS_DIR)
 
 $(addprefix $(OBJECTS_DIR), %.o): %.c
-	$(CC) -I$(INCLUDE_PATH) -c $< -o $@ $(CFLAGS)
+	$(CC) $(INCLUDE) -c $< -o $@ $(CFLAGS)
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)

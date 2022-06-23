@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 23:45:37 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 04:58:57 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,8 @@ extern sig_atomic_t					g_exit_status;
 
 # define EX_BADUSAGE 2
 
-# define EX_MISCERROR 2
-
-# define EX_RETRYFAIL 124
-# define EX_WEXPCOMSUB 125
-# define EX_BINARY_FILE 126
 # define EX_NOEXEC 126
-# define EX_NOINPUT 126
 # define EX_NOTFOUND 127
-
-# define EX_SHERRBASE 256
-
-# define EX_BADSYNTAX 257
-# define EX_USAGE 258
-# define EX_REDIRFAIL 259
-# define EX_BADASSIGN 260
-# define EX_EXPFAIL 261
-# define EX_DISKFALLBACK 262
 
 enum	e_char_flag_index
 {
@@ -300,6 +285,8 @@ int						legal_variable_char(int c);
 t_token_kind			read_token(t_parser *pst);
 int						parse(t_parser *pst);
 
+void					parser_stack_reserve(t_parser *pst, size_t n);
+void					parser_stack_remove_all(t_parser *pst);
 t_parser_state			parser_state(t_parser_state state, t_token_kind token);
 
 t_simple_command		*make_simple_command(void);

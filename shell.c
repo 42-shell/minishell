@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 23:05:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 05:10:14 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,27 @@
 
 sig_atomic_t	g_exit_status;
 
-void	__todo_stack_capacity(t_parser *pst)
+static void	_eval(t_shell *sh, t_parser *pst, char *rl)
 {
-	size_t	capacity;
-
-	capacity = 200;
-	pst->stack_capacity = capacity;
-	pst->stack_base = calloc_safe(capacity, sizeof(*pst->stack_base));
-	pst->now = pst->stack_base;
+	pst->str = rl;
+	pst->begin = pst->str;
+	pst->error = PE_SUCCESS;
+	if (parse(pst) & (gather_here_document(pst) == 0))
+	{
+		sh->next_pipe = NO_PIPE;
+		g_exit_status = execute_command(sh, &pst->now->command,
+				NO_PIPE, NO_PIPE);
+		add_history(rl);
+	}
+	else
+		g_exit_status = EX_BADUSAGE;
+	parser_stack_remove_all(pst);
 }
 
-void	__todo_stack_destroy(t_parser *pst)
+static void	_reader_loop(t_shell *sh, t_parser *pst)
 {
-	while (pst->now > pst->stack_base)
-		clear_parser_stack_item(pst->now--);
-}
+	char	*rl;
 
-int	main(int argc, char *argv[])
-{
-	t_shell		sh;
-	t_parser	pst;
-	char		*rl;
-
-	(void)&argc;
-	(void)&argv;
-	ft_memset(&sh, 0, sizeof(sh));
-	ft_memset(&pst, 0, sizeof(pst));
-	__todo_stack_capacity(&pst);
-	sh.var_list = new_env_var_list();
 	set_signal_handler(1);
 	while (1)
 	{
@@ -55,18 +48,24 @@ int	main(int argc, char *argv[])
 			puterr_safe("exit\n");
 			break ;
 		}
-		pst.str = rl;
-		pst.begin = pst.str;
-		pst.error = PE_SUCCESS;
-		if (parse(&pst) && gather_here_document(&pst) == 0)
-		{
-			sh.next_pipe = NO_PIPE;
-			execute_command(&sh, &pst.now->command, NO_PIPE, NO_PIPE);
-			add_history(rl);
-		}
-		__todo_stack_destroy(&pst);
+		if (*rl)
+			_eval(sh, pst, rl);
 		free(rl);
 	}
+}
+
+int	main(int argc, char *argv[])
+{
+	t_shell		sh;
+	t_parser	pst;
+
+	(void)&argc;
+	(void)&argv;
+	ft_memset(&sh, 0, sizeof(sh));
+	ft_memset(&pst, 0, sizeof(pst));
+	parser_stack_reserve(&pst, 1);
+	sh.var_list = new_env_var_list();
+	_reader_loop(&sh, &pst);
 	free(pst.stack_base);
 	dispose_var_list(sh.var_list);
 	return (g_exit_status);

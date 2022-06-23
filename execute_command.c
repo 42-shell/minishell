@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 23:45:42 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 04:05:16 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,5 @@ int	execute_command(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 		print_err("Unsupported Command %d\n", cmd->type);
 		exit(EXIT_FAILURE);
 	}
-	if (pipe_out == NO_PIPE)
-		g_exit_status = exec_result;
 	return (exec_result);
 }

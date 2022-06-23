@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 21:44:22 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 04:43:03 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static t_parse_func *const	g_grammer[] = {
 static t_token_kind	_parse_shift(t_parser *pst, t_parser_state state,
 	t_token_kind token)
 {
+	parser_stack_reserve(pst, 1);
 	clear_parser_stack_item(++pst->now);
 	pst->now->state = state;
 	pst->now->kind = token;
