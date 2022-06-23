@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 19:18:04 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 17:52:00 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ char	*get_var(t_list_var *list, char *name, int dup)
 		}
 		list = list->next;
 	}
-	return (NULL);
+	if (dup)
+		return (NULL);
+	else
+		return ("");
 }
 
 void	put_var(t_list_var **list_ptr, char *name, char *value,

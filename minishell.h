@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 00:25:12 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 18:58:08 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <stddef.h>
+# include <signal.h>
+
+extern sig_atomic_t					g_exit_status;
 
 # define HERE_DOCUMENT_MAX 16
 # define NO_PIPE (-1)
@@ -93,9 +96,9 @@ typedef enum e_token_kind
 
 enum	e_word_flag_index
 {
-	WF_WANT_EXPAND_VAR,
-	WF_WANT_DEQUOTE,
-	WF_NO_GLOB,
+	WF_HAS_DOLLAR,
+	WF_UNQUOTED,
+	WF_GLOB,
 };
 
 typedef int							t_word_flags;
@@ -147,7 +150,7 @@ typedef enum e_command_type
 
 enum e_command_flag_index
 {
-	CMDF_NOOP,
+	CMDF_ASYNC,
 };
 
 typedef int							t_command_flags;
@@ -197,12 +200,7 @@ struct s_subshell_command
 
 enum	e_parser_flag_index
 {
-	PF_WANT_REDIRECT,
-	PF_SUBSHELL,
-	PF_SUBSTITUTION,
 	PF_HERE_DOCUMENT,
-	PF_COMMAND_PUSHED,
-	PF_REDIRECT_PUSHED,
 };
 
 # define PARSER_ACCEPT -1000
@@ -262,6 +260,14 @@ enum	e_var_flag_index
 
 typedef int							t_var_flags;
 
+enum	e_file_flag_index
+{
+	FF_DIRECTORY,
+	FF_HIDDEN,
+};
+
+typedef int							t_file_flags;
+
 typedef struct s_list_var
 {
 	struct s_list_var	*next;
@@ -274,10 +280,12 @@ typedef struct s_shell
 {
 	int				next_pipe;
 	int				redir_undo[3];
-	int				exit_status;
 	t_list_process	*pid_list;
 	t_list_var		*var_list;
 }	t_shell;
+
+typedef struct s_str_buf			t_str_buf;
+typedef struct s_str_vec			t_str_vec;
 
 void					print_err(const char *format, ...);
 
@@ -359,9 +367,15 @@ void					put_var(t_list_var **list_ptr, char *name, char *value,
 void					unset_var(t_list_var **list_ptr, char *name);
 
 t_list_var				*new_env_var_list(void);
-char					**var_list_to_str_vec(t_list_var *list);
+char					**var_list_to_strvec(t_list_var *list);
 void					dispose_var_list(t_list_var *list);
 
+t_list_word				*new_expand_word_list(t_word *word);
+char					*join_expand_word_list(t_list_word *w_list,
+							t_list_var *v_list, int glob);
+t_str_vec				*file_expand(t_str_vec *vec, char *path, char *str);
+
 char					*find_command(t_shell *sh, char *name);
+char					**glob_to_strvec(const char *path, const char *pattern);
 
 #endif

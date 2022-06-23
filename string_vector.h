@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 13:56:19 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 17:36:44 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_str_vec	*strv_append(t_str_vec *vec, char *s);
 t_str_vec	*strv_append_bulk(t_str_vec *vec, char **arr);
 char		**strv_dispose(t_str_vec *vec);
 size_t		length_strvec(char **arr);
+void		sort_strvec(char **arr, int (*cmp)(const char *, const char *));
 void		free_strvec(char **arr);
 
 #endif

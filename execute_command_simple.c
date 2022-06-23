@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 00:32:58 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 19:07:36 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,12 @@ int	execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 		{
 			while (w)
 			{
-				char *str = w->word.str;
-				if (strcmp(str, "$?") == 0)
-					str = str_dispose(str_append_number(NULL, sh->exit_status));
-				sv = strv_append(sv, str);
+				t_list_word *wl = new_expand_word_list(&w->word);
+				char *str = join_expand_word_list(wl, sh->var_list, 1);
+				sv = file_expand(sv, getcwd(NULL, 0), str);
 				w = w->next;
 			}
-			execve(find_command(sh, val->word_list->word.str), strv_dispose(sv), var_list_to_str_vec(sh->var_list));
+			execve(find_command(sh, val->word_list->word.str), strv_dispose(sv), var_list_to_strvec(sh->var_list));
 		}
 		if (!no_fork)
 			exit(EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 22:29:55 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 17:44:24 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ int	execute_command(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 		exit(EXIT_FAILURE);
 	}
 	if (pipe_out == NO_PIPE)
-		sh->exit_status = exec_result;
+		g_exit_status = exec_result;
 	return (exec_result);
 }

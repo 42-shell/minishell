@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 19:10:38 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 00:30:37 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 15:55:09 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 
 static char	*_make_path(char *path, char *name)
 {
+	t_str_buf	*buf;
+
+	buf = NULL;
 	if (path)
-		return (str_dispose(str_append_format(NULL, "%s/%s", path, name)));
-	else
-		return (str_dispose(str_append(NULL, name)));
+		buf = str_append_format(buf, "%s/", path);
+	buf = str_append(buf, name);
+	return (str_dispose(buf));
 }
 
 static int	_file_status(char *path)

@@ -28,8 +28,9 @@ SOURCE = shell.c minishell_utils.c \
 			execute_command.c execute_command_pipeline.c \
 			execute_command_redir.c execute_command_redir_undo.c \
 			execute_command_simple.c execute_command_jobs.c \
-			find_command.c expander.c here_document.c \
-			variables.c variables_utils.c
+			here_document.c find_command.c glob.c \
+			variables.c variables_utils.c \
+			expander.c expander_tear.c expander_fuse.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 
 HEADER_LIBFT = libft.h

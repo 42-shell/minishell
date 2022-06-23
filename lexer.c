@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/08 03:05:55 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 15:18:22 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,7 @@
 #include "util_flag.h"
 #include "string_buffer.h"
 
-static t_word_flags	calc_word_flag(t_str_buf *buf)
-{
-	t_word_flags	wflags;
-	t_char_flags	cflags;
-	size_t			i;
-
-	wflags = 0;
-	i = 0;
-	while (i < buf->length)
-	{
-		cflags = get_char_flags(buf->str[i]);
-		if (has_flag(cflags, CF_QUOTE))
-			set_flag(&wflags, WF_WANT_DEQUOTE);
-		if (has_flag(cflags, CF_EXPANSION))
-			set_flag(&wflags, WF_WANT_EXPAND_VAR);
-		i++;
-	}
-	return (wflags);
-}
-
-static size_t	parse_matched_quote(t_parser *pst, size_t len, char delim)
+static size_t	_parse_matched_quote(t_parser *pst, size_t len, char delim)
 {
 	char		*str;
 	size_t		idx;
@@ -53,7 +33,7 @@ static size_t	parse_matched_quote(t_parser *pst, size_t len, char delim)
 	return (idx);
 }
 
-static t_token_kind	read_token_word(t_parser *pst)
+static t_token_kind	_read_token_word(t_parser *pst)
 {
 	size_t		len;
 	t_str_buf	*buf;
@@ -64,20 +44,19 @@ static t_token_kind	read_token_word(t_parser *pst)
 	while (pst->str[len] && !has_flag(get_char_flags(pst->str[len]), CF_BREAK))
 	{
 		if (has_flag(get_char_flags(pst->str[len]), CF_QUOTE))
-			len += parse_matched_quote(pst, len, pst->str[len]);
+			len += _parse_matched_quote(pst, len, pst->str[len]);
 		else
 			len++;
 	}
 	buf = str_append_raw(buf, pst->str, len);
 	pst->str += len;
-	word.flags = calc_word_flag(buf);
 	word.str = str_dispose(buf);
 	free(pst->backup_word.str);
 	pst->backup_word = word;
 	return (TK_WORD);
 }
 
-static t_token_kind	read_token_meta(t_parser *pst)
+static t_token_kind	_read_token_meta(t_parser *pst)
 {
 	char	tok;
 
@@ -106,9 +85,9 @@ t_token_kind	read_token(t_parser *pst)
 	if (result == TK_UNDEFINED && *pst->str == '\0')
 		result = TK_EOF;
 	if (result == TK_UNDEFINED && has_flag(get_char_flags(*pst->str), CF_META))
-		result = read_token_meta(pst);
+		result = _read_token_meta(pst);
 	if (result == TK_UNDEFINED)
-		result = read_token_word(pst);
+		result = _read_token_word(pst);
 	if (pst->error)
 		result = TK_ERROR;
 	return (result);

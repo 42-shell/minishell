@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 22:45:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 15:41:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 extern char	**environ;
 
-static char	*_make_pair(const char *s, char **val_ptr, char delim)
+static char	*_alloc_pair(const char *s, char **val_ptr, char delim)
 {
 	const size_t	len = ft_strlen(s) + 1;
 	char *const		dup = ft_memcpy(calloc_safe(len, sizeof(char)), s, len);
@@ -49,7 +49,7 @@ t_list_var	*new_env_var_list(void)
 	vec = environ;
 	while (*vec)
 	{
-		temp = _make_pair(*vec, &value, '=');
+		temp = _alloc_pair(*vec, &value, '=');
 		if (temp == NULL)
 			exit(EXIT_FAILURE);
 		attr = 0;
@@ -61,7 +61,7 @@ t_list_var	*new_env_var_list(void)
 	return (list);
 }
 
-char	**var_list_to_str_vec(t_list_var *list)
+char	**var_list_to_strvec(t_list_var *list)
 {
 	t_str_vec	*vec;
 	t_str_buf	*buf;

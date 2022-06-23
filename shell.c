@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 22:25:25 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 17:46:12 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "libft.h"
 #include "safe_io.h"
 #include "safe_mem.h"
+
+sig_atomic_t	g_exit_status;
 
 void	__todo_stack_capacity(t_parser *pst)
 {
@@ -67,5 +69,5 @@ int	main(int argc, char *argv[])
 	}
 	free(pst.stack_base);
 	dispose_var_list(sh.var_list);
-	return (sh.exit_status);
+	return (g_exit_status);
 }
