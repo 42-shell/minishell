@@ -44,10 +44,16 @@ SOURCE_GENERAL = util_flag.c safe_io.c safe_io_utils.c safe_mem.c \
 					generic_list.c
 OBJECT_GENERAL = $(addprefix $(OBJECTS_DIR), $(SOURCE_GENERAL:.c=.o))
 
+SOURCE_BUILTIN = builtin_echo.c builtin_cd.c builtin_pwd.c builtin_export.c \
+					builtin_unset.c builtin_env.c builtin_exit.c \
+					builtins.c
+OBJECT_BUILTIN = $(addprefix $(OBJECTS_DIR), $(SOURCE_BUILTIN:.c=.o))
+
 TARGET = minishell
-OBJS = $(OBJECT) $(OBJECT_LIBFT) $(OBJECT_GENERAL)
+OBJS = $(OBJECT) $(OBJECT_LIBFT) $(OBJECT_GENERAL) $(OBJECT_BUILTIN)
 
 LDFLAGS += -L../readline -lreadline -lhistory -lncurses
+INCLUDE_PATH = ..
 
 C_SANITIZER_FLAGS = address undefined
 CFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
@@ -70,7 +76,7 @@ $(OBJECTS_DIR):
 $(OBJS): | $(OBJECTS_DIR)
 
 $(addprefix $(OBJECTS_DIR), %.o): %.c
-	$(CC) -I.. -c $< -o $@ $(CFLAGS)
+	$(CC) -I$(INCLUDE_PATH) -c $< -o $@ $(CFLAGS)
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -79,6 +85,7 @@ $(SOURCE): $(HEADER)
 
 $(SOURCE_LIBFT): $(HEADER_LIBFT)
 
+$(addprefix $(OBJECTS_DIR), $(OBJECT_BUILTIN)): builtins.h
 $(addprefix $(OBJECTS_DIR), util_flag.o): util_flag.h
 $(addprefix $(OBJECTS_DIR), safe_io.o safe_io_utils.o): safe_io.h
 $(addprefix $(OBJECTS_DIR), safe_mem.o): safe_mem.h

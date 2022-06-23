@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 22:47:32 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 23:45:37 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,8 +357,8 @@ int						get_exit_status(int status);
 
 int						execute_command(t_shell *sh, t_command *cmd,
 							int pipe_in, int pipe_out);
-int						execute_simple_command_internal(t_shell *sh,
-							t_simple_command *val, int no_fork, int wait);
+int						execute_simple_command(t_shell *sh, t_command *cmd,
+							int pipe_in, int pipe_out);
 int						execute_pipeline(t_shell *sh, t_command *cmd,
 							int pipe_in, int pipe_out);
 

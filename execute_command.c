@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 22:48:08 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/23 23:45:42 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,6 @@ int	get_exit_status(int status)
 		return (128 + WTERMSIG(status));
 	else
 		return (WEXITSTATUS(status));
-}
-
-static int	_execute_simple_command(t_shell *sh, t_command *cmd,
-	int pipe_in, int pipe_out)
-{
-	const int	do_fork = pipe_in != NO_PIPE || pipe_out != NO_PIPE;
-	pid_t		pid;
-	int			exec_result;
-
-	if (do_fork)
-	{
-		pid = make_child(sh);
-		if (pid == 0)
-			do_piping(pipe_in, pipe_out, sh->next_pipe);
-		else
-		{
-			if (pipe_out == NO_PIPE)
-				return (wait_for(sh, pid));
-			return (EXIT_SUCCESS);
-		}
-	}
-	else
-		add_undo_redirects(sh);
-	exec_result = execute_simple_command_internal(sh, cmd->value.simple,
-			do_fork, pipe_out == NO_PIPE);
-	if (do_fork)
-		exit(exec_result);
-	else
-		cleanup_redirects(sh);
-	return (exec_result);
 }
 
 static int	_execute_subshell(t_shell *sh, t_command *cmd,
@@ -110,7 +80,7 @@ int	execute_command(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 	int	exec_result;
 
 	if (cmd->type == CMD_SIMPLE)
-		exec_result = _execute_simple_command(sh, cmd, pipe_in, pipe_out);
+		exec_result = execute_simple_command(sh, cmd, pipe_in, pipe_out);
 	else if (cmd->type == CMD_SUBSHELL)
 		exec_result = _execute_subshell(sh, cmd, pipe_in, pipe_out);
 	else if (cmd->type == CMD_CONNECTION)

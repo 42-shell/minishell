@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 19:10:38 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 15:55:09 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 03:02:19 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	*find_command(t_shell *sh, char *name)
 		if (_file_status(full_path) == 0)
 			break ;
 		free(full_path);
+		full_path = NULL;
 		path_list = next_path;
 	}
 	free(var);
