@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 05:27:27 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 21:39:52 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_builtin_res	ft_pwd(t_builtin_argv argv, t_builtin_envp envp)
 	(void)&argv;
 	(void)&envp;
 	if (!cwd)
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	printf("%s\n", cwd);
 	free(cwd);
 	return (EXIT_SUCCESS);

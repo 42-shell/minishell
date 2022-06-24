@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 20:38:11 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 21:40:55 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ char	**_expand(t_shell *sh, t_word *word)
 	char		**arr;
 	char *const	pwd = getcwd(NULL, 0);
 
-	if (!pwd)
-		exit(EXIT_FAILURE);
 	singleton_word_list(&single, word);
 	w_list = expand_map(&single, sh->var_list, 1);
 	next_w_list = expand_map(w_list, sh->var_list, 2);

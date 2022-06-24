@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 20:16:47 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 21:35:16 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static t_str_vec	*_expand_file_glob(t_str_vec *vec, char *path, char *s)
 	if (glob && *glob)
 	{
 		i = 0;
+		sort_strvec(glob, ft_strcmp);
 		while (glob[i])
 		{
 			str_temp = str_dispose(str_append(NULL, glob[i]));
