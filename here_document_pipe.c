@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 11:55:00 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 20:59:17 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*_wait_document_pipe_internal(int fildes[2], pid_t pid)
 	free(buf);
 	got_pid = waitpid(pid, &status, 0);
 	if (got_pid < 0)
-		exit_fail("waitpid\n");
+		exit_fail("waitpid");
 	if (WIFSIGNALED(status))
 		on_signal();
 	set_signal_handler(1);
@@ -80,10 +80,10 @@ char	*read_document_pipe(char *eof)
 	pid_t		pid;
 
 	if (pipe(fildes) < 0)
-		exit_fail("pipe error\n");
+		exit_fail("pipe error");
 	pid = fork();
 	if (pid < 0)
-		exit_fail("fork\n");
+		exit_fail("fork");
 	else if (pid == 0)
 	{
 		_write_document_pipe_internal(fildes, eof);

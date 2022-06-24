@@ -56,7 +56,7 @@ READLINE_PATH = ..
 INCLUDE += -I$(READLINE_PATH)
 LDFLAGS += -L$(READLINE_PATH)/readline -lreadline -lhistory -lncurses
 
-C_SANITIZER_FLAGS = address undefined
+C_SANITIZER_FLAGS = #address undefined
 CFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 LDFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 

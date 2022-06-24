@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 19:50:32 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 21:19:10 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,24 @@ static void	_eval(t_shell *sh, t_parser *pst, char *rl)
 	parser_stack_remove_all(pst);
 }
 
-static void	_reader_loop(t_shell *sh, t_parser *pst)
+static void	_reader_loop(t_shell *sh, t_parser *pst, int interactive)
 {
 	char	*rl;
 
-	set_signal_handler(1);
+	if (interactive)
+		set_signal_handler(1);
+	else
+		print_err("warning: non-interactive is partial supported.\n");
 	while (1)
 	{
-		rl = readline("$ ");
+		if (interactive)
+			rl = readline("$ ");
+		else
+			rl = readline(NULL);
 		if (!rl)
 		{
-			puterr_safe("exit\n");
+			if (interactive)
+				puterr_safe("exit\n");
 			break ;
 		}
 		if (ft_strlen(rl) != 0)
@@ -60,13 +67,14 @@ int	main(int argc, char *argv[])
 	t_shell		sh;
 	t_parser	pst;
 
-	(void)&argc;
-	(void)&argv;
+	if (argc != 1)
+		print_err("warning: option is not supported.\n");
+	(void)argv;
 	ft_memset(&sh, 0, sizeof(sh));
 	ft_memset(&pst, 0, sizeof(pst));
 	parser_stack_reserve(&pst, 1);
 	sh.var_list = strvec_to_var_list(environ);
-	_reader_loop(&sh, &pst);
+	_reader_loop(&sh, &pst, isatty(STDIN_FILENO));
 	free(pst.stack_base);
 	dispose_var_list(sh.var_list);
 	return (g_exit_status);

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:42:03 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 11:53:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 20:58:54 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	execute_pipeline(t_shell *sh, t_command *cmd, int pipe_in, int pipe_out)
 		&& cur->value.connection->connector == TK_OR)
 	{
 		if (pipe(fildes) < 0)
-			exit_fail("pipe error\n");
+			exit_fail("pipe error");
 		sh->next_pipe = fildes[STDIN_FILENO];
 		_first_pipe(sh, &cur->value.connection->first,
 			prev, fildes[STDOUT_FILENO]);
