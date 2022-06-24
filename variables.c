@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 17:52:00 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 21:59:45 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	put_var(t_list_var **list_ptr, char *name, char *value,
 	{
 		if (_compare_var_name(list, name) == 0)
 		{
-			free(list->value);
 			if (value)
+			{
+				free(list->value);
 				list->value = _strdup(value);
-			else
-				value = NULL;
+			}
 			return ;
 		}
 		list = list->next;

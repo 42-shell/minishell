@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 21:09:00 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 22:25:46 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ typedef int							t_parser_flags;
 typedef enum e_parser_error
 {
 	PE_SUCCESS,
+	PE_AGAIN,
 	PE_INCOMPLETED_PAIR,
 	PE_SYNTAX_ERROR,
 }	t_parser_error;

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 09:45:53 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 22:24:40 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ static void	_parse_on_error(t_parser *pst, t_token_kind token)
 {
 	char *const	tok = get_token_str(token);
 
+	if (pst->stack_base != pst->now)
+		print_err("syntax error near unexpected token `%s'\n", tok);
 	pst->error = PE_SYNTAX_ERROR;
-	print_err("syntax error near unexpected token `%s'\n", tok);
 }
 
 int	parse(t_parser *pst)

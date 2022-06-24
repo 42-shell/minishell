@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 05:41:18 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 22:22:59 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	**_process_option(char **argv, int *display_return)
 	while (*argv)
 	{
 		str = *argv;
-		if (*str++ == '-')
+		if (*str++ == '-' && *str != '\0')
 		{
 			while (*str == 'n')
 			{
@@ -32,7 +32,7 @@ static char	**_process_option(char **argv, int *display_return)
 					*display_return = 0;
 				str++;
 			}
-			if (*str != '\0')
+			if (*str != '\0' && *str != 'n')
 				break ;
 		}
 		else

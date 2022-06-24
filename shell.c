@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 21:19:10 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 22:27:02 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	_eval(t_shell *sh, t_parser *pst, char *rl)
 				NO_PIPE, NO_PIPE);
 		add_history(rl);
 	}
-	else
+	else if (pst->error != PE_AGAIN)
 		g_exit_status = EX_BADUSAGE;
 	parser_stack_remove_all(pst);
 }
@@ -56,8 +56,7 @@ static void	_reader_loop(t_shell *sh, t_parser *pst, int interactive)
 				puterr_safe("exit\n");
 			break ;
 		}
-		if (ft_strlen(rl) != 0)
-			_eval(sh, pst, rl);
+		_eval(sh, pst, rl);
 		free(rl);
 	}
 }
