@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 05:10:14 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 10:44:07 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "safe_io.h"
 #include "safe_mem.h"
 
+extern char		**environ;
 sig_atomic_t	g_exit_status;
 
 static void	_eval(t_shell *sh, t_parser *pst, char *rl)
@@ -48,7 +49,7 @@ static void	_reader_loop(t_shell *sh, t_parser *pst)
 			puterr_safe("exit\n");
 			break ;
 		}
-		if (*rl)
+		if (ft_strlen(rl) != 0)
 			_eval(sh, pst, rl);
 		free(rl);
 	}
@@ -64,7 +65,7 @@ int	main(int argc, char *argv[])
 	ft_memset(&sh, 0, sizeof(sh));
 	ft_memset(&pst, 0, sizeof(pst));
 	parser_stack_reserve(&pst, 1);
-	sh.var_list = new_env_var_list();
+	sh.var_list = strvec_to_var_list(environ);
 	_reader_loop(&sh, &pst);
 	free(pst.stack_base);
 	dispose_var_list(sh.var_list);

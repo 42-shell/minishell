@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 10:11:45 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 19:09:53 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 09:54:14 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 static int	_match_continuable(const char **pattern, const char **name,
 	const char **pattern_backup, const char **name_backup)
 {
-	if (**pattern == '/' && (!(*pattern)[1] || (*pattern)[1] == '/'))
+	if (**pattern == '/' && ((*pattern)[1] == '\0' || (*pattern)[1] == '/'))
 	{
 		(*pattern)++;
 		return (1);
@@ -34,13 +34,13 @@ static int	_match_continuable(const char **pattern, const char **name,
 		*name_backup = *name + 1;
 		return (1);
 	}
-	else if (**pattern && **name == **pattern)
+	else if (**pattern != '\0' && **name == **pattern)
 	{
 		(*pattern)++;
 		(*name)++;
 		return (1);
 	}
-	if (*name_backup && (*name)[-1])
+	if (*name_backup && (*name)[-1] != '\0')
 	{
 		*pattern = *pattern_backup;
 		*name = *name_backup;
@@ -56,7 +56,7 @@ static int	_match(const char *pattern, const char *name)
 
 	pattern_backup = NULL;
 	name_backup = NULL;
-	while (*pattern || *name)
+	while (*pattern != '\0' || *name != '\0')
 	{
 		if (!_match_continuable(&pattern, &name, &pattern_backup, &name_backup))
 			return (0);
@@ -67,17 +67,17 @@ static int	_match(const char *pattern, const char *name)
 static t_file_flags	_flags(const char *pattern)
 {
 	size_t			last;
-	t_file_flags	res;
+	t_file_flags	result;
 
 	last = 0;
-	while (pattern[last + 1])
+	while (pattern[last + 1] != '\0')
 		last++;
-	res = 0;
+	result = 0;
 	if (pattern[last] == '/')
-		set_flag(&res, FF_DIRECTORY);
+		set_flag(&result, FF_DIRECTORY);
 	if (pattern[0] == '.')
-		set_flag(&res, FF_HIDDEN);
-	return (res);
+		set_flag(&result, FF_HIDDEN);
+	return (result);
 }
 
 static char	*_entry_name(char *name, t_file_flags flags)

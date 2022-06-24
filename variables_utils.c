@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 05:44:15 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 11:43:50 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 #include "string_vector.h"
 #include "generic_list.h"
 
-extern char	**environ;
-
-static char	*_alloc_pair(const char *s, char **val_ptr, char delim)
+char	*alloc_str_pair(const char *s, char **val_ptr, char delim)
 {
 	const size_t	len = ft_strlen(s) + 1;
 	char *const		dup = ft_memcpy(calloc_safe(len, sizeof(char)), s, len);
@@ -37,7 +35,7 @@ static char	*_alloc_pair(const char *s, char **val_ptr, char delim)
 	return (dup);
 }
 
-t_list_var	*new_env_var_list(void)
+t_list_var	*strvec_to_var_list(char **arr)
 {
 	t_list_var	*list;
 	char		**vec;
@@ -46,15 +44,16 @@ t_list_var	*new_env_var_list(void)
 	int			attr;
 
 	list = NULL;
-	vec = environ;
+	vec = arr;
 	while (*vec)
 	{
-		temp = _alloc_pair(*vec, &value, '=');
-		if (temp == NULL)
-			exit(EXIT_FAILURE);
+		temp = alloc_str_pair(*vec, &value, '=');
 		attr = 0;
 		set_flag(&attr, VF_EXPORTED);
-		put_var(&list, temp, value, attr);
+		if (temp)
+			put_var(&list, temp, value, attr);
+		else
+			put_var(&list, *vec, NULL, attr);
 		free(temp);
 		vec++;
 	}
@@ -69,9 +68,10 @@ char	**var_list_to_strvec(t_list_var *list)
 	vec = NULL;
 	while (list)
 	{
-		if (!list->value)
-			continue ;
-		buf = str_append_format(NULL, "%s=%s", list->name, list->value);
+		if (list->value)
+			buf = str_append_format(NULL, "%s=%s", list->name, list->value);
+		else
+			buf = str_append(NULL, list->name);
 		vec = strv_append(vec, str_dispose(buf));
 		list = list->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 03:38:40 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 09:54:23 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,20 @@ int	gather_here_document(t_parser *pst)
 {
 	size_t	i;
 	size_t	n;
-	int		res;
+	int		result;
 
 	n = pst->here_document_index;
 	i = 0;
-	res = 0;
+	result = 0;
 	while (i < n)
 	{
-		if (res == 0)
-			res |= _make_here_document(pst->here_document[i]);
+		if (result == 0)
+			result |= _make_here_document(pst->here_document[i]);
 		else
 			dispose_word(&pst->here_document[i]->redirect.word);
 		pst->here_document[i] = NULL;
 		i++;
 	}
 	pst->here_document_index = 0;
-	return (res);
+	return (result);
 }

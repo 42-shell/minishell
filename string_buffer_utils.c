@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 22:19:15 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 09:45:26 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_str_buf	*str_append_number(t_str_buf *buf, int n)
 	size_t			i;
 
 	i = count;
-	if (!n)
+	if (n == 0)
 		arr[--i] = '0';
 	while (n)
 	{
@@ -48,10 +48,10 @@ t_str_buf	*str_append_format_v(t_str_buf *buf, const char *format,
 {
 	size_t	i;
 
-	while (*format)
+	while (*format != '\0')
 	{
 		i = 0;
-		while (format[i] && format[i] != '%')
+		while (format[i] != '\0' && format[i] != '%')
 			i++;
 		buf = str_append_raw(buf, format, i);
 		format += i;

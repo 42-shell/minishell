@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 04:43:03 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 09:45:53 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	parse(t_parser *pst)
 	token = TK_AGAIN;
 	pst->now->state = state;
 	pst->now->kind = token;
-	while (!pst->error)
+	while (pst->error == PE_SUCCESS)
 	{
 		if (token == TK_AGAIN)
 			token = read_token(pst);

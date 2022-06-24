@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 01:52:04 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 04:57:42 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 11:32:54 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -430,7 +430,7 @@ void	parser_stack_reserve(t_parser *pst, size_t n)
 		capacity <<= 1;
 	if (capacity == pst->stack_capacity)
 		return ;
-	attach = malloc_safe(capacity * sizeof(*pst->stack_base));
+	attach = calloc_safe(capacity, sizeof(*pst->stack_base));
 	detach = pst->stack_base;
 	ft_memcpy(attach, detach, pst->stack_capacity * sizeof(*pst->stack_base));
 	pst->stack_base = attach;

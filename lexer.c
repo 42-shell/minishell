@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 15:18:22 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 09:47:10 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static size_t	_parse_matched_quote(t_parser *pst, size_t len, char delim)
 	idx = 0;
 	if (str[idx] == delim)
 		idx++;
-	while (str[idx])
+	while (str[idx] != '\0')
 	{
 		if (str[idx++] == delim)
 			break ;
@@ -41,7 +41,8 @@ static t_token_kind	_read_token_word(t_parser *pst)
 
 	len = 0;
 	buf = NULL;
-	while (pst->str[len] && !has_flag(get_char_flags(pst->str[len]), CF_BREAK))
+	while (pst->str[len] != '\0'
+		&& !has_flag(get_char_flags(pst->str[len]), CF_BREAK))
 	{
 		if (has_flag(get_char_flags(pst->str[len]), CF_QUOTE))
 			len += _parse_matched_quote(pst, len, pst->str[len]);

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 05:18:32 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 11:18:27 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,9 +365,14 @@ void					put_var(t_list_var **list_ptr, char *name, char *value,
 							t_var_flags attr);
 void					unset_var(t_list_var **list_ptr, char *name);
 
-t_list_var				*new_env_var_list(void);
+char					*alloc_str_pair(const char *s, char **val_ptr,
+							char delim);
+t_list_var				*strvec_to_var_list(char **arr);
 char					**var_list_to_strvec(t_list_var *list);
 void					dispose_var_list(t_list_var *list);
+
+t_list_var				*clone_var_list(t_list_var *list);
+t_list_var				*sort_var_list(t_list_var *list);
 
 t_list_word				*new_expand_word_list(t_word *word);
 void					delete_expand_word_list(t_list_word *list);

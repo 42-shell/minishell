@@ -29,7 +29,7 @@ SOURCE = shell.c minishell_utils.c \
 			execute_command_redir.c execute_command_redir_undo.c \
 			execute_command_simple.c execute_command_jobs.c \
 			here_document.c here_document_pipe.c find_command.c glob.c \
-			variables.c variables_utils.c \
+			variables.c variables_utils.c variables_utils_sort.c \
 			expander.c expander_tear.c expander_fuse.c \
 			signals.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
@@ -56,7 +56,7 @@ READLINE_PATH = ..
 INCLUDE += -I$(READLINE_PATH)
 LDFLAGS += -L$(READLINE_PATH)/readline -lreadline -lhistory -lncurses
 
-C_SANITIZER_FLAGS = #address undefined
+C_SANITIZER_FLAGS = address undefined
 CFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 LDFLAGS += $(addprefix -fsanitize=, $(C_SANITIZER_FLAGS))
 

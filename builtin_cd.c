@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 05:26:24 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 11:08:16 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static int	_chdir(size_t argc, char **argv, t_list_var **envp)
 {
-	char 	*str;
+	char	*str;
 
 	if (argc < 1)
 		return (0);
