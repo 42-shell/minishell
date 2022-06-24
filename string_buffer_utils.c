@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 09:45:26 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 20:00:14 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ t_str_buf	*str_append_number(t_str_buf *buf, int n)
 	if (sign)
 		arr[--i] = '-';
 	return (str_append_raw(buf, arr + i, count - i));
+}
+
+t_str_buf	*str_append_character(t_str_buf *buf, char c)
+{
+	return (str_append_raw(buf, &c, sizeof(c)));
 }
 
 t_str_buf	*str_append_format(t_str_buf *buf, const char *format, ...)
@@ -60,6 +65,8 @@ t_str_buf	*str_append_format_v(t_str_buf *buf, const char *format,
 			format++;
 			if (*format == 's')
 				buf = str_append(buf, va_arg(*ap_ptr, char *));
+			else if (*format == 'c')
+				buf = str_append_character(buf, va_arg(*ap_ptr, int));
 			else if (*format == 'd' || *format == 'i')
 				buf = str_append_number(buf, va_arg(*ap_ptr, int));
 			format++;

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 10:11:45 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 09:54:14 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 20:20:55 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,17 @@ static t_file_flags	_flags(const char *pattern)
 	size_t			last;
 	t_file_flags	result;
 
-	last = 0;
-	while (pattern[last + 1] != '\0')
-		last++;
 	result = 0;
-	if (pattern[last] == '/')
-		set_flag(&result, FF_DIRECTORY);
-	if (pattern[0] == '.')
-		set_flag(&result, FF_HIDDEN);
+	if (ft_strlen(pattern[0]) != 0)
+	{
+		last = 0;
+		while (pattern[last + 1] != '\0')
+			last++;
+		if (pattern[last] == '/')
+			set_flag(&result, FF_DIRECTORY);
+		if (pattern[0] == '.')
+			set_flag(&result, FF_HIDDEN);
+	}
 	return (result);
 }
 

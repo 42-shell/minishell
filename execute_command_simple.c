@@ -6,11 +6,12 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 03:49:39 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 19:57:18 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
 #include "string_vector.h"
 #include <unistd.h>
 #include <errno.h>
@@ -36,7 +37,7 @@ static int	_execute_disk_command(t_shell *sh, char *file, char **argv,
 			exit(EX_NOTFOUND);
 		}
 		execve(file, argv, var_list_to_strvec(sh->var_list));
-		print_err("%s: %s (%d)\n", argv[0], strerror(errno), errno);
+		print_err("%s: %s\n", argv[0], strerror(errno));
 		if (errno == ENOENT)
 			exit(EX_NOTFOUND);
 		else
@@ -57,9 +58,9 @@ static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 
 	if (do_redirections(val->redirect_list, sh) < 0)
 		return (EXIT_FAILURE);
-	if (!val->word_list)
+	if (!val->word_list || ft_strlen(val->word_list->word.str) == 0)
 		return (EXIT_SUCCESS);
-	argv = strv_dispose(expand_list(NULL, sh, val->word_list, 1));
+	argv = word_expand(sh, val->word_list);
 	status = EXIT_SUCCESS;
 	cmd = argv[0];
 	builtin = get_builtin(cmd);

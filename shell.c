@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 10:44:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 19:50:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,13 @@ int	main(int argc, char *argv[])
 	free(pst.stack_base);
 	dispose_var_list(sh.var_list);
 	return (g_exit_status);
+}
+
+char	*get_ifs(t_list_var *v_list)
+{
+	char *const	value = get_var(v_list, "IFS", 0);
+
+	if (ft_strlen(value) == 0)
+		return (" \t\n");
+	return (value);
 }

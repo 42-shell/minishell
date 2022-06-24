@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:18:12 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 20:34:45 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 18:30:00 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 static int	_document_fd(t_redirect *redir, t_shell *sh)
 {
 	size_t		length;
-	char *const	document = expand_heredoc(sh, &redir->word, &length);
+	char *const	document = heredoc_expand(sh, &redir->word, &length);
 	int			here_pipe[2];
 
 	if (pipe(here_pipe) < 0)
@@ -54,7 +54,7 @@ static int	_redir_open(t_redirect *redir, t_shell *sh, int *err)
 		print_err("Unsupported redirect instruction %d\n", redir->instruction);
 		exit(EXIT_FAILURE);
 	}
-	name = expand_redir(sh, &redir->word, 1);
+	name = redir_expand(sh, &redir->word);
 	fd = -1;
 	if (name)
 		fd = open(name, flags, 0666);

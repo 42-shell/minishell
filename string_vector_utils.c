@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 17:36:34 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 12:44:20 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ void	free_strvec(char **arr)
 	char **const	vec = arr;
 
 	if (arr)
+	{
 		while (*arr)
 			free(*arr++);
+	}
 	free(vec);
 }

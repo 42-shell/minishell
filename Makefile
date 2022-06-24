@@ -30,7 +30,7 @@ SOURCE = shell.c minishell_utils.c \
 			execute_command_simple.c execute_command_jobs.c \
 			here_document.c here_document_pipe.c find_command.c glob.c \
 			variables.c variables_utils.c variables_utils_sort.c \
-			expander.c expander_tear.c expander_fuse.c \
+			word_list.c expander.c expander_tear.c expander_fuse.c \
 			signals.c
 OBJECT = $(addprefix $(OBJECTS_DIR), $(SOURCE:.c=.o))
 

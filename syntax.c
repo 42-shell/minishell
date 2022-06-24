@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/18 17:07:30 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 19:40:22 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,9 +308,19 @@ static const t_char_flags	g_syn_table[256] = {
 	CFV_WORD,				/* 255 */
 };
 
-t_char_flags	get_char_flags(int c)
+t_char_flags	char_flags(int c)
 {
 	return (g_syn_table[(unsigned char)c]);
+}
+
+size_t	next_syntax(char *s, t_char_flags flag)
+{
+	size_t	len;
+
+	len = 0;
+	while (s[len] != '\0' && !(char_flags(s[len]) & flag))
+		len++;
+	return (len);
 }
 
 static int	_get_condition(const uint32_t table[8], int c)

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 11:53:12 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 18:45:19 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,22 @@ typedef enum e_token_kind
 enum	e_word_flag_index
 {
 	WF_HAS_DOLLAR,
-	WF_UNQUOTED,
-	WF_GLOB,
+	WF_QUOTED,
+	WF_SPLITSPACE,
+	WF_PARAM,
+	WF_IFS,
 };
 
-typedef int							t_word_flags;
+typedef enum e_word_flags
+{
+	WFV_HAS_DOLLAR = 1 << WF_HAS_DOLLAR,
+	WFV_QUOTED = 1 << WF_QUOTED,
+	WFV_SPLITSPACE = 1 << WF_SPLITSPACE,
+	WFV_PARAM = 1 << WF_PARAM,
+	WFV_IFS = 1 << WF_IFS,
+	WFV_NOQUOTE = WFV_HAS_DOLLAR | WFV_SPLITSPACE,
+	WFV_DBLQUOTE = WFV_HAS_DOLLAR,
+}	t_word_flags;
 
 typedef struct s_word
 {
@@ -283,7 +294,8 @@ typedef struct s_str_vec			t_str_vec;
 void					print_err(const char *format, ...);
 void					exit_fail(const char *format, ...);
 
-t_char_flags			get_char_flags(int c);
+t_char_flags			char_flags(int c);
+size_t					next_syntax(char *s, t_char_flags flag);
 int						legal_variable_starter(int c);
 int						legal_variable_char(int c);
 t_token_kind			read_token(t_parser *pst);
@@ -344,6 +356,8 @@ t_token_kind			parser_reduce_17(t_parser *pst);
 t_token_kind			parser_reduce_18(t_parser *pst);
 t_token_kind			parser_reduce_19(t_parser *pst);
 
+char					*get_ifs(t_list_var *v_list);
+
 int						get_exit_status(int status);
 
 int						execute_command(t_shell *sh, t_command *cmd,
@@ -375,22 +389,23 @@ void					dispose_var_list(t_list_var *list);
 t_list_var				*clone_var_list(t_list_var *list);
 t_list_var				*sort_var_list(t_list_var *list);
 
-t_list_word				*new_expand_word_list(t_word *word);
-void					delete_expand_word_list(t_list_word *list);
-char					*join_expand_word_list(t_list_word *w_list,
-							t_list_var *v_list, int glob);
-t_str_vec				*file_expand(t_str_vec *vec, char *path, char *str);
+void					append_word_list(t_list_word **list_ptr, char *str,
+							t_word_flags flags);
+void					delete_word_list(t_list_word *list);
+void					singleton_word_list(t_list_word *ptr, t_word *word);
 
 char					*find_command(t_shell *sh, char *name);
 char					**glob_to_strvec(const char *path, const char *pattern);
 
-t_str_vec				*expand(t_str_vec *vec, t_shell *sh, t_word *word,
-							int glob);
-t_str_vec				*expand_list(t_str_vec *vec, t_shell *sh,
-							t_list_word *w_list, int glob);
-char					*expand_redir(t_shell *sh, t_word *word, int glob);
-void					expand_heredoc_eof(t_word *word);
-char					*expand_heredoc(t_shell *sh, t_word *word,
+t_list_word				*expand_map(t_list_word *w_list, t_list_var *v_list,
+							int mode);
+char					**expand_collect(t_list_word *w_list, char *path);
+char					*expand_collect_standalone(t_list_word *w_list);
+
+char					**word_expand(t_shell *sh, t_list_word *w_list);
+char					*redir_expand(t_shell *sh, t_word *word);
+void					heredoc_eof_expand(t_word *word);
+char					*heredoc_expand(t_shell *sh, t_word *word,
 							size_t *len_ptr);
 
 void					set_signal_handler(int state);
