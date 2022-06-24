@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 11:08:16 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 11:55:54 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "safe_io.h"
 #include "libft.h"
 #include "string_vector.h"
+#include <errno.h>
+#include <string.h>
 
 static int	_chdir(size_t argc, char **argv, t_list_var **envp)
 {
@@ -51,7 +53,7 @@ t_builtin_res	ft_cd(t_builtin_argv argv, t_builtin_envp envp)
 
 	if (!_chdir(argc, argv, envp))
 	{
-		puterr_safe("cd: chdir\n");
+		print_err("cd: %s\n", strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	_setenv(argc, argv, envp);

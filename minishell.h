@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 11:18:27 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 11:53:12 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,7 @@ typedef struct s_str_buf			t_str_buf;
 typedef struct s_str_vec			t_str_vec;
 
 void					print_err(const char *format, ...);
+void					exit_fail(const char *format, ...);
 
 t_char_flags			get_char_flags(int c);
 int						legal_variable_starter(int c);

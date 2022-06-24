@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 03:37:33 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 11:55:00 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ static char	*_wait_document_pipe_internal(int fildes[2], pid_t pid)
 	free(buf);
 	got_pid = waitpid(pid, &status, 0);
 	if (got_pid < 0)
-	{
-		puterr_safe("waitpid\n");
-		exit(EXIT_FAILURE);
-	}
+		exit_fail("waitpid\n");
 	if (WIFSIGNALED(status))
 		on_signal();
 	set_signal_handler(1);
@@ -83,21 +80,14 @@ char	*read_document_pipe(char *eof)
 	pid_t		pid;
 
 	if (pipe(fildes) < 0)
-	{
-		puterr_safe("pipe error\n");
-		exit(EXIT_FAILURE);
-	}
+		exit_fail("pipe error\n");
 	pid = fork();
 	if (pid < 0)
-	{
-		puterr_safe("fork\n");
-		exit(EXIT_FAILURE);
-	}
+		exit_fail("fork\n");
 	else if (pid == 0)
 	{
 		_write_document_pipe_internal(fildes, eof);
 		exit(EXIT_SUCCESS);
 	}
-	else
-		return (_wait_document_pipe_internal(fildes, pid));
+	return (_wait_document_pipe_internal(fildes, pid));
 }

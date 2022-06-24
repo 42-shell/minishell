@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 16:33:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 23:00:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/24 11:53:52 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,14 @@ void	do_piping(int pipe_in, int pipe_out, int pipe_next)
 	if (pipe_in != NO_PIPE)
 	{
 		if (dup2(pipe_in, STDIN_FILENO) < 0)
-		{
-			puterr_safe("dup\n");
-			exit(EXIT_FAILURE);
-		}
+			exit_fail("dup\n");
 		if (_is_regular_fd(pipe_in))
 			close(pipe_in);
 	}
 	if (pipe_out != NO_PIPE)
 	{
 		if (dup2(pipe_out, STDOUT_FILENO) < 0)
-		{
-			puterr_safe("dup\n");
-			exit(EXIT_FAILURE);
-		}
+			exit_fail("dup\n");
 		if (_is_regular_fd(pipe_out))
 			close(pipe_out);
 	}
@@ -57,10 +51,7 @@ pid_t	make_child(t_shell *sh)
 
 	pid = fork();
 	if (pid < 0)
-	{
-		puterr_safe("fork\n");
-		exit(EXIT_FAILURE);
-	}
+		exit_fail("fork\n");
 	if (pid == 0)
 	{
 		list_walk((void *)sh->pid_list, free_safe);
@@ -91,10 +82,7 @@ int	wait_for(t_shell *sh, pid_t pid)
 		next = sh->pid_list->next;
 		got_pid = waitpid(sh->pid_list->pid, &status, 0);
 		if (got_pid < 0)
-		{
-			puterr_safe("waitpid\n");
-			exit(EXIT_FAILURE);
-		}
+			exit_fail("waitpid\n");
 		free(sh->pid_list);
 		sh->pid_list = next;
 	}
