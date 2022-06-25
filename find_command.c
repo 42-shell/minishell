@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 19:10:38 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 03:02:19 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 13:23:00 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ static int	_file_status(char *path)
 	return (0);
 }
 
+static char	*_new_env_path(t_list_var *env)
+{
+	char	*value;
+
+	value = get_var(env, "PATH");
+	if (value)
+		value = str_dispose(str_append(NULL, value));
+	return (value);
+}
+
 char	*find_command(t_shell *sh, char *name)
 {
 	char	*var;
@@ -50,7 +60,7 @@ char	*find_command(t_shell *sh, char *name)
 	if (ft_strchr(name, '/'))
 		return (_make_path(NULL, name));
 	full_path = NULL;
-	var = get_var(sh->var_list, "PATH", 1);
+	var = _new_env_path(sh->var_list);
 	path_list = var;
 	while (path_list)
 	{

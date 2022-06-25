@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 12:59:42 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 13:24:41 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*_get_param_value(char *buf, size_t *len, t_list_var *v_list)
 		if (ft_strcmp(name, "?") == 0)
 			value = str_append_number(NULL, g_exit_status);
 		else
-			value = str_append(NULL, get_var(v_list, name, 0));
+			value = str_append_nullable(NULL, get_var(v_list, name), "");
 		free(name);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 20:00:14 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 13:24:16 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ t_str_buf	*str_append_number(t_str_buf *buf, int n)
 t_str_buf	*str_append_character(t_str_buf *buf, char c)
 {
 	return (str_append_raw(buf, &c, sizeof(c)));
+}
+
+t_str_buf	*str_append_nullable(t_str_buf *buf, char *s, char *def)
+{
+	if (!s)
+		s = def;
+	return (str_append(buf, s));
 }
 
 t_str_buf	*str_append_format(t_str_buf *buf, const char *format, ...)

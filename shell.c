@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 13:04:28 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 13:13:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ int	main(int argc, char *argv[])
 
 char	*get_ifs(t_list_var *v_list)
 {
-	char *const	value = get_var(v_list, "IFS", 0);
+	char *const	value = get_var(v_list, "IFS");
 
-	if (ft_strlen(value) == 0)
+	if (!value)
 		return (" \t\n");
 	return (value);
 }
