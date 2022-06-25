@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 12:02:28 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 12:50:02 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,7 +356,6 @@ t_token_kind			parser_reduce_18(t_parser *pst);
 t_token_kind			parser_reduce_19(t_parser *pst);
 
 char					*get_ifs(t_list_var *v_list);
-char					*get_home(t_list_var *v_list);
 
 int						get_exit_status(int status);
 

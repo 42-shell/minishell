@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 12:23:19 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 12:59:42 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ static void	_append_split(t_list_word **new_list_ptr, t_list_word *item,
 		len = 0;
 		while (str[len] != '\0' && ft_strchr(get_ifs(v_list), str[len]))
 			len++;
-		str += len;
 		if (len != 0 && str[len] != '\0')
 			append_word_list(new_list_ptr, str_dispose(NULL), WFV_IFS);
+		str += len;
 		len = 0;
 		while (str[len] != '\0' && !ft_strchr(get_ifs(v_list), str[len]))
 			len++;
