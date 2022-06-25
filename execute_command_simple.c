@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 14:43:07 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/26 00:37:39 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 	if (!val->word_list)
 		return (EXIT_SUCCESS);
 	argv = word_expand(sh, val->word_list);
+	if (length_strvec(argv) <= 0)
+		return (EXIT_SUCCESS);
 	status = EXIT_SUCCESS;
 	cmd = argv[0];
 	builtin = get_builtin(cmd);
 	if (builtin)
 		status = (builtin(argv, &sh->var_list));
-	else if (ft_strlen(cmd) != 0)
+	else
 	{
 		cmd = find_command(sh, cmd);
 		status = _execute_disk_command(sh, cmd, argv, flags);

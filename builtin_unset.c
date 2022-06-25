@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 09:58:35 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/26 01:11:44 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,5 @@ t_builtin_res	ft_unset(t_builtin_argv argv, t_builtin_envp envp)
 	i = 0;
 	while (argv[i])
 		unset_var(envp, argv[i++]);
-		i++;
 	return (EXIT_SUCCESS);
 }

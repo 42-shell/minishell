@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 13:13:32 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 23:59:59 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	_eval(t_shell *sh, t_parser *pst, char *rl)
 		sh->next_pipe = NO_PIPE;
 		g_exit_status = execute_command(sh, &pst->now->command,
 				NO_PIPE, NO_PIPE);
-		add_history(rl);
 	}
 	else if (pst->error != PE_SUCCESS && pst->error != PE_AGAIN)
 		g_exit_status = EX_BADUSAGE;
@@ -56,6 +55,8 @@ static void	_reader_loop(t_shell *sh, t_parser *pst, int interactive)
 				puterr_safe("exit\n");
 			break ;
 		}
+		if (ft_strlen(rl) != 0)
+			add_history(rl);
 		_eval(sh, pst, rl);
 		free(rl);
 	}

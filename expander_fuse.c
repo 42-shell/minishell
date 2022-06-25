@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 12:02:39 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/26 01:33:46 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,47 +59,44 @@ static t_str_vec	*_expand_file_glob(t_str_vec *vec, char *path, char *s)
 
 char	**expand_collect(t_list_word *w_list, char *path)
 {
-	t_list_word	*it;
 	t_str_vec	*vec;
 	t_str_buf	*buf;
 	char		*str;
 
 	vec = NULL;
 	buf = NULL;
-	it = w_list;
-	while (it)
+	while (w_list)
 	{
-		str = str_dispose(str_append(NULL, it->word.str));
-		if (has_flag(it->word.flags, WF_SPLIT))
+		str = str_dispose(str_append(NULL, w_list->word.str));
+		if (has_flag(w_list->word.flags, WF_SPLIT))
 			str = _subst(str, '*', '\001');
-		buf = str_append(buf, str);
+		if (!has_flag(w_list->word.flags, WF_IFS))
+			buf = str_append(buf, str);
 		free(str);
-		if ((buf && has_flag(it->word.flags, WF_IFS)) || !it->next)
+		if (buf && (has_flag(w_list->word.flags, WF_IFS) || !w_list->next))
 		{
 			str = str_dispose(buf);
 			vec = _expand_file_glob(vec, path, str);
 			free(str);
 			buf = NULL;
 		}
-		it = it->next;
+		w_list = w_list->next;
 	}
 	return (strv_dispose(vec));
 }
 
 char	*expand_collect_standalone(t_list_word *w_list)
 {
-	t_list_word	*it;
 	t_str_buf	*buf;
 	char		*str;
 
-	it = w_list;
 	buf = NULL;
-	while (it)
+	while (w_list)
 	{
-		str = str_dispose(str_append(NULL, it->word.str));
+		str = str_dispose(str_append(NULL, w_list->word.str));
 		buf = str_append(buf, str);
 		free(str);
-		it = it->next;
+		w_list = w_list->next;
 	}
 	return (str_dispose(buf));
 }

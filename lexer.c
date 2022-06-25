@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 12:32:16 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/26 00:19:37 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,19 @@ static size_t	_parse_matched_quote(t_parser *pst, size_t len, char delim)
 	return (idx);
 }
 
+static void	_backup_word(t_parser *pst, char *str)
+{
+	t_word	word;
+
+	word.str = str;
+	free(pst->backup_word.str);
+	pst->backup_word = word;
+}
+
 static t_token_kind	_read_token_word(t_parser *pst)
 {
 	size_t		len;
 	t_str_buf	*buf;
-	t_word		word;
 
 	len = 0;
 	buf = NULL;
@@ -58,9 +66,7 @@ static t_token_kind	_read_token_word(t_parser *pst)
 		buf = str_append_raw(buf, pst->str, len);
 		pst->str += len;
 	}
-	word.str = str_dispose(buf);
-	free(pst->backup_word.str);
-	pst->backup_word = word;
+	_backup_word(pst, str_dispose(buf));
 	return (TK_WORD);
 }
 
@@ -77,8 +83,13 @@ static t_token_kind	_read_token_meta(t_parser *pst)
 		return (TK_AND_AND);
 	else if (tok == '|' && *pst->str == '|' && pst->str++)
 		return (TK_OR_OR);
-	if (tok == '&' || tok == ';')
-		return (TK_UNDEFINED);
+	if (tok == '&')
+	{
+		pst->str -= 1;
+		_backup_word(pst, str_dispose(str_append_raw(NULL, pst->str, 1)));
+		pst->str += 1;
+		return (TK_WORD);
+	}
 	return (tok);
 }
 

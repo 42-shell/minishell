@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 15:37:07 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/22 13:58:25 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/26 01:41:48 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,11 @@ static void	_resize_buffer(t_str_buf *buf, size_t n)
 
 t_str_buf	*str_append_raw(t_str_buf *buf, const char *s, size_t n)
 {
-	if (n)
-	{
-		if (buf == NULL)
-			buf = calloc_safe(1, sizeof(t_str_buf));
-		_resize_buffer(buf, n);
-		_memcpy(&buf->str[buf->length], s, n);
-		buf->length += n;
-	}
+	if (buf == NULL)
+		buf = calloc_safe(1, sizeof(t_str_buf));
+	_resize_buffer(buf, n);
+	_memcpy(&buf->str[buf->length], s, n);
+	buf->length += n;
 	return (buf);
 }
 
