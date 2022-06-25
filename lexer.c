@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 12:19:34 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 12:32:16 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ static t_token_kind	_read_token_word(t_parser *pst)
 		else
 			len++;
 	}
-	buf = str_append_raw(buf, pst->str, len);
 	if (pst->error == PE_SUCCESS)
+	{
+		buf = str_append_raw(buf, pst->str, len);
 		pst->str += len;
+	}
 	word.str = str_dispose(buf);
 	free(pst->backup_word.str);
 	pst->backup_word = word;
