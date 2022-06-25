@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 21:29:01 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 14:35:44 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_builtin_res	ft_exit(t_builtin_argv argv, t_builtin_envp envp)
 
 	(void)&argv;
 	(void)&envp;
-	putstr_safe("exit\n");
+	if (isatty(STDIN_FILENO))
+		putstr_safe("exit\n");
 	if (argc == 1)
 		status = g_exit_status;
 	else if (!try_atoi(argv[1], &status))

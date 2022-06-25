@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 20:46:29 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/23 22:37:19 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 14:24:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static void	_handle_signal(int sig)
 		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
-		g_exit_status = EXIT_FAILURE;
 	}
+	g_exit_status = get_exit_status(sig);
 }
 
 static void	_assert_signal(void *ptr)

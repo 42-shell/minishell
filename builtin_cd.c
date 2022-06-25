@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 13:27:47 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 13:39:29 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "string_vector.h"
 #include <errno.h>
 #include <string.h>
+#include <stdio.h>
 
 static char	*_get_env_path(t_list_var *env, char *name)
 {
