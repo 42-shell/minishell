@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 20:13:10 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 12:23:19 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*_get_param_value(char *buf, size_t *len, t_list_var *v_list)
 		while (legal_variable_char(buf[*len]))
 			(*len)++;
 	}
-	else if (ft_strchr("?", buf[*len]))
+	else if (buf[*len] != '\0' && ft_strchr("?", buf[*len]))
 		(*len)++;
 	if (*len - 1)
 	{
@@ -110,14 +110,14 @@ static void	_append_split(t_list_word **new_list_ptr, t_list_word *item,
 
 	str = item->word.str;
 	flags = item->word.flags;
-	while (*str != '\0' && has_flag(flags, WF_SPLITSPACE)
+	while (*str != '\0' && has_flag(flags, WF_SPLIT)
 		&& has_flag(flags, WF_PARAM))
 	{
 		len = 0;
 		while (str[len] != '\0' && ft_strchr(get_ifs(v_list), str[len]))
 			len++;
 		str += len;
-		if (len != 0)
+		if (len != 0 && str[len] != '\0')
 			append_word_list(new_list_ptr, str_dispose(NULL), WFV_IFS);
 		len = 0;
 		while (str[len] != '\0' && !ft_strchr(get_ifs(v_list), str[len]))

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 21:35:16 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 12:02:39 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**expand_collect(t_list_word *w_list, char *path)
 	while (it)
 	{
 		str = str_dispose(str_append(NULL, it->word.str));
-		if (has_flag(it->word.flags, WF_SPLITSPACE))
+		if (has_flag(it->word.flags, WF_SPLIT))
 			str = _subst(str, '*', '\001');
 		buf = str_append(buf, str);
 		free(str);

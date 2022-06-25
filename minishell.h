@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 22:25:46 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 12:02:28 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ typedef enum e_token_kind
 enum	e_word_flag_index
 {
 	WF_HAS_DOLLAR,
-	WF_QUOTED,
-	WF_SPLITSPACE,
+	WF_SPLIT,
 	WF_PARAM,
 	WF_IFS,
 };
@@ -96,11 +95,10 @@ enum	e_word_flag_index
 typedef enum e_word_flags
 {
 	WFV_HAS_DOLLAR = 1 << WF_HAS_DOLLAR,
-	WFV_QUOTED = 1 << WF_QUOTED,
-	WFV_SPLITSPACE = 1 << WF_SPLITSPACE,
+	WFV_SPLIT = 1 << WF_SPLIT,
 	WFV_PARAM = 1 << WF_PARAM,
 	WFV_IFS = 1 << WF_IFS,
-	WFV_NOQUOTE = WFV_HAS_DOLLAR | WFV_SPLITSPACE,
+	WFV_NOQUOTE = WFV_HAS_DOLLAR | WFV_SPLIT,
 	WFV_DBLQUOTE = WFV_HAS_DOLLAR,
 }	t_word_flags;
 
@@ -358,6 +356,7 @@ t_token_kind			parser_reduce_18(t_parser *pst);
 t_token_kind			parser_reduce_19(t_parser *pst);
 
 char					*get_ifs(t_list_var *v_list);
+char					*get_home(t_list_var *v_list);
 
 int						get_exit_status(int status);
 

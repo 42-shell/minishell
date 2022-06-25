@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 18:30:21 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 11:41:40 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ static int	_make_here_document(t_list_redirect *r)
 	swap_word(&r->redirect.word, &document);
 	dispose_word(&word);
 	dispose_word(&document);
+	if (g_exit_status != EXIT_SUCCESS)
+	{
+		free(r->redirect.word.str);
+		r->redirect.word.str = NULL;
+	}
 	return (!r->redirect.word.str);
 }
 

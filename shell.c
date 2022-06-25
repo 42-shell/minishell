@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 22:27:02 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 12:21:07 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int argc, char *argv[])
 	parser_stack_reserve(&pst, 1);
 	sh.var_list = strvec_to_var_list(environ);
 	_reader_loop(&sh, &pst, isatty(STDIN_FILENO));
+	dispose_word(&pst.backup_word);
 	free(pst.stack_base);
 	dispose_var_list(sh.var_list);
 	return (g_exit_status);
@@ -86,4 +87,9 @@ char	*get_ifs(t_list_var *v_list)
 	if (ft_strlen(value) == 0)
 		return (" \t\n");
 	return (value);
+}
+
+char	*get_home(t_list_var *v_list)
+{
+	return (get_var(v_list, "HOME", 0));
 }

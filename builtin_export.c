@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 11:37:12 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 11:37:54 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_builtin_res	ft_export(t_builtin_argv argv, t_builtin_envp envp)
 		else
 		{
 			err |= 1;
-			print_err("export: not an identifier: %s\n", argv[i]);
+			print_err("export: `%s': not a valid identifier\n", argv[i]);
 		}
 		i++;
 	}

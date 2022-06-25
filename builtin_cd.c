@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 21:42:05 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/25 12:13:16 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,34 @@ static int	_chdir(size_t argc, char **argv, t_list_var **envp)
 {
 	char	*str;
 
-	if (argc < 1)
-		return (0);
-	else if (argc > 1)
-		str = argv[1];
+	if (argc <= 1 || ft_strcmp(argv[1], "~") == 0)
+		str = get_home(*envp);
+	else if (ft_strcmp(argv[1], "-") == 0)
+		str = get_var(*envp, "OLDPWD", 0);
 	else
-		str = "~";
-	if (ft_strcmp(str, "~") == 0)
-		return (!(chdir(get_var(*envp, "HOME", 0)) < 0));
-	else if (ft_strcmp(str, "-") == 0)
-		return (!(chdir(get_var(*envp, "OLDPWD", 0)) < 0));
+		str = argv[1];
 	return (!(chdir(str) < 0));
 }
 
-static void	_setenv(size_t argc, char **argv, t_list_var **envp, char *cwd)
+static int	_setenv(size_t argc, char **argv, t_list_var **envp)
 {
+	char *const	cwd = getcwd(NULL, 0);
+
+	if (!cwd)
+		return (0);
 	put_var(envp, "OLDPWD", get_var(*envp, "PWD", 0), VFV_EXPORTED);
 	put_var(envp, "PWD", cwd, VFV_EXPORTED);
 	if (argc > 1 && ft_strcmp(argv[1], "-") == 0)
 		printf("%s\n", cwd);
 	free(cwd);
+	return (1);
 }
 
 t_builtin_res	ft_cd(t_builtin_argv argv, t_builtin_envp envp)
 {
 	const size_t	argc = length_strvec(argv);
-	char *const		cwd = getcwd(NULL, 0);
 
-	if (!cwd || !_chdir(argc, argv, envp))
+	if (!_chdir(argc, argv, envp) || !_setenv(argc, argv, envp))
 	{
 		if (argc > 1)
 			print_err("cd: %s: %s\n", argv[1], strerror(errno));
@@ -56,6 +56,5 @@ t_builtin_res	ft_cd(t_builtin_argv argv, t_builtin_envp envp)
 			print_err("cd: %s\n", strerror(errno));
 		return (EXIT_FAILURE);
 	}
-	_setenv(argc, argv, envp, cwd);
 	return (EXIT_SUCCESS);
 }
