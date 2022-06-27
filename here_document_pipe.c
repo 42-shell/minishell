@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 20:59:17 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 02:39:19 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-static void	_write_document_pipe_internal(int fildes[2], char *eof)
+static void	_write_document_pipe_internal(int fildes[2], char *eof, t_shell *sh)
 {
 	char	*str;
 
 	set_signal_handler(2);
 	close(fildes[STDIN_FILENO]);
-	str = read_document(eof);
+	str = read_document(eof, sh);
 	write_safe(fildes[STDOUT_FILENO], str, ft_strlen(str));
 	free(str);
 	close(fildes[STDOUT_FILENO]);
@@ -74,7 +74,7 @@ static char	*_wait_document_pipe_internal(int fildes[2], pid_t pid)
 	return (str);
 }
 
-char	*read_document_pipe(char *eof)
+char	*read_document_pipe(char *eof, t_shell *sh)
 {
 	int			fildes[2];
 	pid_t		pid;
@@ -86,7 +86,7 @@ char	*read_document_pipe(char *eof)
 		exit_fail("fork");
 	else if (pid == 0)
 	{
-		_write_document_pipe_internal(fildes, eof);
+		_write_document_pipe_internal(fildes, eof, sh);
 		exit(EXIT_SUCCESS);
 	}
 	return (_wait_document_pipe_internal(fildes, pid));

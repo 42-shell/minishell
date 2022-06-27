@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/27 21:42:00 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 02:58:48 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 
 t_list_var	*clone_var_list(t_list_var *list)
 {
-	char		**arr;
 	t_list_var	*new_list;
 
-	arr = var_list_to_strvec(list, 1);
-	new_list = strvec_to_var_list(arr, 1);
-	free_strvec(arr);
+	new_list = NULL;
+	while (list)
+	{
+		put_var(&new_list, list->name, list->value, list->attr);
+		list = list->next;
+	}
 	return (new_list);
 }
 

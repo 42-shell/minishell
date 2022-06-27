@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 00:37:03 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 02:45:27 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 #include "safe_io.h"
 #include "string_buffer.h"
 #include "string_vector.h"
+
+static t_str_buf	*_append_attributes(t_str_buf *buf, t_var_flags attr)
+{
+	buf = str_append(buf, "declare -");
+	if (has_flag(attr, VF_EXPORTED))
+		buf = str_append(buf, "x");
+	if (attr == 0)
+		buf = str_append(buf, "-");
+	return (buf);
+}
 
 static int	_show(t_list_var **envp)
 {
@@ -27,15 +37,15 @@ static int	_show(t_list_var **envp)
 	it = list;
 	while (it)
 	{
-		buf = str_append(buf, "declare -");
 		if (has_flag(it->attr, VF_EXPORTED))
-			buf = str_append(buf, "x");
-		if (it->attr == 0)
-			buf = str_append(buf, "-");
-		if (it->value)
-			buf = str_append_format(buf, " %s=\"%s\"\n", it->name, it->value);
-		else
-			buf = str_append_format(buf, " %s\n", it->name);
+		{
+			buf = _append_attributes(buf, it->attr);
+			if (it->value)
+				buf = str_append_format(buf, " %s=\"%s\"\n", it->name,
+						it->value);
+			else
+				buf = str_append_format(buf, " %s\n", it->name);
+		}
 		it = it->next;
 	}
 	str = str_dispose(buf);

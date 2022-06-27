@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:18:12 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/27 21:52:46 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 03:17:05 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	do_redirections(t_list_redirect *r_list, t_shell *sh)
 	while (r_list)
 	{
 		name = redir_expand(sh, &r_list->redirect.word);
-		if (!name)
+		if (!name && r_list->redirect.instruction != R_READING_UNTIL)
 		{
 			res = -1;
 			print_err("%s: ambiguous redirect\n", r_list->redirect.word.str);
@@ -94,7 +94,6 @@ int	do_redirections(t_list_redirect *r_list, t_shell *sh)
 		if (res < 0)
 			break ;
 		r_list = r_list->next;
-		res++;
 	}
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/27 21:42:13 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 02:56:53 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	_shell_execve(t_shell *sh, char *file, char **argv)
 			exit(EX_NOTFOUND);
 		}
 	}
-	envp = var_list_to_strvec(sh->var_list, 0);
+	envp = var_list_to_strvec(sh->var_list, VFV_EXPORTED);
 	execve(path, argv, envp);
 	free(path);
 	free_strvec(envp);

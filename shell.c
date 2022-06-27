@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/27 21:42:20 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 03:06:00 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	_eval(t_shell *sh, t_parser *pst, char *rl)
 	pst->str = rl;
 	pst->begin = pst->str;
 	pst->error = PE_SUCCESS;
-	if (parse(pst) & (gather_here_document(pst) == 0))
+	if (parse(pst) & (gather_here_document(pst, sh) == 0))
 	{
 		sh->next_pipe = NO_PIPE;
 		g_exit_status = execute_command(sh, &pst->now->command,
@@ -46,7 +46,7 @@ static void	_reader_loop(t_shell *sh, t_parser *pst, int interactive)
 	while (1)
 	{
 		if (interactive)
-			rl = readline("$ ");
+			rl = readline(get_var(sh->var_list, "PS1"));
 		else
 			rl = readline(NULL);
 		if (!rl)
@@ -62,6 +62,13 @@ static void	_reader_loop(t_shell *sh, t_parser *pst, int interactive)
 	}
 }
 
+static void	_initialize_var_list(t_list_var **v_list_ptr)
+{
+	put_var(v_list_ptr, "PS1", "$ ", 0);
+	put_var(v_list_ptr, "PS2", "> ", 0);
+	put_var(v_list_ptr, "IFS", " \t\n", 0);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_shell		sh;
@@ -73,7 +80,8 @@ int	main(int argc, char *argv[])
 	ft_memset(&sh, 0, sizeof(sh));
 	ft_memset(&pst, 0, sizeof(pst));
 	parser_stack_reserve(&pst, 1);
-	sh.var_list = strvec_to_var_list(environ, 1);
+	_initialize_var_list(&sh.var_list);
+	strvec_to_var_list(&sh.var_list, environ, VFV_EXPORTED);
 	_reader_loop(&sh, &pst, isatty(STDIN_FILENO));
 	dispose_word(&pst.backup_word);
 	free(pst.stack_base);

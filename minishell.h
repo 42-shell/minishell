@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 00:19:49 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 02:56:46 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,9 +332,9 @@ void					dispose_redirect(t_redirect *item);
 void					dispose_command(t_command *item);
 
 void					push_here_document(t_parser *pst, t_list_redirect *r);
-int						gather_here_document(t_parser *pst);
-char					*read_document(char *eof);
-char					*read_document_pipe(char *eof);
+int						gather_here_document(t_parser *pst, t_shell *sh);
+char					*read_document(char *eof, t_shell *sh);
+char					*read_document_pipe(char *eof, t_shell *sh);
 
 char					*get_token_str(t_token_kind token);
 void					swap_word(t_word *a, t_word *b);
@@ -390,8 +390,10 @@ void					unset_var(t_list_var **list_ptr, char *name);
 int						is_legal_variable(const char *s, size_t *index_ptr);
 char					*alloc_str_pair(const char *s, char **val_ptr,
 							char delim);
-t_list_var				*strvec_to_var_list(char **arr, int all);
-char					**var_list_to_strvec(t_list_var *list, int all);
+void					strvec_to_var_list(t_list_var **list_ptr, char **arr,
+							t_var_flags attr);
+char					**var_list_to_strvec(t_list_var *list,
+							t_var_flags attr);
 void					dispose_var_list(t_list_var *list);
 
 t_list_var				*clone_var_list(t_list_var *list);

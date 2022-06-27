@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:32:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 00:41:50 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 02:58:34 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,32 +83,23 @@ char	*alloc_str_pair(const char *s, char **val_ptr, char delim)
 	return (dup);
 }
 
-t_list_var	*strvec_to_var_list(char **arr, int all)
+void	strvec_to_var_list(t_list_var **list_ptr, char **arr, t_var_flags attr)
 {
-	t_list_var	*list;
 	char		**vec;
 	char		*temp;
 	char		*value;
-	int			attr;
 
-	list = NULL;
 	vec = arr;
 	while (*vec)
 	{
 		temp = alloc_str_pair(*vec, &value, '=');
-		if (all || value)
-		{
-			attr = 0;
-			set_flag(&attr, VF_EXPORTED);
-			put_var(&list, temp, value, attr);
-		}
+		put_var(list_ptr, temp, value, attr);
 		free(temp);
 		vec++;
 	}
-	return (list);
 }
 
-char	**var_list_to_strvec(t_list_var *list, int all)
+char	**var_list_to_strvec(t_list_var *list, t_var_flags attr)
 {
 	t_str_vec	*vec;
 	t_str_buf	*buf;
@@ -116,14 +107,11 @@ char	**var_list_to_strvec(t_list_var *list, int all)
 	vec = NULL;
 	while (list)
 	{
-		if (list->value)
+		if ((list->attr & attr) == attr && list->value)
+		{
 			buf = str_append_format(NULL, "%s=%s", list->name, list->value);
-		else if (all)
-			buf = str_append(NULL, list->name);
-		else
-			buf = NULL;
-		if (buf)
 			vec = strv_append(vec, str_dispose(buf));
+		}
 		list = list->next;
 	}
 	return (strv_dispose(vec));

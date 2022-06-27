@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 19:01:17 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 11:41:40 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 02:39:52 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	push_here_document(t_parser *pst, t_list_redirect *r)
 	pst->here_document[pst->here_document_index++] = r;
 }
 
-char	*read_document(char *eof)
+char	*read_document(char *eof, t_shell *sh)
 {
 	t_str_buf	*buf;
 	char		*str;
@@ -36,7 +36,7 @@ char	*read_document(char *eof)
 	line = 0;
 	while (1)
 	{
-		str = readline("> ");
+		str = readline(get_var(sh->var_list, "PS2"));
 		line++;
 		if (!str)
 		{
@@ -55,7 +55,7 @@ char	*read_document(char *eof)
 	return (str_dispose(buf));
 }
 
-static int	_make_here_document(t_list_redirect *r)
+static int	_make_here_document(t_list_redirect *r, t_shell *sh)
 {
 	t_word		word;
 	t_word		document;
@@ -64,7 +64,7 @@ static int	_make_here_document(t_list_redirect *r)
 	ft_memset(&document, 0, sizeof(document));
 	swap_word(&word, &r->redirect.word);
 	heredoc_eof_expand(&word);
-	document.str = read_document_pipe(word.str);
+	document.str = read_document_pipe(word.str, sh);
 	document.flags = word.flags;
 	swap_word(&r->redirect.word, &document);
 	dispose_word(&word);
@@ -77,7 +77,7 @@ static int	_make_here_document(t_list_redirect *r)
 	return (!r->redirect.word.str);
 }
 
-int	gather_here_document(t_parser *pst)
+int	gather_here_document(t_parser *pst, t_shell *sh)
 {
 	size_t	i;
 	size_t	n;
@@ -89,7 +89,7 @@ int	gather_here_document(t_parser *pst)
 	while (i < n)
 	{
 		if (result == 0)
-			result |= _make_here_document(pst->here_document[i]);
+			result |= _make_here_document(pst->here_document[i], sh);
 		else
 			dispose_word(&pst->here_document[i]->redirect.word);
 		pst->here_document[i] = NULL;
