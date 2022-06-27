@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 13:12:46 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 00:19:49 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include <stdlib.h>
-# include <stddef.h>
 # include <signal.h>
+
+# include <stdlib.h>
+# include <stdint.h>
+# include <stddef.h>
 
 extern sig_atomic_t					g_exit_status;
 
@@ -271,6 +273,13 @@ enum	e_file_flag_index
 
 typedef int							t_file_flags;
 
+typedef enum e_file_status
+{
+	FS_NOT_FOUND,
+	FS_PROGRAM,
+	FS_PATHNAME,
+}	t_file_status;
+
 typedef struct s_list_var
 {
 	struct s_list_var	*next;
@@ -295,8 +304,7 @@ void					exit_fail(const char *s);
 
 t_char_flags			char_flags(int c);
 size_t					next_syntax(char *s, t_char_flags flag);
-int						legal_variable_starter(int c);
-int						legal_variable_char(int c);
+int						legal_condition(const uint32_t table[8], int c);
 t_token_kind			read_token(t_parser *pst);
 int						parse(t_parser *pst);
 
@@ -379,10 +387,11 @@ void					put_var(t_list_var **list_ptr, char *name, char *value,
 							t_var_flags attr);
 void					unset_var(t_list_var **list_ptr, char *name);
 
+int						is_legal_variable(const char *s, size_t *index_ptr);
 char					*alloc_str_pair(const char *s, char **val_ptr,
 							char delim);
-t_list_var				*strvec_to_var_list(char **arr);
-char					**var_list_to_strvec(t_list_var *list);
+t_list_var				*strvec_to_var_list(char **arr, int all);
+char					**var_list_to_strvec(t_list_var *list, int all);
 void					dispose_var_list(t_list_var *list);
 
 t_list_var				*clone_var_list(t_list_var *list);
@@ -393,13 +402,16 @@ void					append_word_list(t_list_word **list_ptr, char *str,
 void					delete_word_list(t_list_word *list);
 void					singleton_word_list(t_list_word *ptr, t_word *word);
 
-char					*find_command(t_shell *sh, char *name);
-char					**glob_to_strvec(const char *path, const char *pattern);
+char					*resolve_path(char *path, char *name);
+t_file_status			file_status(char *path);
+int						is_absolute_path(char *name, t_file_status type);
+char					*find_path(char *var, char *name, t_file_status type);
 
 t_list_word				*expand_map(t_list_word *w_list, t_list_var *v_list,
 							int mode);
 char					**expand_collect(t_list_word *w_list, char *path);
 char					*expand_collect_standalone(t_list_word *w_list);
+char					**glob_to_strvec(const char *path, const char *pattern);
 
 char					**word_expand(t_shell *sh, t_list_word *w_list);
 char					*redir_expand(t_shell *sh, t_word *word);

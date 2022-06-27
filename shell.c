@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:34:05 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 23:59:59 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/27 21:42:20 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int argc, char *argv[])
 	ft_memset(&sh, 0, sizeof(sh));
 	ft_memset(&pst, 0, sizeof(pst));
 	parser_stack_reserve(&pst, 1);
-	sh.var_list = strvec_to_var_list(environ);
+	sh.var_list = strvec_to_var_list(environ, 1);
 	_reader_loop(&sh, &pst, isatty(STDIN_FILENO));
 	dispose_word(&pst.backup_word);
 	free(pst.stack_base);

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:18:12 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 18:30:00 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/27 21:52:46 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ static int	_document_fd(t_redirect *redir, t_shell *sh)
 	return (here_pipe[STDIN_FILENO]);
 }
 
-static int	_redir_open(t_redirect *redir, t_shell *sh, int *err)
+static int	_redir_open(t_redirect *redir, char *name, t_shell *sh)
 {
 	int		flags;
-	char	*name;
-	int		fd;
 
 	if (redir->instruction == R_OUTPUT_DIRECTION)
 		flags = O_TRUNC | O_WRONLY | O_CREAT;
@@ -54,32 +52,23 @@ static int	_redir_open(t_redirect *redir, t_shell *sh, int *err)
 		print_err("Unsupported redirect instruction %d\n", redir->instruction);
 		exit(EXIT_FAILURE);
 	}
-	name = redir_expand(sh, &redir->word);
-	fd = -1;
-	if (name)
-		fd = open(name, flags, 0666);
-	else
-		*err = -2;
-	free(name);
-	return (fd);
+	return (open(name, flags, 0666));
 }
 
-static int	_do_redirection(t_list_redirect *r, t_shell *sh)
+static int	_do_redirection(t_list_redirect *r, char *name, t_shell *sh)
 {
 	t_redirect *const	redir = &r->redirect;
 	int					fd;
 	int					res;
-	int					err;
 
-	err = -1;
-	fd = _redir_open(redir, sh, &err);
+	fd = _redir_open(redir, name, sh);
 	if (fd < 0)
-		return (err);
+		return (0);
 	res = dup2(fd, redir->redirectee) < 0;
 	close(fd);
 	if (res < 0)
-		return (-1);
-	return (0);
+		return (0);
+	return (1);
 }
 
 int	do_redirections(t_list_redirect *r_list, t_shell *sh)
@@ -90,17 +79,22 @@ int	do_redirections(t_list_redirect *r_list, t_shell *sh)
 	res = 0;
 	while (r_list)
 	{
-		res = _do_redirection(r_list, sh);
-		if (res < 0)
+		name = redir_expand(sh, &r_list->redirect.word);
+		if (!name)
 		{
-			name = r_list->redirect.word.str;
-			if (res == -1)
-				print_err("%s: %s\n", name, strerror(errno));
-			else if (res == -2)
-				print_err("%s: ambiguous redirect\n", name);
-			break ;
+			res = -1;
+			print_err("%s: ambiguous redirect\n", r_list->redirect.word.str);
 		}
+		else if (!_do_redirection(r_list, name, sh))
+		{
+			res = -1;
+			print_err("%s: %s\n", name, strerror(errno));
+		}
+		free(name);
+		if (res < 0)
+			break ;
 		r_list = r_list->next;
+		res++;
 	}
 	return (res);
 }

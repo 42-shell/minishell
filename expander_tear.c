@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/26 01:11:18 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 00:24:49 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,17 @@ static void	_append_quote(t_list_word **list_ptr, t_list_word *item,
 
 static char	*_get_param_value(char *buf, size_t *len, t_list_var *v_list)
 {
-	char		*name;
-	t_str_buf	*value;
+	const size_t	l = ft_strlen("$");
+	char			*name;
+	t_str_buf		*value;
 
-	*len = 1;
-	if (legal_variable_starter(buf[*len]))
-	{
-		(*len)++;
-		while (legal_variable_char(buf[*len]))
-			(*len)++;
-	}
-	else if (buf[*len] != '\0' && ft_strchr("?", buf[*len]))
+	*len = l;
+	if (!is_legal_variable(buf, len) && buf[*len] != '\0'
+		&& ft_strchr("?", buf[*len]))
 		(*len)++;
 	if (*len - 1)
 	{
-		name = str_dispose(str_append_raw(NULL, buf + 1, *len - 1));
+		name = str_dispose(str_append_raw(NULL, buf + l, *len - l));
 		if (ft_strcmp(name, "?") == 0)
 			value = str_append_number(NULL, g_exit_status);
 		else
@@ -69,7 +65,7 @@ static char	*_get_param_value(char *buf, size_t *len, t_list_var *v_list)
 		free(name);
 	}
 	else
-		value = str_append_raw(NULL, buf, 1);
+		value = str_append_raw(NULL, buf, l);
 	return (str_dispose(value));
 }
 

@@ -6,48 +6,11 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/24 19:40:22 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/27 23:48:24 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdint.h>
-
-static const uint32_t		g_legal_variable_starter[] = {
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	/*														*/
-	/*			** ?>=< ;:98 7654 3210  /.-, +*)( '&%$ #"!  */
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	/*														*/
-	/*			** _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */
-	0x87fffffe, /* 1000 0111 1111 1111  1111 1111 1111 1110 */
-	/*														*/
-	/*			**  ~}| {zyx wvut srqp  onml kjih gfed cba` */
-	0x07fffffe, /* 0000 0111 1111 1111  1111 1111 1111 1110 */
-	/*														*/
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-};
-
-static const uint32_t		g_legal_variable_char[] = {
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	/*														*/
-	/*			** ?>=< ;:98 7654 3210  /.-, +*)( '&%$ #"!  */
-	0x03ff0000, /* 0000 0011 1111 1111  0000 0000 0000 0000 */
-	/*														*/
-	/*			** _^]\ [ZYX WVUT SRQP  ONML KJIH GFED CBA@ */
-	0x87fffffe, /* 1000 0111 1111 1111  1111 1111 1111 1110 */
-	/*														*/
-	/*			**  ~}| {zyx wvut srqp  onml kjih gfed cba` */
-	0x07fffffe, /* 0000 0111 1111 1111  1111 1111 1111 1110 */
-	/*														*/
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-	0x00000000, /* 0000 0000 0000 0000  0000 0000 0000 0000 */
-};
 
 static const t_char_flags	g_syn_table[256] = {
 	CFV_WORD,				/* 0 */
@@ -60,7 +23,7 @@ static const t_char_flags	g_syn_table[256] = {
 	CFV_WORD,				/* \a */
 	CFV_WORD,				/* \b */
 	CFV_BREAK | CFV_BLANK,	/* \t */
-	CFV_BREAK,				/* \n */
+	CFV_BREAK | CFV_BLANK,	/* \n */
 	CFV_WORD,				/* \v */
 	CFV_WORD,				/* \f */
 	CFV_WORD,				/* \r */
@@ -323,20 +286,10 @@ size_t	next_syntax(char *s, t_char_flags flag)
 	return (len);
 }
 
-static int	_get_condition(const uint32_t table[8], int c)
+int	legal_condition(const uint32_t table[8], int c)
 {
 	const size_t	arr_index = ((unsigned char)c) >> 5;
 	const int		bit_index = ((unsigned char)c) & 0x1f;
 
 	return (table[arr_index] & (1U << bit_index));
-}
-
-int	legal_variable_starter(int c)
-{
-	return (_get_condition(g_legal_variable_starter, c));
-}
-
-int	legal_variable_char(int c)
-{
-	return (_get_condition(g_legal_variable_char, c));
 }

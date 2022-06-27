@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 11:37:54 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 00:37:03 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,47 +45,52 @@ static int	_show(t_list_var **envp)
 	return (EXIT_SUCCESS);
 }
 
-static int	_legal_variable_name(char *name, char delim)
+static void	_append_var(t_list_var **list_ptr, char *name, char *value,
+	t_var_flags attr)
 {
-	size_t	i;
+	t_str_buf	*buf;
+	char		*var;
 
-	i = 0;
-	if (legal_variable_starter(name[i++]))
+	buf = NULL;
+	var = get_var(*list_ptr, name);
+	if (var)
+		buf = str_append(buf, var);
+	buf = str_append(buf, value);
+	var = str_dispose(buf);
+	put_var(list_ptr, name, var, attr);
+	free(var);
+}
+
+static int	_set(t_list_var **envp, char *str, size_t idx)
+{
+	char		*key;
+	char		*val;
+
+	if (str[idx] == '\0')
+		put_var(envp, str, NULL, VFV_EXPORTED);
+	else if (str[idx] == '=')
 	{
-		while (legal_variable_char(name[i]))
-			i++;
-		if (name[i] == delim)
-			return (1);
+		key = alloc_str_pair(str, &val, '=');
+		put_var(envp, key, val, VFV_EXPORTED);
+		free(key);
 	}
-	return (0);
-}
-
-static void	_set(t_list_var **envp, char *str)
-{
-	char	*key;
-	char	*val;
-	int		attr;
-
-	attr = 0;
-	set_flag(&attr, VF_EXPORTED);
-	key = alloc_str_pair(str, &val, '=');
-	put_var(envp, key, val, attr);
-	free(key);
-}
-
-static void	_set_null(t_list_var **envp, char *key)
-{
-	int		attr;
-
-	attr = 0;
-	set_flag(&attr, VF_EXPORTED);
-	put_var(envp, key, NULL, attr);
+	else if (str[idx] == '+' && str[idx + 1] == '=')
+	{
+		key = alloc_str_pair(str, &val, '+');
+		*val++ = '\0';
+		_append_var(envp, key, val, VFV_EXPORTED);
+		free(key);
+	}
+	else
+		return (0);
+	return (1);
 }
 
 t_builtin_res	ft_export(t_builtin_argv argv, t_builtin_envp envp)
 {
 	const size_t	argc = length_strvec(argv);
 	size_t			i;
+	size_t			idx;
 	int				err;
 
 	if (argc <= 1)
@@ -94,19 +99,15 @@ t_builtin_res	ft_export(t_builtin_argv argv, t_builtin_envp envp)
 	i = 1;
 	while (argv[i])
 	{
-		if (_legal_variable_name(argv[i], '='))
-			_set(envp, argv[i]);
-		else if (_legal_variable_name(argv[i], '\0'))
-			_set_null(envp, argv[i]);
-		else
+		idx = 0;
+		if (!is_legal_variable(argv[i], &idx) || !_set(envp, argv[i], idx))
 		{
-			err |= 1;
+			err = 1;
 			print_err("export: `%s': not a valid identifier\n", argv[i]);
 		}
 		i++;
 	}
-	if (err == 0)
-		return (EXIT_SUCCESS);
-	else
+	if (err != 0)
 		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

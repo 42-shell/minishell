@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/26 00:37:39 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/27 21:42:13 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,33 @@
 #include <errno.h>
 #include <string.h>
 #include "builtins.h"
+
+static void	_shell_execve(t_shell *sh, char *file, char **argv)
+{
+	char	*path;
+	char	**envp;
+
+	if (is_absolute_path(file, 1))
+		path = resolve_path(NULL, file);
+	else
+	{
+		path = find_path(get_var(sh->var_list, "PATH"), file, FS_PROGRAM);
+		if (!path)
+		{
+			print_err("%s: command not found\n", argv[0]);
+			exit(EX_NOTFOUND);
+		}
+	}
+	envp = var_list_to_strvec(sh->var_list, 0);
+	execve(path, argv, envp);
+	free(path);
+	free_strvec(envp);
+	print_err("%s: %s\n", argv[0], strerror(errno));
+	if (errno == ENOENT)
+		exit(EX_NOTFOUND);
+	else
+		exit(EX_NOEXEC);
+}
 
 static int	_execute_disk_command(t_shell *sh, char *file, char **argv,
 	int flags)
@@ -31,17 +58,12 @@ static int	_execute_disk_command(t_shell *sh, char *file, char **argv,
 		pid = make_child(sh);
 	if (pid == 0)
 	{
-		if (!file)
+		if (is_absolute_path(file, 1) && file_status(file) == 2)
 		{
-			print_err("%s: command not found\n", argv[0]);
-			exit(EX_NOTFOUND);
-		}
-		execve(file, argv, var_list_to_strvec(sh->var_list));
-		print_err("%s: %s\n", argv[0], strerror(errno));
-		if (errno == ENOENT)
-			exit(EX_NOTFOUND);
-		else
+			print_err("%s: Is a directory\n", argv[0]);
 			exit(EX_NOEXEC);
+		}
+		_shell_execve(sh, file, argv);
 	}
 	else if (last_pipe)
 		return (wait_for(sh, pid));
@@ -67,13 +89,9 @@ static int	_execute_simple_command_internal(t_shell *sh, t_simple_command *val,
 	cmd = argv[0];
 	builtin = get_builtin(cmd);
 	if (builtin)
-		status = (builtin(argv, &sh->var_list));
+		status = builtin(argv, &sh->var_list);
 	else
-	{
-		cmd = find_command(sh, cmd);
 		status = _execute_disk_command(sh, cmd, argv, flags);
-		free(cmd);
-	}
 	free_strvec(argv);
 	return (status);
 }
