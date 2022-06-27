@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/26 00:19:37 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 01:30:34 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,11 @@ static size_t	_parse_matched_quote(t_parser *pst, size_t len, char delim)
 	return (idx);
 }
 
-static void	_backup_word(t_parser *pst, char *str)
-{
-	t_word	word;
-
-	word.str = str;
-	free(pst->backup_word.str);
-	pst->backup_word = word;
-}
-
 static t_token_kind	_read_token_word(t_parser *pst)
 {
 	size_t		len;
 	t_str_buf	*buf;
+	t_word		word;
 
 	len = 0;
 	buf = NULL;
@@ -66,7 +58,9 @@ static t_token_kind	_read_token_word(t_parser *pst)
 		buf = str_append_raw(buf, pst->str, len);
 		pst->str += len;
 	}
-	_backup_word(pst, str_dispose(buf));
+	word.str = str_dispose(buf);
+	free(pst->backup_word.str);
+	pst->backup_word = word;
 	return (TK_WORD);
 }
 
@@ -85,10 +79,8 @@ static t_token_kind	_read_token_meta(t_parser *pst)
 		return (TK_OR_OR);
 	if (tok == '&')
 	{
-		pst->str -= 1;
-		_backup_word(pst, str_dispose(str_append_raw(NULL, pst->str, 1)));
-		pst->str += 1;
-		return (TK_WORD);
+		print_err("unsupported token `%c'\n", tok);
+		return (TK_ERROR);
 	}
 	return (tok);
 }
@@ -112,7 +104,7 @@ t_token_kind	read_token(t_parser *pst)
 		if (pst->error == PE_INCOMPLETED_PAIR)
 			print_err("unexpected token, expected `%c'\n", *pst->str);
 		else
-			print_err("syntax error\n");
+			print_err("unknown token\n");
 		result = TK_ERROR;
 	}
 	return (result);
