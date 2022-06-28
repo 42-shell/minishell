@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 19:10:38 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/27 21:33:31 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 15:59:40 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*resolve_path(char *path, char *name)
 	t_str_buf	*buf;
 
 	buf = NULL;
-	if (path)
+	if (path && ft_strlen(path) != 0)
 		buf = str_append_format(buf, "%s/", path);
 	buf = str_append(buf, name);
 	return (str_dispose(buf));
@@ -66,7 +66,7 @@ int	is_absolute_path(char *name, t_file_status type)
 	}
 }
 
-char	*find_path(char *var, char *name, t_file_status type)
+char	*find_path(char *var, char *name, t_file_status type, int empty)
 {
 	char	*new_var;
 	char	*path_list;
@@ -74,21 +74,21 @@ char	*find_path(char *var, char *name, t_file_status type)
 	char	*full_path;
 
 	full_path = NULL;
-	if (var)
-		new_var = str_dispose(str_append(NULL, var));
-	else
-		new_var = NULL;
+	new_var = str_dispose(str_append_nullable(NULL, var, ""));
 	path_list = new_var;
 	while (path_list)
 	{
 		next_path = ft_strchr(path_list, ':');
 		if (next_path)
 			*next_path++ = '\0';
-		full_path = resolve_path(path_list, name);
-		if (file_status(full_path) == type)
-			break ;
-		free(full_path);
-		full_path = NULL;
+		if (empty || ft_strlen(path_list) != 0)
+		{
+			full_path = resolve_path(path_list, name);
+			if (file_status(full_path) == type)
+				break ;
+			free(full_path);
+			full_path = NULL;
+		}
 		path_list = next_path;
 	}
 	free(new_var);

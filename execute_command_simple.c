@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 17:35:53 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 02:56:53 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 16:00:18 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	_shell_execve(t_shell *sh, char *file, char **argv)
 		path = resolve_path(NULL, file);
 	else
 	{
-		path = find_path(get_var(sh->var_list, "PATH"), file, FS_PROGRAM);
+		path = find_path(get_var(sh->var_list, "PATH"), file, FS_PROGRAM, 1);
 		if (!path)
 		{
 			print_err("%s: command not found\n", argv[0]);

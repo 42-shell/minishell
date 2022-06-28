@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:25 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 01:04:08 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 16:00:26 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*_get_pwd(size_t argc, char **argv, t_list_var **envp, int *alert)
 	else
 	{
 		name = argv[1];
-		path = find_path(get_var(*envp, "CDPATH"), name, FS_PATHNAME);
+		path = find_path(get_var(*envp, "CDPATH"), name, FS_PATHNAME, 0);
 		if (path)
 			*alert = 1;
 	}

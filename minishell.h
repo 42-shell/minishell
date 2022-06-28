@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 02:56:46 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 16:00:09 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,7 +407,8 @@ void					singleton_word_list(t_list_word *ptr, t_word *word);
 char					*resolve_path(char *path, char *name);
 t_file_status			file_status(char *path);
 int						is_absolute_path(char *name, t_file_status type);
-char					*find_path(char *var, char *name, t_file_status type);
+char					*find_path(char *var, char *name, t_file_status type,
+							int empty);
 
 t_list_word				*expand_map(t_list_word *w_list, t_list_var *v_list,
 							int mode);
