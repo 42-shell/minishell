@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:18:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 01:30:34 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 18:42:52 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ static t_token_kind	_read_token_meta(t_parser *pst)
 		return (TK_OR_OR);
 	if (tok == '&')
 	{
-		print_err("unsupported token `%c'\n", tok);
-		return (TK_ERROR);
+		pst->error = PE_UNSUPPORTED_TOKEN;
+		pst->str--;
 	}
 	return (tok);
 }
@@ -103,6 +103,8 @@ t_token_kind	read_token(t_parser *pst)
 	{
 		if (pst->error == PE_INCOMPLETED_PAIR)
 			print_err("unexpected token, expected `%c'\n", *pst->str);
+		else if (pst->error == PE_UNSUPPORTED_TOKEN)
+			print_err("unsupported token `%c'\n", *pst->str);
 		else
 			print_err("unknown token\n");
 		result = TK_ERROR;

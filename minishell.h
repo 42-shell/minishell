@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:36:15 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 16:00:09 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/28 18:41:47 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ typedef enum e_parser_error
 	PE_SUCCESS,
 	PE_AGAIN,
 	PE_INCOMPLETED_PAIR,
+	PE_UNSUPPORTED_TOKEN,
 	PE_SYNTAX_ERROR,
 }	t_parser_error;
 

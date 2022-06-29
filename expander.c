@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/25 12:02:16 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/29 21:05:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "string_vector.h"
 #include <unistd.h>
 
-char	**_expand(t_shell *sh, t_word *word)
+static char	**_expand_general(t_shell *sh, t_word *word)
 {
 	t_list_word	single;
 	t_list_word	*w_list;
@@ -47,7 +47,7 @@ char	**word_expand(t_shell *sh, t_list_word *w_list)
 	vec = NULL;
 	while (w_list)
 	{
-		arr = _expand(sh, &w_list->word);
+		arr = _expand_general(sh, &w_list->word);
 		vec = strv_append_bulk(vec, arr);
 		free(arr);
 		w_list = w_list->next;
@@ -61,7 +61,7 @@ char	*redir_expand(t_shell *sh, t_word *word)
 	size_t		len;
 	char		*str;
 
-	arr = _expand(sh, word);
+	arr = _expand_general(sh, word);
 	len = length_strvec(arr);
 	if (len != 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 03:35:56 by jkong             #+#    #+#             */
-/*   Updated: 2022/06/28 00:24:49 by jkong            ###   ########.fr       */
+/*   Updated: 2022/06/29 21:16:22 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,18 @@ static char	*_get_param_value(char *buf, size_t *len, t_list_var *v_list)
 	const size_t	l = ft_strlen("$");
 	char			*name;
 	t_str_buf		*value;
+	size_t			index;
 
-	*len = l;
-	if (!is_legal_variable(buf, len) && buf[*len] != '\0'
-		&& ft_strchr("?", buf[*len]))
-		(*len)++;
-	if (*len - 1)
+	index = l;
+	if (!is_legal_variable(buf, &index))
 	{
-		name = str_dispose(str_append_raw(NULL, buf + l, *len - l));
+		index = l;
+		if (buf[index] != '\0' && ft_strchr("?", buf[index]))
+			index++;
+	}
+	if (index != l)
+	{
+		name = str_dispose(str_append_raw(NULL, buf + l, index - l));
 		if (ft_strcmp(name, "?") == 0)
 			value = str_append_number(NULL, g_exit_status);
 		else
@@ -66,6 +70,7 @@ static char	*_get_param_value(char *buf, size_t *len, t_list_var *v_list)
 	}
 	else
 		value = str_append_raw(NULL, buf, l);
+	*len = index;
 	return (str_dispose(value));
 }
 
