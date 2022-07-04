@@ -20,4 +20,4 @@
 * [Module](https://github.com/42-shell/minishell/wiki/5.-Module)
 
 ## 3. Reference
-* [Reference List](https://github.com/42-shell/minishell/wiki/Reference)# **minishell**
+* [Reference List](https://github.com/42-shell/minishell/wiki/Reference)
