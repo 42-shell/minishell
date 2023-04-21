@@ -1,5 +1,10 @@
-# **minishell**
-**Created by [jkong](https://profile.intra.42.fr/users/jkong) and [yongmkim](https://profile.intra.42.fr/users/yongmkim)**
+# minishell
+### <i>As beautiful as a shell</i>
+
+* The objective of this project is for you to create a simple shell.
+* Yes, your little bash or zsh. You will learn a lot about processes and file descriptors.
+
+<br><br>
 
 ## 0. General
 * You should [download readline library](http://git.savannah.gnu.org/cgit/readline.git/snapshot/readline-master.tar.gz) and place it upper minishell dir.
@@ -25,3 +30,7 @@
 
 ## 3. Reference
 * [Reference List](https://github.com/42-shell/minishell/wiki/Reference)
+
+<br><br>
+
+**Created by [jkong](https://profile.intra.42.fr/users/jkong) and [yongmkim](https://profile.intra.42.fr/users/yongmkim)**
